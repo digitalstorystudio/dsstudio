@@ -109,32 +109,55 @@
         }
 
         /* Top Social Bar */
-        .social-bar {
+        /* Top Bar Styling */
+        .top-bar {
+            background-color: #000;
+            color: #fff;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.5rem 1rem;
+            font-size: 0.9rem;
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
-            padding: 10px 5%;
-            background: rgba(10, 10, 30, 0.7); /* Semi-transparent dark background */
-            backdrop-filter: blur(8px); /* Frosted glass effect */
+            padding: 15px 5%;
+            z-index: 1000;
+        }
+
+        .top-bar-left, .top-bar-right {
             display: flex;
-            justify-content: flex-end; /* Align social icons to the right */
-            gap: 20px;
-            z-index: 60; /* Below navbar but above content */
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            align-items: center;
+            gap: 1.5rem;
         }
 
-        .social-link {
-            color: var(--primary);
-            font-size: 1.2rem;
-            transition: all 0.3s ease;
+        .top-bar-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: #fff;
             text-decoration: none;
+            transition: color 0.3s ease, transform 0.3s ease;
         }
 
-        .social-link:hover {
-            color: var(--primary-dark);
-            transform: translateY(-2px); /* Slight upward movement on hover */
+        .top-bar-item:hover {
+            color: #ccc;
+            transform: translateY(-2px);
         }
+
+        .top-bar-item i {
+            font-size: 1.1rem;
+        }
+
+        /* Social Media Icon Colors */
+        .top-bar-item.instagram i { color: #E1306C; }
+        .top-bar-item.linkedin i { color: #0077B5; }
+        .top-bar-item.facebook i { color: #4267B2; }
+
+        .top-bar-item.instagram:hover i { color: #C13584; }
+        .top-bar-item.linkedin:hover i { color: #005E93; }
+        .top-bar-item.facebook:hover i { color: #365899; }
 
         /* Navigation */
         .navbar {
