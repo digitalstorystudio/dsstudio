@@ -25,7 +25,7 @@
             --transition: all 0.3s ease;
             --top-bar-height-desktop: 50px; /* Approximate height of top bar on desktop */
             --navbar-height-desktop: 70px;  /* Approximate height of navbar on desktop */
-            --top-bar-height-mobile: 80px; /* Increased to accommodate wrapping and ensure visibility */
+            --top-bar-height-mobile: 102px; /* Increased to accommodate wrapping and ensure visibility */
             --navbar-height-mobile: 60px; /* Standard mobile navbar height */
         }
 
