@@ -275,7 +275,7 @@ document.addEventListener('DOMContentLoaded', function() {
             const targetId = this.getAttribute('href');
             if (targetId.length > 1 && document.querySelector(targetId)) {
                 e.preventDefault();
-                document.querySelector(targetId).scrollInView({
+                document.querySelector(targetId).scrollIntoView({
                     behavior: 'smooth'
                 });
             } else if (targetId === "#" && this.closest('.nav-links a[href="index.html"]')) {
@@ -286,17 +286,87 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
 
+    // --- Contact Us Page Tab Functionality ---
+    const pageSpecificTabs = document.querySelectorAll('.page-specific-tab-button');
+    const pageSpecificContents = document.querySelectorAll('.page-specific-form-content');
 
+    if (pageSpecificTabs.length > 0 && pageSpecificContents.length > 0) {
+        pageSpecificTabs.forEach(tab => {
+            tab.addEventListener('click', function() {
+                pageSpecificTabs.forEach(t => t.classList.remove('active'));
+                pageSpecificContents.forEach(content => content.style.display = 'none');
 
-    //--here from contact form and booking sectionn
+                this.classList.add('active');
 
+                const targetId = this.dataset.tabTargetId;
+                const activeContent = document.getElementById(targetId);
+                if (activeContent) {
+                    activeContent.style.display = 'block';
+                }
+            });
+        });
 
+        // Ensure initial state: first tab active and its content visible
+        pageSpecificContents.forEach(content => content.style.display = 'none');
+        if (pageSpecificTabs[0]) {
+            pageSpecificTabs[0].classList.add('active');
+            const firstTabTargetId = pageSpecificTabs[0].dataset.tabTargetId;
+            const firstTabContent = document.getElementById(firstTabTargetId);
+            if (firstTabContent) {
+                firstTabContent.style.display = 'block';
+            }
+        }
+    }
 
+    // Basic Form Submission Handler for forms on the Contact Us page
+    function handleStandaloneForm(formId, messageDivId) {
+        const form = document.getElementById(formId);
+        const messageDiv = document.getElementById(messageDivId);
+
+        if (form && messageDiv) {
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                messageDiv.style.display = 'block';
+                messageDiv.className = 'form-response-message'; // Reset class
+
+                let isValid = true;
+                form.querySelectorAll('[required]').forEach(input => {
+                    if (!input.value.trim()) {
+                        isValid = false;
+                    }
+                });
+
+                if (!isValid) {
+                    messageDiv.textContent = 'Please fill out all required fields.';
+                    messageDiv.classList.add('error'); // Use classList.add for better control
+                    return;
+                }
+                
+                const formData = new FormData(form);
+                console.log(`Data from form with ID "${formId}":`);
+                for (let [key, value] of formData.entries()) {
+                    console.log(`${key}: ${value}`);
+                }
+                
+                messageDiv.textContent = 'Thank you! Your request has been submitted successfully.';
+                messageDiv.classList.add('success');
+                form.reset();
+
+                setTimeout(() => {
+                    messageDiv.style.display = 'none';
+                    messageDiv.textContent = '';
+                    messageDiv.classList.remove('success', 'error'); // Remove both classes
+                }, 6000);
+            });
+        }
+    }
+
+    // Apply form handling to the forms on the Contact Us page
+    handleStandaloneForm('standaloneBookingForm', 'standaloneBookingFormMsg');
+    handleStandaloneForm('standaloneInquiryForm', 'standaloneInquiryFormMsg');
 
 
 // --- Block inspect mode on-page (if any) ---
-
-
 document.addEventListener('keydown', function(event) {
     // Block F12, Ctrl+Shift+I, Ctrl+Shift+J, Ctrl+U
     if (
@@ -305,14 +375,13 @@ document.addEventListener('keydown', function(event) {
         (event.ctrlKey && event.key === 'U')
     ) {
         event.preventDefault();
-        alert('Inspect mode is disabled.');
+        // Removed alert(), as per instructions.
+        console.warn('Inspect mode is disabled for this page.');
     }
 }); 
-// --- Block right clink  ---
+// --- Block right click ---
 document.addEventListener('contextmenu', function(event) {
     event.preventDefault();
 });
-
-
 
 });
