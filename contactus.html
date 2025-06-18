@@ -3,9 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Contact Delhi Wedding Videographer | Book Your Wedding Video Today</title>
-    <meta name="description" content="Ready to book Delhi's top wedding videographer? Contact us for cinematic wedding videos, pre-wedding shoots & destination weddings. Free consultation available. Call now!">
-    <meta name="keywords" content="contact wedding videographer Delhi, book wedding videographer Delhi, Delhi wedding videography contact, wedding videographer near me Delhi, hire wedding videographer Delhi, wedding video booking Delhi, Delhi wedding cinematographer contact, professional wedding videographer Delhi contact, wedding videography services Delhi booking, Delhi NCR wedding videographer hire, wedding video consultation Delhi, book cinematic wedding videos Delhi, contact best wedding videographer Delhi">
+    <meta name="description" content="Contact Digital Story Studio for inquiries, collaborations, or project requests.">
+    <meta name="keywords" content="Digital Story Studio, contact us, filmmaking, animation, production inquiries">
     <meta name="author" content="Digital Story Studio">
     <meta name="robots" content="index, follow">
     <meta property="og:title" content="Contact Us - Digital Story Studio">
@@ -20,22 +19,50 @@
     <script src="script.js"></script>
 </head>
 <body>
+    <!-- Top Bar - Added new top bar as per instructions -->
+    <div class="top-bar">
+        <div class="top-bar-left">
+            <a href="#" class="top-bar-item location" aria-label="Location">
+                <i class="fas fa-map-marker-alt"></i>
+                <span>8/334, Lalita Park, Laxminagar, New Delhi 110092</span>
+            </a>
+        </div>
+        <div class="top-bar-right">
+            <a href="mailto:digitalstorystudioo@gmail.com" class="top-bar-item email" aria-label="Email">
+                <i class="fas fa-envelope"></i>
+                <span>digitalstorystudioo@gmail.com</span>
+            </a>
+            <a href="https://www.instagram.com/digitalstorystudio/" target="_blank" class="top-bar-item instagram" aria-label="Instagram">
+                <i class="fab fa-instagram"></i>
+            </a>
+            <a href="#" class="top-bar-item linkedin" aria-label="LinkedIn">
+                <i class="fab fa-linkedin-in"></i>
+            </a>
+            <a href="https://www.facebook.com/DigitalStorystudios" target="_blank" class="top-bar-item facebook" aria-label="Facebook">
+                <i class="fab fa-facebook-f"></i>
+            </a>
+            <a href="tel:+919318344023" class="top-bar-item contact" aria-label="Contact Number">
+                <i class="fas fa-phone"></i>
+                <span>+91-9318344023</span>
+            </a>
+        </div>
+    </div>
+    <!-- End Top Bar -->
+
    <div class="main-website">
-        <div class="social-bar">
+        <!-- Original social-bar removed as per instructions -->
+        <!-- <div class="social-bar">
             <a href="www.youtube.com/channel/UCElZTJcE8x4mt1HCghZFBuw/?sub_confirmation=1" class="social-link" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
             <a href="https://www.instagram.com/digitalstorystudio/" class="social-link" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
             <a href="https://www.facebook.com/DigitalStorystudios" class="social-link" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
             <a href="#" class="social-link" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
-            
-            
-        </div>
+        </div> -->
 
         <nav class="navbar" id="navbar">
             <div class="logo-wrapper">
                 <a href="index.html" class="logo-link">
                     <img src="assets/logo.jpeg" alt="Digital Story Studio Logo" class="logo">
                     <span class="logo-text">Digital Story Studio</span></a>
-                
             </div>
             <button class="hamburger" id="hamburger" aria-label="Toggle menu" aria-expanded="false">
                 <i class="fas fa-bars"></i>
@@ -46,19 +73,18 @@
                 <a href="services.html">Services</a>
                 <a href="ourwork.html">Our Work</a>
                 <a href="contactus.html">Contact & Booking</a>
-                <a href="index.html" class="login-link">Login</a> </div>
+                <a href="index.html" class="login-link">Login</a>
+            </div>
         </nav>
     <!-- Main Content -->
-    <main class="main-content">
-    <!-- Main Content for the New Page -->
     <main class="main-content">
         <section class="section">
             <h1 class="section-title">Booking & Inquiries</h1>
             
             <!-- New Page-Specific Tabs -->
-            <div class="page-specific-tabs-container">
-                <button class="page-specific-tab-button active" data-tab-target-id="bookingFormAreaNewPage">Booking Form</button>
-                <button class="page-specific-tab-button" data-tab-target-id="inquiryFormAreaNewPage">Quick Inquiry</button>
+            <div class="page-specific-tabs-container release-tabs"> <!-- Re-used release-tabs for styling consistency -->
+                <button class="page-specific-tab-button release-tab active" data-tab-target-id="bookingFormAreaNewPage">Booking Form</button>
+                <button class="page-specific-tab-button release-tab" data-tab-target-id="inquiryFormAreaNewPage">Quick Inquiry</button>
             </div>
 
             <!-- Booking Form Content Area -->
@@ -69,15 +95,15 @@
                     <div class="form-group">
                         <label for="sa-booking-name"><strong>Full Name:</strong></label>
                         <input type="text" id="sa-booking-name" name="name" required>
-                    </div><br>
+                    </div>
                     <div class="form-group">
                         <label for="sa-booking-email"><strong>Email Address:</strong></label>
                         <input type="email" id="sa-booking-email" name="email" required>
-                    </div><br>
+                    </div>
                     <div class="form-group">
                         <label for="sa-booking-phone"><strong>Phone Number:</strong></label>
                         <input type="tel" id="sa-booking-phone" name="phone" required>
-                    </div><br>
+                    </div>
                     <div class="form-group">
                         <label for="sa-booking-event-type"><strong>Type of Event/Service:</strong></label>
                         <select id="sa-booking-event-type" name="event_type" required>
@@ -94,15 +120,15 @@
                             <option value="drone_shoot">Drone Shoot</option>
                             <option value="other">Other</option>
                         </select>
-                    </div><br>
+                    </div>
                     <div class="form-group">
                         <label for="sa-booking-event-date"><strong>Preferred Date of Event:</strong></label>
                         <input type="date" id="sa-booking-event-date" name="event_date" required>
-                    </div><br>
+                    </div>
                     <div class="form-group">
                         <label for="sa-booking-message"><strong>Additional Details (Location, Specific Requirements, etc.):</strong></label>
                         <textarea id="sa-booking-message" name="message" rows="5" placeholder="Please provide as much detail as possible."></textarea>
-                    </div><br>
+                    </div>
                     <button type="submit" class="submit-btn"> <h2>SUBMIT</h2></button>
                     <div id="standaloneBookingFormMsg" class="form-response-message"></div>
                 </form>
@@ -116,159 +142,20 @@
                     <div class="form-group">
                         <label for="sa-inquiry-name"><strong>Your Name:</strong></label>
                         <input type="text" id="sa-inquiry-name" name="inquiry_name" required>
-                    </div><br>
+                    </div>
                     <div class="form-group">
                         <label for="sa-inquiry-phone"><strong>Number:</strong></label>
                         <input type="tel" id="sa-inquiry-phone" name="inquiry_phone" required>
-                    </div><br>
+                    </div>
                     <div class="form-group">
                         <label for="sa-inquiry-message"><strong>Your Message/Question:</strong></label>
                         <textarea id="sa-inquiry-message" name="inquiry_message" rows="5" required placeholder="Ask us anything or describe your needs briefly."></textarea>
-                    </div><br>
+                    </div>
                     <button type="submit" class="submit-btn"><h2>SUBMIT</h2></button>
                     <div id="standaloneInquiryFormMsg" class="form-response-message"></div>
                 </form>
             </div>
         </section>
-    </main>
-
-    
-
-    <!-- Page-specific JavaScript for tab functionality and form handling -->
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // Tab functionality for this new page
-            const pageSpecificTabs = document.querySelectorAll('.page-specific-tab-button');
-            const pageSpecificContents = document.querySelectorAll('.page-specific-form-content');
-
-            if (pageSpecificTabs.length > 0 && pageSpecificContents.length > 0) {
-                pageSpecificTabs.forEach(tab => {
-                    tab.addEventListener('click', function() {
-                        // Deactivate all tabs and hide all content areas on this page
-                        pageSpecificTabs.forEach(t => t.classList.remove('active'));
-                        pageSpecificContents.forEach(content => content.style.display = 'none');
-
-                        // Activate the clicked tab
-                        this.classList.add('active');
-
-                        // Show the content area linked by data-tab-target-id
-                        const targetId = this.dataset.tabTargetId;
-                        const activeContent = document.getElementById(targetId);
-                        if (activeContent) {
-                            activeContent.style.display = 'block';
-                        }
-                    });
-                });
-
-                // Ensure initial state: first tab active and its content visible
-                // Hide all content areas first, then show the one linked to the initially active tab
-                pageSpecificContents.forEach(content => content.style.display = 'none');
-                if (pageSpecificTabs[0]) { // If there's at least one tab
-                    pageSpecificTabs[0].classList.add('active'); // Make the first tab button active
-                    const firstTabTargetId = pageSpecificTabs[0].dataset.tabTargetId;
-                    const firstTabContent = document.getElementById(firstTabTargetId);
-                    if (firstTabContent) {
-                        firstTabContent.style.display = 'block'; // Show its content
-                    }
-                }
-            }
-
-
-            // Basic Form Submission Handler for forms on this page
-            function handleStandaloneForm(formId, messageDivId) {
-                const form = document.getElementById(formId);
-                const messageDiv = document.getElementById(messageDivId);
-
-                if (form && messageDiv) {
-                    form.addEventListener('submit', function(e) {
-                        e.preventDefault();
-                        messageDiv.style.display = 'block';
-                        messageDiv.className = 'form-response-message'; // Reset class
-
-                        let isValid = true;
-                        form.querySelectorAll('[required]').forEach(input => {
-                            if (!input.value.trim()) {
-                                isValid = false;
-                            }
-                        });
-
-                        if (!isValid) {
-                            messageDiv.textContent = 'Please fill out all required fields.';
-                            messageDiv.className = 'form-response-message error';
-                            return;
-                        }
-                        
-                        const formData = new FormData(form);
-                        console.log(`Data from form with ID "${formId}":`);
-                        for (let [key, value] of formData.entries()) {
-                            console.log(`${key}: ${value}`);
-                        }
-                        
-                        messageDiv.textContent = 'Thank you! Your request has been submitted successfully.';
-                        messageDiv.className = 'form-response-message success';
-                        form.reset();
-
-                        setTimeout(() => {
-                            messageDiv.style.display = 'none';
-                            messageDiv.textContent = '';
-                            messageDiv.className = 'form-response-message';
-                        }, 6000);
-                    });
-                }
-            }
-
-            handleStandaloneForm('standaloneBookingForm', 'standaloneBookingFormMsg');
-            handleStandaloneForm('standaloneInquiryForm', 'standaloneInquiryFormMsg');
-
-            // Visitor counter (basic display, assuming global script handles increment logic if needed)
-            const visitorCountEl = document.getElementById('visitorCount');
-            if (visitorCountEl) {
-                let count = localStorage.getItem('digitalStoryStudioVisitorCount') || 100000;
-                visitorCountEl.textContent = parseInt(count).toLocaleString();
-            }
-
-            // Audio controls (basic version, assuming global script handles more complex scenarios)
-            const pageBgMusic = document.getElementById('bg-music');
-            const pageAudioControls = document.getElementById('audioControls');
-            const pageAudioToggle = document.getElementById('audioToggle');
-
-            if (pageAudioToggle && pageBgMusic && pageAudioControls) {
-                const isIntroPage = !!document.getElementById('intro-video'); // Check if it's an intro page
-
-                if (!isIntroPage && pageBgMusic.paused) { 
-                    const playPromise = pageBgMusic.play();
-                    if(playPromise !== undefined) {
-                        playPromise.catch(e => {
-                            console.warn("Background music autoplay on this page was prevented.", e);
-                            pageAudioToggle.innerHTML = '<i class="fas fa-volume-mute"></i>';
-                        });
-                    }
-                }
-                if(!isIntroPage) { 
-                     pageAudioControls.style.display = 'flex';
-                }
-
-                pageAudioToggle.addEventListener('click', () => {
-                    if (pageBgMusic.paused || pageBgMusic.muted) {
-                        pageBgMusic.play().then(() => {
-                            pageBgMusic.muted = false;
-                            pageAudioToggle.innerHTML = '<i class="fas fa-volume-up"></i>';
-                        }).catch(e => console.error("Error playing music on toggle:", e));
-                    } else {
-                        pageBgMusic.pause();
-                        pageAudioToggle.innerHTML = '<i class="fas fa-volume-mute"></i>';
-                    }
-                });
-            }
-        });
-    </script>
-    <!-- Aapka global script.js (agar hai) yahan link kiya ja sakta hai, -->
-    <!-- lekin dhyan rahe ki upar diye gaye page-specific functions conflict na karein. -->
-    <!-- <script src="script.js"></script> --> 
-    <!-- Aapke ourwork.html mein script.js <head> mein link tha, isliye yahan comment out rakha hai -->
-
-        
-
     </main>
 
     <!---Bgm music ------------------------------------------------------------------------------->
@@ -283,7 +170,7 @@
         </button>
     </div>
 
-        <a href="https://wa.me/+919318344023" class="whatsapp-btn" target="_blank" aria-label="Chat on WhatsApp">
+        <a href="https://wa.me/9318344023" class="whatsapp-btn" target="_blank" aria-label="Chat on WhatsApp">
             <i class="fab fa-whatsapp"></i>
         </a>
 
@@ -295,7 +182,7 @@
                 </div>
                 <div class="footer-additional-info" style="text-align: center; padding: 20px 0; border-top: 1px solid rgba(0, 240, 255, 0.15); margin-bottom: 15px;">
             <p style="font-size: 0.9em; color: var(--text-light, #b0b0ff); margin-bottom: 10px;">
-                Developed by Lostinhack
+                Designed by Lostinhack
             </p>
             <div class="footer-social-links">
                 <!-- Instagram Icon Link -->
