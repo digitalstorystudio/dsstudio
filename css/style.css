@@ -4,37 +4,54 @@
             box-sizing: border-box;
         }
 
+        html {
+            scroll-behavior: smooth;
+        }
+
         body {
             font-family: 'Montserrat', sans-serif;
-            background-color: #0a0a1a; /* Dark background for the site */
-            color: #fff; /* Default text color */
-            overflow-x: hidden; /* Prevent horizontal scrollbars */
+            background-color: #0a0a1a;
+            color: #fff;
+            overflow-x: hidden;
+            line-height: 1.6;
         }
 
         :root {
-            --primary: #00f0ff; /* Neon blue for primary elements */
-            --primary-dark: #008cff; /* Darker shade of primary */
-            --text-dark: #e0e0ff; /* Light text color */
-            --text-light: #b0b0ff; /* Lighter text for less emphasis */
-            --glow: 0 0 15px rgba(0, 240, 255, 0.7); /* Glow effect for highlights */
-            --light-bg: rgba(10, 10, 30, 0.85); /* Slightly lighter background for sections */
+            --primary: #00f0ff;
+            --primary-dark: #008cff;
+            --text-dark: #e0e0ff;
+            --text-light: #b0b0ff;
+            --glow: 0 0 15px rgba(0, 240, 255, 0.7);
+            --light-bg: rgba(10, 10, 30, 0.85);
+            --transition: all 0.3s ease;
         }
 
-        /* === Video Intro Section === */
+        /* Performance optimizations */
+        * {
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        img, video {
+            max-width: 100%;
+            height: auto;
+        }
+
+        /* Video Intro Section */
         .video-container {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100vh;
-            z-index: 1000; /* Ensure video is on top initially */
-            background: #000; /* Black background for video container */
+            z-index: 1000;
+            background: #000;
         }
 
         #intro-video {
             width: 100%;
             height: 100%;
-            object-fit: cover; /* Ensure video covers the container */
+            object-fit: cover;
         }
 
         .sound-enable-btn,
@@ -42,58 +59,59 @@
             position: fixed;
             left: 50%;
             transform: translateX(-50%);
-            padding: 12px 30px;
-            background: rgba(10, 15, 39, 0.9); /* bluesh button color */
+            padding: 15px 35px;
+            background: rgba(10, 15, 39, 0.9);
             color: #fff;
             border: none;
-            border-radius: 30px; /* Rounded buttons */
+            border-radius: 30px;
             font-weight: bold;
             cursor: pointer;
-            z-index: 1010; /* Above video container */
-            display: none; /* Initially hidden, shown by JS */
-            transition: all 0.3s ease;
+            z-index: 1010;
+            display: none;
+            transition: var(--transition);
+            font-size: 1rem;
+            min-width: 150px;
+            text-align: center;
         }
 
         .sound-enable-btn {
-            bottom: 20%;
+            bottom: 15%;
         }
+
         .sound-enable-btn:hover {
             background: rgb(255, 163, 3);
             transform: translateX(-50%) scale(1.05);
         }
 
         .enter-button {
-            bottom: 25%; /* Positioned slightly above sound button if both were visible */
+            bottom: 25%;
             font-size: 1.2rem;
-            animation: pulse 2s infinite; /* Pulsing animation for attention */
+            animation: pulse 2s infinite;
         }
 
         @keyframes pulse {
-            0% { transform: translateX(-50%) scale(1); }
+            0%, 100% { transform: translateX(-50%) scale(1); }
             50% { transform: translateX(-50%) scale(1.05); }
-            100% { transform: translateX(-50%) scale(1); }
         }
 
         .enter-button:hover {
             background: rgb(255, 163, 35);
         }
 
-        /* ===== MAIN WEBSITE ===== */
+        /* Main Website */
         .main-website {
-            display: none; /* Hidden initially on index page, shown after intro */
+            display: none;
             opacity: 0;
             transition: opacity 1.5s ease;
         }
 
-        /* This class is added by JS to show the website */
         body.show-website .main-website {
             display: block;
             opacity: 1;
         }
 
-        /* Animation for navbar and social bar appearing */
-        body.show-website .navbar,
-        body.show-website .social-bar {
+        /* Removed slideDown animation from .social-bar as it's replaced by .top-bar */
+        body.show-website .navbar {
             animation: slideDown 1s ease 0.5s both;
         }
 
@@ -108,28 +126,29 @@
             }
         }
 
-        /* Top Social Bar */
-        /* Top Bar Styling */
+        /* Top Bar - Fully Responsive */
         .top-bar {
-            background-color: #000;
-            color: #fff;
+            position: fixed;
+            top: 0px; /* Position directly below the new top bar */
+            left: 0;
+            width: 100%;
+            padding: 15px 2rem;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 0.5rem 1rem;
-            font-size: 0.9rem;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            padding: 15px 5%;
-            z-index: 1000;
+            z-index: 999;
+            background: rgba(10, 10, 26, 0.95);
+            backdrop-filter: blur(10px);
+            transition: var(--transition);
+            box-shadow: 0 2px 15px rgba(0,0,0,0.3);
+            min-height: 70px;
         }
 
         .top-bar-left, .top-bar-right {
             display: flex;
             align-items: center;
-            gap: 1.5rem;
+            gap: 1rem;
+            flex-wrap: wrap; /* Allow items to wrap within left/right sections */
         }
 
         .top-bar-item {
@@ -138,48 +157,52 @@
             gap: 0.5rem;
             color: #fff;
             text-decoration: none;
-            transition: color 0.3s ease, transform 0.3s ease;
+            transition: var(--transition);
+            white-space: nowrap; /* Prevent text from breaking within an item */
+            padding: 5px 0; /* Add a little padding for touch targets */
         }
 
         .top-bar-item:hover {
-            color: #ccc;
+            color: var(--primary);
             transform: translateY(-2px);
         }
 
         .top-bar-item i {
             font-size: 1.1rem;
+            min-width: 16px; /* Ensure icon has minimum width */
         }
 
-        /* Social Media Icon Colors */
+        /* Social Media Colors for Top Bar */
         .top-bar-item.instagram i { color: #E1306C; }
         .top-bar-item.linkedin i { color: #0077B5; }
         .top-bar-item.facebook i { color: #4267B2; }
+        .top-bar-item.youtube i { color: #FF0000; }
+        .top-bar-item.twitter i { color: #1DA1F2; } /* Added Twitter color */
 
-        .top-bar-item.instagram:hover i { color: #C13584; }
-        .top-bar-item.linkedin:hover i { color: #005E93; }
-        .top-bar-item.facebook:hover i { color: #365899; }
 
-        /* Navigation */
+        /* Navigation - Fully Responsive */
         .navbar {
             position: fixed;
-            top: 40px; /* Position below the social bar (approx height) */
+            top: 50px; /* Position directly below the new top bar */
             left: 0;
             width: 100%;
-            padding: 20px 5%; /* Reduced padding slightly */
+            padding: 15px 2rem;
             display: flex;
-            justify-content: space-between; /* Logo on left, nav links on right */
+            justify-content: space-between;
             align-items: center;
-            z-index: 50;
-            background: #0a0a1a63; /* Darker, more transparent background */
+            z-index: 999;
+            background: rgba(10, 10, 26, 0.95);
             backdrop-filter: blur(10px);
-            transition: all 0.3s ease;
-            box-shadow: 0 2px 15px rgba(0,0,0,0.2); /* More pronounced shadow */
+            transition: var(--transition);
+            box-shadow: 0 2px 15px rgba(0,0,0,0.3);
+            min-height: 70px;
         }
 
         .logo-wrapper {
             display: flex;
             align-items: center;
-            gap: 15px;
+            gap: 12px;
+            flex-shrink: 0;
         }
 
         .logo-link {
@@ -189,28 +212,29 @@
         }
 
         .logo {
-            width: 50px; /* Slightly smaller logo */
-            height: 50px;
+            width: 45px;
+            height: 45px;
             object-fit: cover;
             border-radius: 50%;
             border: 2px solid var(--primary);
-            box-shadow: var(--glow); /* Glow effect on logo */
+            box-shadow: var(--glow);
+            flex-shrink: 0;
         }
 
         .logo-text {
-            font-size: 1.4rem; /* Slightly smaller logo text */
+            font-size: 1.3rem;
             font-weight: bold;
-            color:rgba(0, 240, 255, 1);
+            color: var(--primary);
             white-space: nowrap;
             text-decoration: none;
-            margin-left: 10px;
+            margin-left: 8px;
         }
 
         .nav-links {
             display: flex;
-            gap: 25px; /* Adjusted gap */
-            margin-right: 3%; /* Pulls the nav links slightly from the right edge */
-            align-items: center; /* Align login button vertically */
+            gap: 20px;
+            align-items: center;
+            margin-left: auto;
         }
 
         .nav-links a {
@@ -218,8 +242,9 @@
             text-decoration: none;
             font-weight: 500;
             position: relative;
-            padding: 5px 0;
-            transition: color 0.3s ease, text-shadow 0.3s ease;
+            padding: 8px 0;
+            transition: var(--transition);
+            white-space: nowrap;
         }
 
         .nav-links a:after {
@@ -237,7 +262,7 @@
         .nav-links a:hover,
         .nav-links a.active {
             color: var(--primary);
-            text-shadow: var(--glow); /* Glow effect on hover/active link */
+            text-shadow: var(--glow);
         }
 
         .nav-links a:hover:after,
@@ -245,39 +270,96 @@
             width: 100%;
         }
 
-        /* Style for the Login link/button */
         .nav-links a.login-link {
             padding: 8px 15px;
             border: 1px solid var(--primary);
             border-radius: 20px;
-            transition: background-color 0.3s ease, color 0.3s ease;
+            transition: var(--transition);
         }
+
         .nav-links a.login-link:hover {
             background-color: var(--primary);
-            color: #0a0a1a; /* Dark text on hover */
+            color: #0a0a1a;
             text-shadow: none;
         }
+
         .nav-links a.login-link:after {
-            display: none; /* No underline for login button */
+            display: none;
         }
 
-
         .hamburger {
-            display: none; /* Hidden on desktop */
+            display: none;
             background: none;
             border: none;
             color: white;
-            font-size: 1.8rem; /* Larger hamburger icon */
+            font-size: 1.8rem;
             cursor: pointer;
-            z-index: 101; /* Ensure it's above other nav elements if it overlaps */
+            z-index: 1001;
+            padding: 5px;
         }
 
-        /* Main Content Area */
+        /* Main Content */
+        /* Adjusted padding-top to account for the new top bar and existing navbar height */
         .main-content {
-            padding-top: 120px; /* Adjusted to account for fixed social bar (40px) + navbar (approx 80px with padding) */
-            min-height: calc(100vh - 120px - 70px); /* Full height minus header and footer */
+            padding-top: 120px; /* 50px (top-bar) + 70px (navbar) = 120px */
+            min-height: calc(100vh - 120px);
         }
 
+        /* Banner Section - Responsive */
+        .banner {
+            height: 85vh;
+            min-height: 400px;
+            position: relative;
+            overflow: hidden;
+            background-color: #000;
+        }
+
+        .banner-video {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+        }
+
+        .banner-video.active {
+            opacity: 1;
+        }
+
+        .banner-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            padding: 0 20px;
+            z-index: 10;
+        }
+
+        .banner-btn {
+            background: rgba(0, 240, 255, 0.8);
+            color: white;
+            border: none;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            cursor: pointer;
+            box-shadow: var(--glow);
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+        }
+
+        .banner-btn:hover {
+            background: rgba(0, 240, 255, 1);
+            transform: scale(1.1);
+        }
         /* Sections */
         .section {
             padding: 50px 5%; /* Standard padding for sections */
@@ -451,7 +533,7 @@
             font-size: 1rem;
         }
 
-        /* Projects Grid (Used on index, about, ourwork) */
+        /* Projects Grid (Used on index, about, ourwork, services) */
         .projects-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
@@ -460,13 +542,17 @@
         }
 
         .project-card {
-            height: 300px;
-            overflow: hidden;
+            /* Removed fixed height to allow content to dictate height */
+            /* height: 300px; */ 
+            overflow: hidden; /* Ensure content outside card is hidden */
             border-radius: 10px;
             position: relative;
             box-shadow: 0 5px 15px rgba(0,0,0,0.3);
             transition: all 0.3s ease-in-out;
             border: 1px solid rgba(var(--primary),0.2);
+            display: flex; /* Use flexbox for image and content layout */
+            flex-direction: column; /* Stack image and content vertically */
+            height: auto; /* Allow height to adjust based on content */
         }
 
         .project-card:hover {
@@ -476,12 +562,32 @@
 
         .project-card img {
             width: 100%;
-            height: 100%;
+            /* Fixed aspect ratio for images within project cards, preventing text overlap */
+            height: 200px; /* Fixed height for image part */
             object-fit: cover;
             transition: transform 0.3s ease-in-out;
         }
         .project-card:hover img {
             transform: scale(1.1); /* Zoom image on hover */
+        }
+
+        .project-card .content-box {
+            /* Ensure content box takes available space and has proper padding */
+            background: rgba(0, 140, 255, 0.1);
+            padding: 15px 20px; /* Adjusted padding */
+            border-top: 1px solid rgba(0, 240, 255, 0.2);
+            border-radius: 0 0 10px 10px; /* Only round bottom corners */
+            flex-grow: 1; /* Allow content box to grow and fill space */
+            margin-bottom: 0; /* Remove bottom margin here */
+        }
+        /* Override content-box h3/p margins if needed for tighter spacing in project cards */
+        .project-card .content-box h3 {
+            margin-bottom: 10px;
+            font-size: 1.4rem; /* Slightly smaller font for consistency */
+        }
+        .project-card .content-box p {
+            margin-bottom: 0; /* Remove bottom margin from last paragraph */
+            font-size: 1rem; /* Slightly smaller font */
         }
 
 
@@ -519,21 +625,77 @@
         }
         
         /* Form Content Area Styling (Used on contactus.html for tab content) */
-        .form-content-area {
+        .page-specific-form-content { /* Renamed for clarity in contactus.html */
             padding: 20px;
             border-radius: 8px;
             max-width: 700px; 
             margin: 0 auto 30px auto; 
+            background: rgba(0, 140, 255, 0.1); /* Consistent background with content-box */
+            border: 1px solid rgba(0, 240, 255, 0.2); /* Consistent border */
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2); /* Consistent shadow */
+        }
+        /* Apply consistent styles for form groups and inputs */
+        .form-group {
+            margin-bottom: 20px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--primary); /* Highlight labels */
+            font-weight: 500;
+        }
+        .form-group input[type="text"],
+        .form-group input[type="email"],
+        .form-group input[type="tel"],
+        .form-group input[type="date"],
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px 15px;
+            border-radius: 8px;
+            border: 1px solid rgba(0, 240, 255, 0.3);
+            background-color: rgba(0, 0, 0, 0.4);
+            color: var(--text-dark);
+            font-size: 1rem;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+        .form-group input[type="text"]:focus,
+        .form-group input[type="email"]:focus,
+        .form-group input[type="tel"]:focus,
+        .form-group input[type="date"]:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 10px rgba(0, 240, 255, 0.5);
+        }
+        .form-group textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+        .submit-btn {
+            background: var(--primary);
+            color: #0a0a1a;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 30px;
+            cursor: pointer;
+            font-size: 1.1rem;
+            font-weight: bold;
+            transition: var(--transition);
+            display: block;
+            width: fit-content; /* Make button fit content */
+            margin: 20px auto 0; /* Center the button */
+        }
+        .submit-btn:hover {
+            background: var(--primary-dark);
+            box-shadow: var(--glow);
+            transform: translateY(-2px);
         }
 
-        .form-content-area .form-group input,
-        .form-content-area .form-group select,
-        .form-content-area .form-group textarea {
-            width: 100%; /* Ensure form elements take full width within this container */
-        }
-        
+
         /* Form Message Display Styling (Used on contactus.html for form messages) */
-        .form-message-display {
+        .form-response-message { /* Renamed for clarity */
             margin-top: 15px;
             padding: 10px;
             border-radius: 5px;
@@ -541,13 +703,13 @@
             font-weight: 500;
             display: none; /* Initially hidden */
         }
-        .form-message-display.success {
+        .form-response-message.success {
             background-color: rgba(46, 204, 113, 0.2);
             color: #2ecc71;
             border: 1px solid #2ecc71;
             display: block;
         }
-        .form-message-display.error {
+        .form-response-message.error {
             background-color: rgba(231, 76, 60, 0.2);
             color: #e74c3c;
             border: 1px solid #e74c3c;
@@ -694,17 +856,28 @@
                 grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
             }
              .main-content {
-                padding-top: 100px; /* Adjust for potentially smaller fixed header on mobile */
+                padding-top: 120px; /* Adjust for potentially smaller fixed header on mobile (50px top-bar + 70px navbar) */
             }
             .navbar {
                 padding: 15px 5%;
-                top: 35px; /* Adjust if social bar height changes */
+                top: 50px; /* Adjust if social bar height changes */
             }
-            .social-bar {
-                padding: 8px 5%;
-                gap: 15px;
+            .top-bar {
+                padding: 0.6rem 1.5rem; /* Slightly less padding on smaller screens */
+                flex-direction: column; /* Stack left and right on tablets */
+                align-items: flex-start; /* Align stacked items to start */
+                gap: 0.5rem; /* Smaller gap when stacked */
+                min-height: auto; /* Allow height to adjust */
             }
-            .social-link {
+            .top-bar-left, .top-bar-right {
+                width: 100%; /* Take full width when stacked */
+                justify-content: center; /* Center items within their section */
+                gap: 0.8rem;
+            }
+            .top-bar-item {
+                font-size: 0.8rem; /* Slightly smaller text */
+            }
+            .top-bar-item i {
                 font-size: 1rem;
             }
         }
@@ -727,6 +900,21 @@
                 width: 40px;
                 height: 40px;
                 font-size: 1rem;
+            }
+            .top-bar {
+                padding: 0.5rem 1rem; /* Even less padding */
+                align-items: center; /* Center items when stacked into one column */
+            }
+            .top-bar-left, .top-bar-right {
+                flex-direction: column; /* Stack items vertically within left/right */
+                align-items: center; /* Center them */
+                gap: 0.4rem;
+            }
+            .top-bar-item {
+                font-size: 0.75rem; /* Smaller text */
+            }
+            .top-bar-item i {
+                font-size: 0.9rem;
             }
         }
 
@@ -763,6 +951,25 @@
             }
             .logo-text { /* Further adjust for very small screens if needed */
                 font-size: 1rem; 
+            }
+            .top-bar {
+                padding: 0.4rem 0.5rem;
+                flex-direction: column; /* Ensure full stacking */
+            }
+            .top-bar-left, .top-bar-right {
+                flex-direction: column;
+                align-items: center;
+                gap: 0.2rem; /* Very small gap */
+            }
+            .top-bar-item {
+                font-size: 0.7rem;
+            }
+            .top-bar-item i {
+                font-size: 0.8rem;
+            }
+            .top-bar-right .top-bar-item.email,
+            .top-bar-right .top-bar-item.contact {
+                order: -1; /* Move email/contact to the top of the right section */
             }
         }
 /* responsive ends here */
@@ -995,83 +1202,3 @@
         gap: 25px;
     }
 }
-
-
-
-/* booking form css of contact us  */
-
-
-        /* This will not affect your existing style.css */
-        .page-specific-tabs-container {
-            display: flex;
-            justify-content: center;
-            margin: 30px 0 40px;
-            gap: 15px;
-            flex-wrap: wrap;
-        }
-
-        .page-specific-tab-button {
-            padding: 10px 25px;
-            background: rgba(0, 140, 255, 0.2); /* Using theme colors from your style.css */
-            border: 1px solid rgba(0, 240, 255, 0.3);
-            border-radius: 30px;
-            cursor: pointer;
-            color: var(--text-dark, #e0e0ff); /* Fallback from your theme */
-            font-weight: 600;
-            transition: all 0.3s;
-            font-family: 'Montserrat', sans-serif;
-        }
-
-        .page-specific-tab-button.active {
-            background: var(--primary, #00f0ff); /* Fallback from your theme */
-            color: #0a0a1a;
-            box-shadow: var(--glow, 0 0 15px rgba(0, 240, 255, 0.7)); /* Fallback from your theme */
-            border-color: var(--primary, #00f0ff);
-        }
-
-        .page-specific-tab-button:hover:not(.active) {
-            transform: translateY(-3px);
-            background: rgba(0, 140, 255, 0.4);
-            border-color: rgba(0, 240, 255, 0.5);
-        }
-
-        .page-specific-form-content {
-            /* Styling for the content area that holds the forms */
-            /* You can use existing classes like .content-box or .form-content-area if they fit, */
-            /* or define new styles here. For now, we'll assume forms are self-contained or use global styles. */
-            max-width: 700px; /* Limit form width */
-            margin: 0 auto 30px auto; /* Center form areas */
-            padding: 20px;
-            background: rgba(0, 140, 255, 0.05); /* Light background for distinction */
-            border-radius: 10px;
-            border: 1px solid rgba(0, 240, 255, 0.1);
-        }
-        
-        /* Ensure form elements use full width if not already styled globally by .booking-form or .contact-form */
-        .page-specific-form-content .form-group input,
-        .page-specific-form-content .form-group select,
-        .page-specific-form-content .form-group textarea {
-            width: 100%;
-        }
-        
-        /* Message display styling for forms on this page */
-        .form-response-message {
-            margin-top: 15px;
-            padding: 10px;
-            border-radius: 5px;
-            text-align: center;
-            font-weight: 500;
-            display: none; /* Initially hidden */
-        }
-        .form-response-message.success {
-            background-color: rgba(46, 204, 113, 0.2);
-            color: #2ecc71;
-            border: 1px solid #2ecc71;
-            display: block;
-        }
-        .form-response-message.error {
-            background-color: rgba(231, 76, 60, 0.2);
-            color: #e74c3c;
-            border: 1px solid #e74c3c;
-            display: block;
-        }
