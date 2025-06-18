@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const mainWebsiteDiv = document.querySelector('.main-website');
     const hamburger = document.getElementById('hamburger');
     const navLinks = document.getElementById('navLinks');
-    const videoContainer = document.querySelector('.video-container'); // Define videoContainer here
+    const videoContainer = document.querySelector('.video-container');
 
     // --- Intro Video Logic (Only for pages with intro video) ---
     // Check if the current page is index.html (or root) and if intro video elements exist
@@ -114,16 +114,16 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     
     // --- Add visibility change listener for background music ---
-    let wasMusicPlayingBeforeHidden = false; // यह ट्रैक करने के लिए कि टैब छिपाने से पहले म्यूजिक चल रहा था या नहीं
+    let wasMusicPlayingBeforeHidden = false; 
     document.addEventListener('visibilitychange', () => {
         if (bgMusic) {
             if (document.hidden) {
                 // if tab is hidden then stop the music(if playing)
                 if (!bgMusic.paused && !bgMusic.muted) {
                     bgMusic.pause();
-                    wasMusicPlayingBeforeHidden = true; // chek it paused successfully
+                    wasMusicPlayingBeforeHidden = true; 
                 } else {
-                    wasMusicPlayingBeforeHidden = false; // if not playing then don't need to paly that
+                    wasMusicPlayingBeforeHidden = false; 
                 }
             } else {
                 // if tab again visible then resume bgm 
@@ -172,7 +172,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // --- Banner Navigation (Updated for Videos) ---
-    const bannerItems = document.querySelectorAll('.banner-video'); // Selector for video elements
+    const bannerItems = document.querySelectorAll('.banner-video'); 
     const prevBannerBtn = document.getElementById('prevBanner');
     const nextBannerBtn = document.getElementById('nextBanner');
     let currentBannerIndex = 0;
@@ -264,7 +264,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 releasedProjects.style.display = 'grid';
             }
         } else if (releaseTabs.length > 0) {
-             if (releaseTabs[0]) releaseTabs[0].click(); // Ensure element exists
+             if (releaseTabs[0]) releaseTabs[0].click(); 
         }
     }
 
@@ -375,7 +375,6 @@ document.addEventListener('keydown', function(event) {
         (event.ctrlKey && event.key === 'U')
     ) {
         event.preventDefault();
-        // Removed alert(), as per instructions.
         console.warn('Inspect mode is disabled for this page.');
     }
 }); 
