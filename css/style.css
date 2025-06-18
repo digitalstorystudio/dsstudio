@@ -19,11 +19,14 @@
         :root {
             --primary: #00f0ff;
             --primary-dark: #008cff;
-            --text-dark: #e0e0ff;
             --text-light: #b0b0ff;
             --glow: 0 0 15px rgba(0, 240, 255, 0.7);
             --light-bg: rgba(10, 10, 30, 0.85);
             --transition: all 0.3s ease;
+            --top-bar-height-desktop: 50px; /* Approximate height of top bar on desktop */
+            --navbar-height-desktop: 70px;  /* Approximate height of navbar on desktop */
+            --top-bar-height-mobile: 80px; /* Increased to accommodate wrapping and ensure visibility */
+            --navbar-height-mobile: 60px; /* Standard mobile navbar height */
         }
 
         /* Performance optimizations */
@@ -128,28 +131,83 @@
 
         /* Top Bar - Fully Responsive */
         .top-bar {
-            position: fixed;
-            top: 0px; /* Position directly below the new top bar */
-            left: 0;
-            width: 100%;
-            padding: 15px 2rem;
+            background-color: #0d0d26; /* Darker background for top bar */
+            color: var(--text-light);
+            padding: 0 2rem; /* Keep horizontal padding */
             display: flex;
             justify-content: space-between;
             align-items: center;
-            z-index: 999;
-            background: rgba(10, 10, 26, 0.95);
-            backdrop-filter: blur(10px);
-            transition: var(--transition);
-            box-shadow: 0 2px 15px rgba(0,0,0,0.3);
-            min-height: 70px;
+            font-size: 0.9em;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000; /* Ensure it's on top */
+            flex-wrap: nowrap; /* Prevent items from wrapping on desktop by default */
+            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+            height: var(--top-bar-height-desktop); /* Explicit height for desktop */
         }
-
+        
         .top-bar-left, .top-bar-right {
             display: flex;
             align-items: center;
-            gap: 1rem;
-            flex-wrap: wrap; /* Allow items to wrap within left/right sections */
+            flex-wrap: nowrap; /* Prevent wrapping by default on desktop */
+            gap: 1rem; /* Space between items */
+            justify-content: flex-start; /* Align to start on desktop */
+            flex-basis: auto; /* Default flex basis */
         }
+        
+        /* Adjust for smaller screens where the top bar might stack */
+        @media (max-width: 992px) { /* Tablet and below */
+            .top-bar {
+                height: auto; /* Allow height to adjust based on wrapped content */
+                min-height: var(--top-bar-height-mobile); /* Ensure minimum height for stacked content */
+                flex-direction: column; /* Stack sections vertically */
+                padding: 5px 1rem; /* Adjust padding */
+                align-items: center; /* Center column content */
+                justify-content: center; /* Center content vertically */
+                gap: 0.5rem; /* Smaller gap when stacked */
+            }
+            .top-bar-left, .top-bar-right {
+                width: 100%; /* Take full width when stacked */
+                justify-content: center; /* Center items within their section */
+                gap: 0.5rem; /* Smaller gap */
+                flex-wrap: wrap; /* Allow content to wrap */
+            }
+            .top-bar-item {
+                font-size: 0.8rem;
+            }
+            .top-bar-item span { /* Ensure text wraps if needed */
+                white-space: normal;
+                text-align: center;
+            }
+        }
+
+        @media (max-width: 768px) { /* Mobile and below */
+            .top-bar-left, .top-bar-right {
+                flex-direction: row; /* Keep items horizontal within their sections on mobile as requested */
+                justify-content: center; /* Center them */
+                gap: 0.5rem;
+            }
+            .top-bar-item {
+                font-size: 0.75rem; /* Smaller text on mobile */
+            }
+            .top-bar-item i {
+                font-size: 0.9rem;
+            }
+        }
+        @media (max-width: 480px) {
+            .top-bar {
+                padding: 5px 0.5rem; /* Even less padding */
+            }
+            .top-bar-item {
+                font-size: 0.7rem;
+            }
+            .top-bar-item i {
+                font-size: 0.8rem;
+            }
+        }
+
 
         .top-bar-item {
             display: flex;
@@ -176,27 +234,60 @@
         .top-bar-item.instagram i { color: #E1306C; }
         .top-bar-item.linkedin i { color: #0077B5; }
         .top-bar-item.facebook i { color: #4267B2; }
-        .top-bar-item.youtube i { color: #FF0000; }
-        .top-bar-item.twitter i { color: #1DA1F2; } /* Added Twitter color */
+        .top-bar-item.youtube i { color: #FF0000; } /* Added YouTube color */
+        .top-bar-item.twitter i { color: #1DA1F2; }
 
 
         /* Navigation - Fully Responsive */
         .navbar {
-            position: fixed;
-            top: 50px; /* Position directly below the new top bar */
+            position: fixed; /* Always fixed */
+            top: var(--top-bar-height-desktop); /* Position below the top bar on desktop */
             left: 0;
             width: 100%;
             padding: 15px 2rem;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            z-index: 999;
+            z-index: 999; /* Lower than top-bar but higher than content */
             background: rgba(10, 10, 26, 0.95);
             backdrop-filter: blur(10px);
             transition: var(--transition);
             box-shadow: 0 2px 15px rgba(0,0,0,0.3);
-            min-height: 70px;
+            height: var(--navbar-height-desktop); /* Explicit height for desktop */
         }
+
+        @media (max-width: 992px) {
+            .navbar {
+                top: var(--top-bar-height-mobile); /* Position below top bar on mobile/tablet */
+                height: var(--navbar-height-mobile); /* Explicit height for mobile/tablet */
+                padding: 10px 1rem; /* Adjust padding */
+            }
+            .nav-links {
+                display: none; /* Hide nav links by default */
+                flex-direction: column; /* Stack links vertically */
+                position: absolute;
+                top: var(--navbar-height-mobile); /* Position mobile menu below collapsed navbar */
+                left: 0;
+                width: 100%;
+                background: rgba(0, 0, 0, 0.95); /* Solid background for mobile menu */
+                padding: 15px 0;
+                box-shadow: 0 5px 10px rgba(0,0,0,0.2);
+                margin-right: 0; /* Reset margin for mobile */
+                align-items: stretch; /* Make links full width */
+            }
+            .nav-links.active { /* Show when hamburger is clicked */
+                display: flex;
+            }
+        }
+        @media (max-width: 768px) {
+            .navbar {
+                padding: 10px 1rem;
+            }
+            .hamburger {
+                display: block; /* Ensure hamburger is always visible on small screens */
+            }
+        }
+
 
         .logo-wrapper {
             display: flex;
@@ -229,6 +320,18 @@
             text-decoration: none;
             margin-left: 8px;
         }
+        /* Ensure logo text is visible and scales down */
+        @media (max-width: 768px) {
+            .logo-text {
+                 font-size: 1.1rem; /* Adjust font size for smaller screens */
+            }
+        }
+        @media (max-width: 480px) {
+            .logo-text {
+                font-size: 1rem; /* Further adjust for very small screens */
+            }
+        }
+
 
         .nav-links {
             display: flex;
@@ -238,7 +341,7 @@
         }
 
         .nav-links a {
-            color: var(--text-dark);
+            color: var(--text-light); /* Changed from --text-dark for consistency */
             text-decoration: none;
             font-weight: 500;
             position: relative;
@@ -299,11 +402,23 @@
         }
 
         /* Main Content */
-        /* Adjusted padding-top to account for the new top bar and existing navbar height */
         .main-content {
-            padding-top: 120px; /* 50px (top-bar) + 70px (navbar) = 120px */
-            min-height: calc(100vh - 120px);
+            padding-top: calc(var(--top-bar-height-desktop) + var(--navbar-height-desktop));
+            min-height: calc(100vh - (var(--top-bar-height-desktop) + var(--navbar-height-desktop)));
         }
+
+        @media (max-width: 992px) {
+            .main-content {
+                padding-top: calc(var(--top-bar-height-mobile) + var(--navbar-height-mobile));
+                min-height: calc(100vh - (var(--top-bar-height-mobile) + var(--navbar-height-mobile)));
+            }
+        }
+        @media (max-width: 768px) {
+            .main-content {
+                padding-top: calc(var(--top-bar-height-mobile) + var(--navbar-height-mobile)); /* Ensure consistent padding */
+            }
+        }
+
 
         /* Banner Section - Responsive */
         .banner {
@@ -542,8 +657,6 @@
         }
 
         .project-card {
-            /* Removed fixed height to allow content to dictate height */
-            /* height: 300px; */ 
             overflow: hidden; /* Ensure content outside card is hidden */
             border-radius: 10px;
             position: relative;
@@ -562,7 +675,6 @@
 
         .project-card img {
             width: 100%;
-            /* Fixed aspect ratio for images within project cards, preventing text overlap */
             height: 200px; /* Fixed height for image part */
             object-fit: cover;
             transition: transform 0.3s ease-in-out;
@@ -606,7 +718,7 @@
             border: 1px solid rgba(0, 240, 255, 0.3);
             border-radius: 30px;
             cursor: pointer;
-            color: var(--text-dark);
+            color: var(--text-light); /* Changed from --text-dark for consistency */
             font-weight: 600;
             transition: all 0.3s;
         }
@@ -655,7 +767,7 @@
             border-radius: 8px;
             border: 1px solid rgba(0, 240, 255, 0.3);
             background-color: rgba(0, 0, 0, 0.4);
-            color: var(--text-dark);
+            color: var(--text-light); /* Changed from --text-dark for consistency */
             font-size: 1rem;
             transition: border-color 0.3s ease, box-shadow 0.3s ease;
         }
@@ -813,7 +925,7 @@
                 display: none; /* Hide nav links by default */
                 flex-direction: column; /* Stack links vertically */
                 position: absolute;
-                top: 100%; /* Position below navbar */
+                top: var(--navbar-height-mobile); /* Position mobile menu below collapsed navbar */
                 left: 0;
                 width: 100%;
                 background: rgba(0, 0, 0, 0.95); /* Solid background for mobile menu */
@@ -846,49 +958,16 @@
             .hamburger {
                 display: block; /* Show hamburger icon */
             }
-            .logo-text { /* Logo text visible on tablet */
-                font-size: 1.3rem; 
-            }
             .section-title {
                 font-size: 2.2rem;
             }
             .directors-grid {
                 grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
             }
-             .main-content {
-                padding-top: 120px; /* Adjust for potentially smaller fixed header on mobile (50px top-bar + 70px navbar) */
-            }
-            .navbar {
-                padding: 15px 5%;
-                top: 50px; /* Adjust if social bar height changes */
-            }
-            .top-bar {
-                padding: 0.6rem 1.5rem; /* Slightly less padding on smaller screens */
-                flex-direction: column; /* Stack left and right on tablets */
-                align-items: flex-start; /* Align stacked items to start */
-                gap: 0.5rem; /* Smaller gap when stacked */
-                min-height: auto; /* Allow height to adjust */
-            }
-            .top-bar-left, .top-bar-right {
-                width: 100%; /* Take full width when stacked */
-                justify-content: center; /* Center items within their section */
-                gap: 0.8rem;
-            }
-            .top-bar-item {
-                font-size: 0.8rem; /* Slightly smaller text */
-            }
-            .top-bar-item i {
-                font-size: 1rem;
-            }
         }
 
 
         @media (max-width: 768px) {
-            .logo-text {
-                 /* display: none; */ /* Commented out: Ensure logo text is visible */
-                 font-size: 1.1rem; /* Adjust font size for smaller screens */
-                 margin-left: 8px; /* Adjust margin if needed */
-            }
             .footer-content {
                 flex-direction: column;
                 gap: 20px;
@@ -900,21 +979,6 @@
                 width: 40px;
                 height: 40px;
                 font-size: 1rem;
-            }
-            .top-bar {
-                padding: 0.5rem 1rem; /* Even less padding */
-                align-items: center; /* Center items when stacked into one column */
-            }
-            .top-bar-left, .top-bar-right {
-                flex-direction: column; /* Stack items vertically within left/right */
-                align-items: center; /* Center them */
-                gap: 0.4rem;
-            }
-            .top-bar-item {
-                font-size: 0.75rem; /* Smaller text */
-            }
-            .top-bar-item i {
-                font-size: 0.9rem;
             }
         }
 
@@ -948,28 +1012,6 @@
             .form-group select { /* Ensure select arrow is visible on small screens */
                 background-size: 10px auto;
                 padding-right: 30px;
-            }
-            .logo-text { /* Further adjust for very small screens if needed */
-                font-size: 1rem; 
-            }
-            .top-bar {
-                padding: 0.4rem 0.5rem;
-                flex-direction: column; /* Ensure full stacking */
-            }
-            .top-bar-left, .top-bar-right {
-                flex-direction: column;
-                align-items: center;
-                gap: 0.2rem; /* Very small gap */
-            }
-            .top-bar-item {
-                font-size: 0.7rem;
-            }
-            .top-bar-item i {
-                font-size: 0.8rem;
-            }
-            .top-bar-right .top-bar-item.email,
-            .top-bar-right .top-bar-item.contact {
-                order: -1; /* Move email/contact to the top of the right section */
             }
         }
 /* responsive ends here */
