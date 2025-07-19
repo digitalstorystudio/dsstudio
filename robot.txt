@@ -1,0 +1,53 @@
+# robots.txt for Digital Story Studio - Optimized for SEO and Crawl Efficiency
+# Website: https://www.digitalstorystudio.com (Replace with your actual domain)
+# Last Updated: July 20, 2025
+# Contact: digitalstorystudioo@gmail.com
+# Purpose: Direct search engines to high-value content (e.g., services, portfolio) while protecting resources.
+
+# Allow all user-agents by default, with targeted restrictions
+User-agent: *
+Allow: /  # Permit root access for general crawling
+Allow: /index.html  # Home page - High priority for SEO
+Allow: /about.html  # Team and company info
+Allow: /services.html  # Service offerings - Key for conversions
+Allow: /ourwork.html  # Portfolio - Showcase for trust-building
+Allow: /contactus.html  # Contact page - Essential for leads
+Allow: /style.css  # Allow CSS for proper rendering in search previews
+Allow: /script.js  # Allow JS for interactive elements
+Disallow: /assets/  # Block media directory (images, videos, audio) to save crawl budget
+Disallow: /private/  # Placeholder for any sensitive or admin directories (add if needed)
+Disallow: /*.pdf$  # Block PDFs (e.g., contracts) to avoid irrelevant indexing
+Disallow: /*.zip$  # Block archives or downloads
+Disallow: /*?*  # Block dynamic parameters (if future queries are added, prevents duplicate content)
+
+# Sitemap directive for enhanced discoverability (submit to Google Search Console)
+Sitemap: https://www.digitalstorystudio.com/sitemap.xml
+
+# Block aggressive or non-essential bots to reduce server load (2025 recommendation)
+User-agent: AhrefsBot
+Disallow: /
+
+User-agent: MJ12bot
+Disallow: /
+
+User-agent: SemrushBot
+Crawl-delay: 10  # Slow down if needed (use sparingly, as it's bot-specific)
+
+# Explicit rules for major search engines (ensures priority crawling)
+User-agent: Googlebot
+Allow: /index.html
+Allow: /about.html
+Allow: /services.html
+Allow: /ourwork.html
+Allow: /contactus.html
+Disallow: /assets/  # Prevent indexing of non-content assets
+
+User-agent: Bingbot
+Allow: /index.html
+Allow: /about.html
+Allow: /services.html
+Allow: /ourwork.html
+Allow: /contactus.html
+Disallow: /assets/
+
+# End of robots.txt - Validate with Google Search Console's robots.txt Tester
