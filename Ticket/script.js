@@ -1,100 +1,129 @@
-// FIXED Security Guard - Authentication Check
-console.log('🔒 Checking authentication...');
-
-// Check if user is logged in
-const isLoggedIn = sessionStorage.getItem('isGeneratorLoggedIn');
-const loginTime = sessionStorage.getItem('generatorLoginTime');
-
-console.log('Login status:', isLoggedIn);
-console.log('Login time:', loginTime);
-
-if (isLoggedIn !== 'true') {
-    console.log('❌ Not logged in - redirecting to login page');
-    alert('🔒 Access Denied!\n\nYou must log in to access the ticket generator.\n\nClick OK to go to the login page.');
-    window.location.href = 'generator_login.html';
-    throw new Error('Authentication required'); // Stop script execution
+// Security Guard - Authentication Check
+if (sessionStorage.getItem('isVerifierLoggedIn') !== 'true') {
+    alert('🔒 Access Denied. Please log in to access the verification system.');
+    window.location.href = 'login.html';
 }
 
-// Check session expiry (8 hours)
-if (loginTime) {
-    const timeSinceLogin = Date.now() - parseInt(loginTime);
-    const eightHours = 8 * 60 * 60 * 1000;
-    
-    if (timeSinceLogin > eightHours) {
-        console.log('⏰ Session expired - redirecting to login page');
-        sessionStorage.removeItem('isGeneratorLoggedIn');
-        sessionStorage.removeItem('generatorLoginTime');
-        sessionStorage.removeItem('generatorUser');
-        alert('⏰ Session Expired!\n\nYour session has expired. Please log in again.');
-        window.location.href = 'generator_login.html';
-        throw new Error('Session expired'); // Stop script execution
-    }
-}
-
-console.log('✅ Authentication successful - loading ticket generator');
-
-// Configuration
+// Configuration with DEBUGGING enabled
 const CONFIG = {
     SCRIPT_URL: "https://script.google.com/macros/s/AKfycbxgcC0w3kjgG8sBR-sqyQUxKj2hiCK0mWgF2NeB2OUhSYh_usgGbVnV4t8QLP5H0JvC/exec",
     QR_CONFIG: {
-        width: 150,
-        height: 150,
-        colorDark: "#2c3e50",
-        colorLight: "#ffffff",
-        correctLevel: QRCode.CorrectLevel.M
-    }
+        fps: 10,
+        qrbox: { width: 280, height: 280 },
+        aspectRatio: 1.0,
+        disableFlip: false,
+        rememberLastUsedCamera: true
+    },
+    RETRY_ATTEMPTS: 3,
+    RETRY_DELAY: 1000,
+    DEBOUNCE_DELAY: 2000,
+    DEBUG_MODE: true // Enable detailed logging
 };
 
 // DOM Elements Cache
 const elements = {
-    form: document.getElementById('ticketForm'),
-    submitBtn: document.getElementById('submitBtn'),
-    loadingDiv: document.getElementById('loading'),
-    ticketResultDiv: document.getElementById('ticketResult'),
-    downloadBtn: document.getElementById('downloadBtn'),
-    generateAnotherBtn: document.getElementById('generateAnotherBtn'),
+    resultDiv: document.getElementById('verificationResult'),
+    manualVerifyForm: document.getElementById('verifyForm'),
+    manualIdInput: document.getElementById('manualId'),
     logoutBtn: document.getElementById('logoutBtn'),
-    nameInput: document.getElementById('name'),
-    ageInput: document.getElementById('age'),
-    phoneInput: document.getElementById('phone'),
-    ticketTypeSelect: document.getElementById('ticketType')
+    toggleCameraBtn: document.getElementById('toggleCamera'),
+    switchCameraBtn: document.getElementById('switchCamera'),
+    scannerStatus: document.getElementById('scannerStatus'),
+    qrReader: document.getElementById('qr-reader'),
+    cameraIcon: document.getElementById('cameraIcon'),
+    cameraText: document.getElementById('cameraText'),
+    fabMain: document.getElementById('fabMain'),
+    // Result elements
+    resultIcon: document.getElementById('resultIcon'),
+    resultTitle: document.getElementById('resultTitle'),
+    resultMessage: document.getElementById('resultMessage'),
+    resultDetails: document.getElementById('resultDetails'),
+    resultTimestamp: document.getElementById('resultTimestamp'),
+    // Stats elements
+    verifiedCount: document.getElementById('verifiedCount'),
+    rejectedCount: document.getElementById('rejectedCount'),
+    duplicateCount: document.getElementById('duplicateCount'),
+    totalCount: document.getElementById('totalCount')
 };
 
-// Utility Functions
+// Global Variables
+let html5QrcodeScanner = null;
+let isScannerActive = false;
+let availableCameras = [];
+let currentCameraIndex = 0;
+let lastScannedTicket = null;
+let lastScanTime = 0;
+let sessionStats = {
+    verified: 0,
+    rejected: 0,
+    duplicates: 0,
+    total: 0
+};
+
+// Enhanced Utility Functions with Debugging
 const utils = {
-    generateTicketId() {
-        const timestamp = Date.now().toString(36).toUpperCase();
-        const random = Math.random().toString(36).substr(2, 4).toUpperCase();
-        return `EVENT-${timestamp}${random}`;
+    debugLog(message, data = null) {
+        if (CONFIG.DEBUG_MODE) {
+            console.log(`🔍 [DEBUG] ${message}`, data || '');
+        }
     },
 
-    validatePhone(phone) {
-        const phoneRegex = /^[6-9]\d{9}$/;
-        return phoneRegex.test(phone);
+    validateTicketId(ticketId) {
+        const ticketRegex = /^EVENT-[A-Z0-9]{5,15}$/i;
+        const isValid = ticketRegex.test(ticketId.trim());
+        this.debugLog(`Ticket ID validation: ${ticketId} -> ${isValid}`);
+        return isValid;
     },
 
-    sanitizeInput(input) {
-        return input.trim().replace(/[<>\"'&]/g, '');
+    formatTimestamp() {
+        return new Date().toLocaleString('en-IN', {
+            year: 'numeric',
+            month: 'short',
+            day: '2-digit',
+            hour: '2-digit',
+            minute: '2-digit',
+            second: '2-digit',
+            hour12: true
+        });
     },
 
-    showNotification(message, type = 'success') {
-        // Create notification element
-        const notification = document.createElement('div');
-        notification.className = `notification notification-${type}`;
-        notification.innerHTML = `
-            <div class="notification-content">
-                <span class="notification-icon">${type === 'success' ? '✅' : type === 'error' ? '❌' : '⚠️'}</span>
-                <span class="notification-message">${message}</span>
-                <button class="notification-close" onclick="this.parentElement.parentElement.remove()">×</button>
+    debounce(func, wait) {
+        let timeout;
+        return function executedFunction(...args) {
+            const later = () => {
+                clearTimeout(timeout);
+                func(...args);
+            };
+            clearTimeout(timeout);
+            timeout = setTimeout(later, wait);
+        };
+    },
+
+    showToast(message, type = 'info', duration = 3000) {
+        const toast = document.createElement('div');
+        toast.className = `toast toast-${type}`;
+        
+        const icons = {
+            success: '✅',
+            error: '❌',
+            warning: '⚠️',
+            info: 'ℹ️'
+        };
+        
+        toast.innerHTML = `
+            <div class="toast-content">
+                <span class="toast-icon">${icons[type]}</span>
+                <span class="toast-message">${message}</span>
+                <button class="toast-close" onclick="this.parentElement.parentElement.remove()">×</button>
             </div>
         `;
         
         // Add styles if not exist
-        if (!document.querySelector('#notification-styles')) {
+        if (!document.querySelector('#toast-styles')) {
             const style = document.createElement('style');
-            style.id = 'notification-styles';
+            style.id = 'toast-styles';
             style.textContent = `
-                .notification {
+                .toast {
                     position: fixed;
                     top: 20px;
                     right: 20px;
@@ -107,21 +136,28 @@ const utils = {
                     max-width: 350px;
                     animation: slideIn 0.3s ease-out;
                 }
-                .notification-success { border-left-color: #27ae60; }
-                .notification-error { border-left-color: #e74c3c; }
-                .notification-warning { border-left-color: #f39c12; }
-                .notification-content {
+                .toast-success { border-left-color: #27ae60; }
+                .toast-error { border-left-color: #e74c3c; }
+                .toast-warning { border-left-color: #f39c12; }
+                .toast-info { border-left-color: #3498db; }
+                .toast-content {
                     display: flex;
-                    align-items: center;
+                    align-items: flex-start;
                     gap: 10px;
                 }
-                .notification-message { flex: 1; font-weight: 500; }
-                .notification-close {
+                .toast-message { flex: 1; font-weight: 500; }
+                .toast-close {
                     background: none;
                     border: none;
                     font-size: 18px;
                     cursor: pointer;
                     color: #7f8c8d;
+                    padding: 0;
+                    width: 20px;
+                    height: 20px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
                 }
                 @keyframes slideIn {
                     from { transform: translateX(100%); opacity: 0; }
@@ -131,842 +167,699 @@ const utils = {
             document.head.appendChild(style);
         }
         
-        document.body.appendChild(notification);
+        document.body.appendChild(toast);
         
-        // Auto remove after 5 seconds
+        // Auto remove
         setTimeout(() => {
-            if (notification.parentNode) {
-                notification.style.animation = 'slideIn 0.3s ease-out reverse';
-                setTimeout(() => notification.remove(), 300);
+            if (toast.parentNode) {
+                toast.style.animation = 'slideIn 0.3s ease-out reverse';
+                setTimeout(() => {
+                    if (toast.parentNode) {
+                        toast.parentNode.removeChild(toast);
+                    }
+                }, 300);
             }
-        }, 5000);
+        }, duration);
     },
 
-    toggleLoadingState(isLoading) {
-        elements.submitBtn.disabled = isLoading;
-        elements.loadingDiv.classList.toggle('hidden', !isLoading);
+    updateStats(type) {
+        sessionStats[type]++;
+        sessionStats.total++;
         
-        if (isLoading) {
-            elements.submitBtn.innerHTML = `
-                <div class="btn-loading">
-                    <div class="btn-spinner"></div>
-                    <span>Generating...</span>
-                </div>
-            `;
-        } else {
-            elements.submitBtn.innerHTML = `
-                <span class="btn-icon">🎟️</span>
-                Generate Ticket
-            `;
+        elements.verifiedCount.textContent = sessionStats.verified;
+        elements.rejectedCount.textContent = sessionStats.rejected;
+        elements.duplicateCount.textContent = sessionStats.duplicates;
+        elements.totalCount.textContent = sessionStats.total;
+        
+        // Add animation
+        const element = elements[type + 'Count'];
+        if (element) {
+            element.style.transform = 'scale(1.2)';
+            element.style.color = '#3498db';
+            setTimeout(() => {
+                element.style.transform = 'scale(1)';
+                element.style.color = '';
+            }, 300);
         }
     }
 };
 
-// API Functions
+// Enhanced API Functions with Better Error Handling
 const api = {
-    async createTicket(formData) {
+    async verifyTicket(ticketId, attempt = 1) {
         try {
-            console.log('📡 Sending ticket data to server...');
+            utils.debugLog(`Starting verification attempt ${attempt} for ticket: ${ticketId}`);
             
-            const response = await fetch(CONFIG.SCRIPT_URL, {
-                method: 'POST',
-                mode: 'cors',
-                headers: {
-                    'Content-Type': 'text/plain;charset=utf-8',
-                },
-                body: JSON.stringify(formData),
+            // Build URL with proper encoding
+            const baseUrl = CONFIG.SCRIPT_URL;
+            const params = new URLSearchParams({
+                id: ticketId.trim().toUpperCase(),
+                timestamp: Date.now(),
+                action: 'verify'
             });
-
-            console.log('📡 Server response status:', response.status);
-
-            if (!response.ok) {
-                throw new Error(`HTTP ${response.status}: Server error occurred`);
-            }
-
-            const result = await response.json();
-            console.log('📡 Server response:', result);
             
-            if (result.status !== 'success') {
-                throw new Error(result.message || 'Failed to create ticket');
+            const verifyUrl = `${baseUrl}?${params.toString()}`;
+            utils.debugLog('Request URL:', verifyUrl);
+            
+            const controller = new AbortController();
+            const timeoutId = setTimeout(() => controller.abort(), 15000);
+            
+            const response = await fetch(verifyUrl, {
+                method: 'GET',
+                signal: controller.signal,
+                cache: 'no-cache',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                }
+            });
+            
+            clearTimeout(timeoutId);
+            utils.debugLog('Response status:', response.status);
+            utils.debugLog('Response headers:', Object.fromEntries(response.headers.entries()));
+            
+            if (!response.ok) {
+                throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+            }
+            
+            const responseText = await response.text();
+            utils.debugLog('Raw response text:', responseText);
+            
+            let result;
+            try {
+                result = JSON.parse(responseText);
+                utils.debugLog('Parsed response:', result);
+            } catch (parseError) {
+                utils.debugLog('JSON parse error:', parseError);
+                throw new Error(`Invalid JSON response: ${responseText.substring(0, 100)}...`);
             }
             
             return result;
+            
         } catch (error) {
-            console.error('API Error:', error);
-            throw new Error(`Ticket creation failed: ${error.message}`);
+            utils.debugLog(`Verification attempt ${attempt} failed:`, error);
+            
+            if (attempt < CONFIG.RETRY_ATTEMPTS && error.name !== 'AbortError') {
+                utils.showToast(`Retry ${attempt}/${CONFIG.RETRY_ATTEMPTS}...`, 'warning', 2000);
+                await new Promise(resolve => setTimeout(resolve, CONFIG.RETRY_DELAY * attempt));
+                return this.verifyTicket(ticketId, attempt + 1);
+            }
+            
+            throw error;
+        }
+    },
+
+    // NEW: Test API connection
+    async testConnection() {
+        try {
+            utils.debugLog('Testing API connection...');
+            
+            const testUrl = `${CONFIG.SCRIPT_URL}?test=true&timestamp=${Date.now()}`;
+            
+            const response = await fetch(testUrl, {
+                method: 'GET',
+                cache: 'no-cache'
+            });
+            
+            utils.debugLog('Test response status:', response.status);
+            
+            if (!response.ok) {
+                throw new Error(`Test failed: HTTP ${response.status}`);
+            }
+            
+            const responseText = await response.text();
+            utils.debugLog('Test response text:', responseText);
+            
+            try {
+                const result = JSON.parse(responseText);
+                return {
+                    success: true,
+                    result: result
+                };
+            } catch (parseError) {
+                return {
+                    success: false,
+                    error: 'Invalid JSON response',
+                    responseText: responseText
+                };
+            }
+            
+        } catch (error) {
+            utils.debugLog('Connection test failed:', error);
+            return {
+                success: false,
+                error: error.message
+            };
         }
     }
 };
 
-// QR Code Management - COPYABLE & DRAGGABLE
-const qrManager = {
-    async generateQRCode(text, container) {
-        return new Promise((resolve, reject) => {
-            try {
-                console.log('🔳 Generating copyable QR code for:', text);
-                
-                // COMPLETELY clear container and reset
-                container.innerHTML = '';
-                container.style.cssText = `
-                    width: 150px !important;
-                    height: 150px !important;
-                    margin: 0 auto !important;
-                    display: flex !important;
-                    align-items: center !important;
-                    justify-content: center !important;
-                    background: #ffffff !important;
-                    border: 2px solid #2c3e50 !important;
-                    border-radius: 8px !important;
-                    padding: 10px !important;
-                    box-sizing: border-box !important;
-                    cursor: grab !important;
-                    position: relative !important;
-                `;
-                
-                // Add helpful tooltip
-                container.title = "Right-click to copy QR code • Drag to move • Double-click to download";
-                
-                // Create QR code with specific settings to avoid duplicates
-                const qrCodeInstance = new QRCode(container, {
-                    text: text,
-                    width: 130,
-                    height: 130,
-                    colorDark: "#000000",
-                    colorLight: "#ffffff",
-                    correctLevel: QRCode.CorrectLevel.M,
-                    drawer: 'canvas' // Force canvas only to avoid img+canvas duplication
-                });
-                
-                // Wait for QR code generation and setup copy/drag functionality
-                setTimeout(() => {
-                    // Remove any duplicate elements - keep only ONE QR element
-                    const allImages = container.querySelectorAll('img');
-                    const allCanvas = container.querySelectorAll('canvas');
-                    
-                    console.log('Found images:', allImages.length, 'Found canvas:', allCanvas.length);
-                    
-                    let qrElement = null;
-                    
-                    // Strategy: Keep only the canvas OR the first image, remove everything else
-                    if (allCanvas.length > 0) {
-                        // Keep only the first canvas, remove all images and other canvas
-                        for (let i = 1; i < allCanvas.length; i++) {
-                            allCanvas[i].remove();
-                        }
-                        for (let i = 0; i < allImages.length; i++) {
-                            allImages[i].remove();
-                        }
-                        
-                        // Style the remaining canvas
-                        qrElement = allCanvas[0];
-                        
-                    } else if (allImages.length > 0) {
-                        // Keep only the first image, remove others
-                        for (let i = 1; i < allImages.length; i++) {
-                            allImages[i].remove();
-                        }
-                        
-                        // Style the remaining image
-                        qrElement = allImages[0];
-                    }
-                    
-                    if (qrElement) {
-                        // Style the QR element
-                        qrElement.style.cssText = `
-                            display: block !important;
-                            max-width: 130px !important;
-                            max-height: 130px !important;
-                            width: 130px !important;
-                            height: 130px !important;
-                            margin: 0 auto !important;
-                            cursor: grab !important;
-                            user-select: none !important;
-                            -webkit-user-drag: element !important;
-                            -webkit-user-select: none !important;
-                        `;
-                        
-                        // Make QR code draggable and copyable
-                        this.setupCopyDragFunctionality(qrElement, container, text);
-                        
-                        console.log('✅ Copyable QR code generated successfully');
-                        resolve();
-                        
-                    } else {
-                        console.warn('No QR elements found - using fallback');
-                        // Fallback: create single text-based QR
-                        const fallbackDiv = document.createElement('div');
-                        fallbackDiv.style.cssText = `
-                            width: 130px !important; 
-                            height: 130px !important; 
-                            border: 2px solid #000 !important; 
-                            display: flex !important; 
-                            align-items: center !important; 
-                            justify-content: center !important; 
-                            background: #f8f9fa !important; 
-                            font-size: 9px !important; 
-                            text-align: center !important; 
-                            word-break: break-all !important;
-                            padding: 8px !important;
-                            box-sizing: border-box !important;
-                            font-family: monospace !important;
-                            margin: 0 auto !important;
-                            cursor: grab !important;
-                            user-select: text !important;
-                        `;
-                        fallbackDiv.innerHTML = `
-                            <div>
-                                <div style="font-weight: bold; margin-bottom: 8px; font-size: 11px;">QR CODE</div>
-                                <div style="line-height: 1.1; user-select: text;">${text}</div>
-                            </div>
-                        `;
-                        
-                        container.innerHTML = '';
-                        container.appendChild(fallbackDiv);
-                        
-                        // Setup copy functionality for fallback
-                        this.setupCopyDragFunctionality(fallbackDiv, container, text);
-                        
-                        resolve();
-                    }
-                }, 800); // Longer wait to ensure generation is complete
-                
-            } catch (error) {
-                console.error('QR generation error:', error);
-                // Single fallback display
-                container.innerHTML = `
-                    <div style="
-                        width: 130px !important; 
-                        height: 130px !important; 
-                        border: 2px solid #dc3545 !important; 
-                        display: flex !important; 
-                        align-items: center !important; 
-                        justify-content: center !important; 
-                        background: #f8d7da !important; 
-                        color: #721c24 !important;
-                        font-size: 10px !important; 
-                        text-align: center !important;
-                        font-weight: bold !important;
-                        margin: 0 auto !important;
-                        cursor: not-allowed !important;
-                    ">
-                        <div>
-                            <div>QR ERROR</div>
-                            <div style="font-size: 8px; margin-top: 5px;">Manual verification required</div>
-                        </div>
-                    </div>
-                `;
-                resolve(); // Don't reject, use fallback
-            }
-        });
-    },
-    
-    // NEW: Setup copy and drag functionality
-    setupCopyDragFunctionality(qrElement, container, ticketId) {
+// Camera Management (Unchanged but with debug logs)
+const cameraManager = {
+    async initializeCameras() {
         try {
-            // Make container draggable
-            container.draggable = true;
-            qrElement.draggable = true;
+            utils.debugLog('Initializing cameras...');
+            availableCameras = await Html5Qrcode.getCameras();
+            utils.debugLog('Available cameras:', availableCameras.length);
             
-            // Add visual feedback for interactions
-            container.addEventListener('mouseenter', () => {
-                container.style.transform = 'scale(1.05)';
-                container.style.boxShadow = '0 4px 20px rgba(52, 152, 219, 0.3)';
-                container.style.borderColor = '#3498db';
-            });
+            if (availableCameras.length === 0) {
+                throw new Error('No cameras found');
+            }
             
-            container.addEventListener('mouseleave', () => {
-                container.style.transform = 'scale(1)';
-                container.style.boxShadow = '0 4px 12px rgba(0, 0, 0, 0.15)';
-                container.style.borderColor = '#2c3e50';
-            });
+            if (availableCameras.length > 1) {
+                elements.switchCameraBtn.classList.remove('hidden');
+            }
             
-            // Drag start event
-            const handleDragStart = (e) => {
-                console.log('🎯 QR code drag started');
-                container.style.opacity = '0.8';
-                container.style.cursor = 'grabbing';
-                
-                try {
-                    if (qrElement.tagName === 'CANVAS') {
-                        // For canvas elements, convert to data URL
-                        const dataURL = qrElement.toDataURL('image/png');
-                        e.dataTransfer.setData('text/uri-list', dataURL);
-                        e.dataTransfer.setData('text/plain', ticketId);
-                        e.dataTransfer.setData('text/html', `<img src="${dataURL}" alt="QR Code: ${ticketId}" title="Ticket: ${ticketId}">`);
-                    } else if (qrElement.tagName === 'IMG') {
-                        // For image elements
-                        e.dataTransfer.setData('text/uri-list', qrElement.src);
-                        e.dataTransfer.setData('text/plain', ticketId);
-                        e.dataTransfer.setData('text/html', `<img src="${qrElement.src}" alt="QR Code: ${ticketId}" title="Ticket: ${ticketId}">`);
-                    } else {
-                        // For text fallback
-                        e.dataTransfer.setData('text/plain', ticketId);
-                    }
-                    
-                    e.dataTransfer.effectAllowed = 'copy';
-                    utils.showNotification('🎯 QR code ready to drop!', 'info');
-                } catch (error) {
-                    console.warn('Drag setup error:', error);
-                    e.dataTransfer.setData('text/plain', ticketId);
-                }
-            };
-            
-            // Drag end event
-            const handleDragEnd = (e) => {
-                container.style.opacity = '1';
-                container.style.cursor = 'grab';
-                console.log('✅ QR code drag completed');
-            };
-            
-            // Add drag event listeners
-            container.addEventListener('dragstart', handleDragStart);
-            container.addEventListener('dragend', handleDragEnd);
-            qrElement.addEventListener('dragstart', handleDragStart);
-            qrElement.addEventListener('dragend', handleDragEnd);
-            
-            // Right-click context menu for copy
-            const handleRightClick = (e) => {
-                e.preventDefault();
-                this.copyQRCodeToClipboard(qrElement, ticketId);
-            };
-            
-            container.addEventListener('contextmenu', handleRightClick);
-            qrElement.addEventListener('contextmenu', handleRightClick);
-            
-            // Double-click to download QR code separately
-            const handleDoubleClick = (e) => {
-                e.preventDefault();
-                this.downloadQRCodeOnly(qrElement, ticketId);
-            };
-            
-            container.addEventListener('dblclick', handleDoubleClick);
-            qrElement.addEventListener('dblclick', handleDoubleClick);
-            
-            // Keyboard shortcut: Ctrl+C to copy
-            container.tabIndex = 0; // Make focusable
-            container.addEventListener('keydown', (e) => {
-                if ((e.ctrlKey || e.metaKey) && e.key === 'c') {
-                    e.preventDefault();
-                    this.copyQRCodeToClipboard(qrElement, ticketId);
-                }
-            });
-            
-            console.log('🎯 QR code copy/drag functionality enabled');
-            
+            return true;
         } catch (error) {
-            console.warn('Setup copy/drag functionality error:', error);
+            utils.debugLog('Camera initialization error:', error);
+            this.showCameraError('No cameras detected or permission denied');
+            return false;
         }
     },
-    
-    // NEW: Copy QR code to clipboard
-    async copyQRCodeToClipboard(qrElement, ticketId) {
-        try {
-            console.log('📋 Copying QR code to clipboard...');
-            
-            if (qrElement.tagName === 'CANVAS') {
-                // Convert canvas to blob and copy as image
-                qrElement.toBlob(async (blob) => {
-                    try {
-                        await navigator.clipboard.write([
-                            new ClipboardItem({
-                                'image/png': blob,
-                                'text/plain': new Blob([ticketId], { type: 'text/plain' })
-                            })
-                        ]);
-                        utils.showNotification('📋 QR code copied to clipboard!', 'success');
-                    } catch (error) {
-                        console.warn('Clipboard image copy failed:', error);
-                        // Fallback: copy ticket ID as text
-                        await navigator.clipboard.writeText(ticketId);
-                        utils.showNotification('📋 Ticket ID copied to clipboard!', 'success');
-                    }
-                }, 'image/png');
-                
-            } else if (qrElement.tagName === 'IMG') {
-                // For image elements, try to copy the image
-                try {
-                    const response = await fetch(qrElement.src);
-                    const blob = await response.blob();
-                    await navigator.clipboard.write([
-                        new ClipboardItem({
-                            'image/png': blob,
-                            'text/plain': new Blob([ticketId], { type: 'text/plain' })
-                        })
-                    ]);
-                    utils.showNotification('📋 QR code copied to clipboard!', 'success');
-                } catch (error) {
-                    console.warn('Image copy failed:', error);
-                    await navigator.clipboard.writeText(ticketId);
-                    utils.showNotification('📋 Ticket ID copied to clipboard!', 'success');
-                }
-                
-            } else {
-                // Fallback: copy ticket ID as text
-                await navigator.clipboard.writeText(ticketId);
-                utils.showNotification('📋 Ticket ID copied to clipboard!', 'success');
-            }
-            
-        } catch (error) {
-            console.warn('Clipboard copy failed:', error);
-            // Final fallback: select text
-            try {
-                const textArea = document.createElement('textarea');
-                textArea.value = ticketId;
-                document.body.appendChild(textArea);
-                textArea.select();
-                document.execCommand('copy');
-                document.body.removeChild(textArea);
-                utils.showNotification('📋 Ticket ID copied (fallback method)!', 'success');
-            } catch (fallbackError) {
-                utils.showNotification('❌ Copy failed. Ticket ID: ' + ticketId, 'error');
-            }
-        }
-    },
-    
-    // NEW: Download QR code only
-    async downloadQRCodeOnly(qrElement, ticketId) {
-        try {
-            console.log('💾 Downloading QR code only...');
-            
-            if (qrElement.tagName === 'CANVAS') {
-                // Convert canvas to blob and download
-                qrElement.toBlob((blob) => {
-                    const url = URL.createObjectURL(blob);
-                    const link = document.createElement('a');
-                    link.download = `qr-code-${ticketId}.png`;
-                    link.href = url;
-                    document.body.appendChild(link);
-                    link.click();
-                    document.body.removeChild(link);
-                    URL.revokeObjectURL(url);
-                    utils.showNotification('💾 QR code downloaded!', 'success');
-                }, 'image/png');
-                
-            } else if (qrElement.tagName === 'IMG') {
-                // For image elements
-                const link = document.createElement('a');
-                link.download = `qr-code-${ticketId}.png`;
-                link.href = qrElement.src;
-                document.body.appendChild(link);
-                link.click();
-                document.body.removeChild(link);
-                utils.showNotification('💾 QR code downloaded!', 'success');
-                
-            } else {
-                utils.showNotification('⚠️ QR code download not available for this format', 'warning');
-            }
-            
-        } catch (error) {
-            console.error('QR download error:', error);
-            utils.showNotification('❌ QR code download failed', 'error');
-        }
-    }
-};
 
-// Download Manager
-const downloadManager = {
-    async downloadTicket() {
-        const ticketElement = document.getElementById('ticketToDownload');
-        const downloadButton = elements.downloadBtn;
+    async startScanner() {
+        try {
+            utils.debugLog('Starting scanner...');
+            if (isScannerActive) {
+                await this.stopScanner();
+            }
+            
+            if (availableCameras.length === 0) {
+                const initialized = await this.initializeCameras();
+                if (!initialized) return false;
+            }
+            
+            const cameraId = availableCameras[currentCameraIndex]?.id;
+            if (!cameraId) {
+                throw new Error('Camera not available');
+            }
+            
+            html5QrcodeScanner = new Html5Qrcode("qr-reader");
+            
+            await html5QrcodeScanner.start(
+                cameraId,
+                CONFIG.QR_CONFIG,
+                this.onScanSuccess.bind(this),
+                this.onScanError.bind(this)
+            );
+            
+            isScannerActive = true;
+            this.updateScannerUI(true);
+            utils.showToast('📷 Camera started successfully', 'success');
+            
+            return true;
+        } catch (error) {
+            utils.debugLog('Scanner start error:', error);
+            this.showCameraError(`Failed to start camera: ${error.message}`);
+            return false;
+        }
+    },
+
+    async stopScanner() {
+        try {
+            utils.debugLog('Stopping scanner...');
+            if (html5QrcodeScanner && isScannerActive) {
+                await html5QrcodeScanner.stop();
+                html5QrcodeScanner.clear();
+                html5QrcodeScanner = null;
+            }
+            
+            isScannerActive = false;
+            this.updateScannerUI(false);
+            
+        } catch (error) {
+            utils.debugLog('Scanner stop error:', error);
+        }
+    },
+
+    async switchCamera() {
+        if (availableCameras.length <= 1) return;
         
-        if (downloadButton.disabled) return;
+        currentCameraIndex = (currentCameraIndex + 1) % availableCameras.length;
         
-        downloadButton.disabled = true;
-        downloadButton.innerHTML = `
-            <div class="btn-loading">
-                <div class="btn-spinner"></div>
-                <span>Preparing...</span>
+        if (isScannerActive) {
+            await this.stopScanner();
+            setTimeout(() => this.startScanner(), 500);
+        }
+        
+        utils.showToast(`📹 Switched to camera ${currentCameraIndex + 1}`, 'info');
+    },
+
+    updateScannerUI(isActive) {
+        if (isActive) {
+            elements.cameraIcon.textContent = '⏹️';
+            elements.cameraText.textContent = 'Stop Camera';
+            elements.toggleCameraBtn.classList.add('active');
+            elements.scannerStatus.innerHTML = `
+                <div class="scanning-indicator">
+                    <div class="scan-line"></div>
+                    <p>🔍 Scanning for QR codes...</p>
+                    <p class="scan-hint">Position the QR code within the frame</p>
+                </div>
+            `;
+        } else {
+            elements.cameraIcon.textContent = '📹';
+            elements.cameraText.textContent = 'Start Camera';
+            elements.toggleCameraBtn.classList.remove('active');
+            elements.scannerStatus.innerHTML = '<p>Click "Start Camera" to begin scanning</p>';
+        }
+    },
+
+    showCameraError(message) {
+        elements.scannerStatus.innerHTML = `
+            <div class="camera-error">
+                <div class="error-icon">📷❌</div>
+                <p>${message}</p>
+                <p class="error-hint">Please check camera permissions or use manual verification</p>
             </div>
         `;
-
-        try {
-            console.log('💾 Starting ticket download...');
-            
-            const canvas = await html2canvas(ticketElement, {
-                scale: 2,
-                useCORS: true,
-                allowTaint: true,
-                backgroundColor: '#ffffff',
-                width: ticketElement.offsetWidth,
-                height: ticketElement.offsetHeight
-            });
-            
-            // Convert to blob for better performance
-            canvas.toBlob((blob) => {
-                const url = URL.createObjectURL(blob);
-                const link = document.createElement('a');
-                const ticketId = document.getElementById('ticketId').textContent;
-                link.download = `ticket-${ticketId}.png`;
-                link.href = url;
-                document.body.appendChild(link);
-                link.click();
-                document.body.removeChild(link);
-                URL.revokeObjectURL(url);
-                
-                console.log('✅ Ticket downloaded successfully');
-                utils.showNotification('🎉 Ticket downloaded successfully!', 'success');
-            }, 'image/png', 0.95);
-            
-        } catch (error) {
-            console.error('Download error:', error);
-            utils.showNotification('❌ Download failed. Please try again.', 'error');
-        } finally {
-            downloadButton.disabled = false;
-            downloadButton.innerHTML = '<span>💾</span> Download Ticket';
-        }
-    }
-};
-
-// Form Validation
-const validation = {
-    validateName(name) {
-        const nameRegex = /^[a-zA-Z\s]{2,50}$/;
-        return nameRegex.test(name);
     },
 
-    validateAge(age) {
-        return age >= 1 && age <= 120;
-    },
-
-    validateForm(formData) {
-        const errors = [];
-
-        if (!this.validateName(formData.name)) {
-            errors.push('Name should contain only letters and be 2-50 characters long');
-        }
-
-        if (!this.validateAge(formData.age)) {
-            errors.push('Age should be between 1 and 120');
-        }
-
-        if (!utils.validatePhone(formData.phone)) {
-            errors.push('Phone number should be a valid 10-digit Indian mobile number');
-        }
-
-        if (!formData.ticketType) {
-            errors.push('Please select a ticket type');
-        }
-
-        return errors;
-    }
-};
-
-// Main Functions - FIXED DATA BINDING
-async function displayTicket(data) {
-    try {
-        console.log('🎫 Displaying ticket for:', data);
+    onScanSuccess(decodedText, decodedResult) {
+        const now = Date.now();
+        utils.debugLog('QR code scanned:', decodedText);
         
-        // Get all ticket display elements
-        const ticketNameElement = document.getElementById('ticketName');
-        const ticketPassTypeElement = document.getElementById('ticketPassType');
-        const ticketAgeElement = document.getElementById('ticketAge');
-        const ticketIdElement = document.getElementById('ticketId');
-        const ticketIdFooterElement = document.getElementById('ticketIdFooter');
-        
-        // FORCE populate with actual data - NO fallbacks to empty
-        console.log('Setting name:', data.name);
-        console.log('Setting age:', data.age);
-        console.log('Setting pass type:', data.ticketType);
-        console.log('Setting ticket ID:', data.ticketId);
-        
-        // Set Name with strong binding
-        if (ticketNameElement) {
-            ticketNameElement.textContent = data.name;
-            ticketNameElement.innerHTML = data.name; // Double ensure
-            ticketNameElement.setAttribute('data-name', data.name);
-            console.log('Name element content:', ticketNameElement.textContent);
+        // Prevent duplicate scans
+        if (lastScannedTicket === decodedText && now - lastScanTime < CONFIG.DEBOUNCE_DELAY) {
+            utils.debugLog('Duplicate scan ignored');
+            return;
         }
         
-        // Set Age with strong binding
-        if (ticketAgeElement) {
-            ticketAgeElement.textContent = data.age + ' years';
-            ticketAgeElement.innerHTML = data.age + ' years'; // Double ensure
-            ticketAgeElement.setAttribute('data-age', data.age);
-            console.log('Age element content:', ticketAgeElement.textContent);
+        lastScannedTicket = decodedText;
+        lastScanTime = now;
+        
+        // Temporarily pause scanner
+        if (html5QrcodeScanner && isScannerActive) {
+            html5QrcodeScanner.pause(true);
         }
         
-        // Set Pass Type with strong binding
-        if (ticketPassTypeElement) {
-            ticketPassTypeElement.textContent = data.ticketType;
-            ticketPassTypeElement.innerHTML = data.ticketType; // Double ensure
-            ticketPassTypeElement.setAttribute('data-type', data.ticketType);
-            console.log('Pass type element content:', ticketPassTypeElement.textContent);
-        }
-        
-        // Set Ticket ID with strong binding
-        if (ticketIdElement) {
-            ticketIdElement.textContent = data.ticketId;
-            ticketIdElement.innerHTML = data.ticketId; // Double ensure
-            ticketIdElement.setAttribute('data-id', data.ticketId);
-        }
-        
-        if (ticketIdFooterElement) {
-            ticketIdFooterElement.textContent = data.ticketId;
-            ticketIdFooterElement.innerHTML = data.ticketId; // Double ensure
-        }
-        
-        // Force immediate DOM update
-        if (document.contains(ticketNameElement)) {
-            ticketNameElement.style.display = 'inline';
-            ticketNameElement.style.visibility = 'visible';
-            ticketNameElement.style.opacity = '1';
-        }
-        
-        if (document.contains(ticketAgeElement)) {
-            ticketAgeElement.style.display = 'inline';
-            ticketAgeElement.style.visibility = 'visible';
-            ticketAgeElement.style.opacity = '1';
-        }
-        
-        // Generate QR code with retry mechanism
-        const qrContainer = document.getElementById('qrcode');
-        if (qrContainer) {
-            qrContainer.style.display = 'block';
-            qrContainer.style.visibility = 'visible';
-            qrContainer.style.opacity = '1';
-            
-            let qrSuccess = false;
-            let attempts = 0;
-            const maxAttempts = 3;
-            
-            while (!qrSuccess && attempts < maxAttempts) {
-                try {
-                    attempts++;
-                    console.log(`QR generation attempt ${attempts}/${maxAttempts}`);
-                    await qrManager.generateQRCode(data.ticketId, qrContainer);
-                    qrSuccess = true;
-                } catch (error) {
-                    console.warn(`QR generation attempt ${attempts} failed:`, error);
-                    if (attempts === maxAttempts) {
-                        qrContainer.innerHTML = `
-                            <div style="
-                                width: 130px !important; 
-                                height: 130px !important; 
-                                border: 3px solid #000 !important; 
-                                display: flex !important; 
-                                align-items: center !important; 
-                                justify-content: center !important; 
-                                background: #ffffff !important; 
-                                font-size: 10px !important; 
-                                text-align: center !important; 
-                                word-wrap: break-word !important;
-                                padding: 15px !important;
-                                box-sizing: border-box !important;
-                                margin: 0 auto !important;
-                                font-family: monospace !important;
-                            ">
-                                <div>
-                                    <div style="font-weight: bold; margin-bottom: 10px; font-size: 12px;">QR CODE</div>
-                                    <div style="line-height: 1.2; font-size: 8px;">${data.ticketId}</div>
-                                </div>
-                            </div>
-                        `;
-                    }
+        // Verify the ticket
+        verifyTicketId(decodedText).finally(() => {
+            // Resume scanner after verification
+            setTimeout(() => {
+                if (html5QrcodeScanner && isScannerActive) {
+                    html5QrcodeScanner.resume();
                 }
-            }
+            }, 3000);
+        });
+    },
+
+    onScanError(errorMessage) {
+        // Only log significant errors
+        if (!errorMessage.includes('NotFoundException') && 
+            !errorMessage.includes('No MultiFormat Readers')) {
+            utils.debugLog('QR Scan error:', errorMessage);
         }
+    }
+};
 
-        // Show ticket result
-        elements.ticketResultDiv.classList.remove('hidden');
-        elements.form.parentElement.classList.add('hidden');
+// Main Verification Function with Enhanced Error Handling
+async function verifyTicketId(ticketId) {
+    const trimmedId = ticketId.trim().toUpperCase();
+    
+    utils.debugLog('=== Starting Verification Process ===');
+    utils.debugLog('Ticket ID:', trimmedId);
+    
+    // Input validation
+    if (!trimmedId) {
+        utils.debugLog('Validation failed: Empty ticket ID');
+        handleVerificationResponse({
+            status: 'error',
+            message: 'Please enter a valid ticket ID'
+        });
+        return;
+    }
+    
+    if (!utils.validateTicketId(trimmedId)) {
+        utils.debugLog('Validation failed: Invalid format');
+        handleVerificationResponse({
+            status: 'error',
+            message: 'Invalid ticket ID format. Expected: EVENT-XXXXX'
+        });
+        utils.updateStats('rejected');
+        return;
+    }
+    
+    // Show loading state
+    showLoadingState();
+    
+    try {
+        utils.debugLog('Calling API verification...');
+        const result = await api.verifyTicket(trimmedId);
+        utils.debugLog('API verification result:', result);
         
-        // CRITICAL: Force re-populate after DOM changes
-        setTimeout(() => {
-            console.log('🔄 Force re-populating fields after DOM update...');
-            
-            // Re-populate name if it's empty
-            const nameCheck = document.getElementById('ticketName');
-            if (nameCheck && (!nameCheck.textContent || nameCheck.textContent.trim() === '')) {
-                console.log('⚠️ Name field was empty, re-populating...');
-                nameCheck.textContent = data.name;
-                nameCheck.innerHTML = data.name;
-            }
-            
-            // Re-populate age if it's empty
-            const ageCheck = document.getElementById('ticketAge');
-            if (ageCheck && (!ageCheck.textContent || ageCheck.textContent.trim() === '')) {
-                console.log('⚠️ Age field was empty, re-populating...');
-                ageCheck.textContent = data.age + ' years';
-                ageCheck.innerHTML = data.age + ' years';
-            }
-            
-            // Re-populate pass type if it's empty
-            const typeCheck = document.getElementById('ticketPassType');
-            if (typeCheck && (!typeCheck.textContent || typeCheck.textContent.trim() === '')) {
-                console.log('⚠️ Pass type field was empty, re-populating...');
-                typeCheck.textContent = data.ticketType;
-                typeCheck.innerHTML = data.ticketType;
-            }
-            
-            // Re-populate ticket IDs if empty
-            const idCheck = document.getElementById('ticketId');
-            const idFooterCheck = document.getElementById('ticketIdFooter');
-            if (idCheck && (!idCheck.textContent || idCheck.textContent.trim() === '')) {
-                idCheck.textContent = data.ticketId;
-                idCheck.innerHTML = data.ticketId;
-            }
-            if (idFooterCheck && (!idFooterCheck.textContent || idFooterCheck.textContent.trim() === '')) {
-                idFooterCheck.textContent = data.ticketId;
-                idFooterCheck.innerHTML = data.ticketId;
-            }
-            
-            // Final verification log
-            console.log('✅ Final verification:');
-            console.log('Name displayed:', document.getElementById('ticketName')?.textContent);
-            console.log('Age displayed:', document.getElementById('ticketAge')?.textContent);
-            console.log('Pass type displayed:', document.getElementById('ticketPassType')?.textContent);
-            console.log('Ticket ID displayed:', document.getElementById('ticketId')?.textContent);
-            
-            // Scroll to ticket
-            elements.ticketResultDiv.scrollIntoView({ 
-                behavior: 'smooth', 
-                block: 'start' 
-            });
-        }, 300);
-
+        handleVerificationResponse(result);
+        
+        // Clear manual input on successful scan
+        if (elements.manualIdInput.value.trim() === trimmedId) {
+            elements.manualIdInput.value = '';
+        }
+        
     } catch (error) {
-        console.error('Display error:', error);
-        utils.showNotification('❌ Failed to display ticket. Please try again.', 'error');
+        utils.debugLog('Verification error details:', {
+            message: error.message,
+            stack: error.stack,
+            name: error.name
+        });
+        
+        let errorMessage = 'Verification failed. Please check your connection.';
+        let debugInfo = '';
+        
+        if (error.name === 'AbortError') {
+            errorMessage = 'Verification timed out. Please try again.';
+            debugInfo = 'Request timeout after 15 seconds';
+        } else if (error.message.includes('HTTP')) {
+            errorMessage = 'Server error. Please contact support.';
+            debugInfo = error.message;
+        } else if (error.message.includes('Invalid JSON')) {
+            errorMessage = 'Server response error. Please contact support.';
+            debugInfo = 'Server returned invalid JSON response';
+        } else if (error.message.includes('Failed to fetch')) {
+            errorMessage = 'Network error. Check your internet connection.';
+            debugInfo = 'Network connectivity issue';
+        } else {
+            debugInfo = error.message;
+        }
+        
+        handleVerificationResponse({
+            status: 'error',
+            message: errorMessage,
+            debug: CONFIG.DEBUG_MODE ? debugInfo : undefined
+        });
+        
+        utils.updateStats('rejected');
     }
 }
 
-// Event Listeners
-elements.form.addEventListener('submit', async (e) => {
-    e.preventDefault();
+function showLoadingState() {
+    elements.resultDiv.classList.remove('hidden');
+    elements.resultDiv.className = 'verification-result loading';
     
-    console.log('📝 Form submitted - generating ticket...');
+    elements.resultIcon.innerHTML = '<div class="loading-spinner"></div>';
+    elements.resultTitle.textContent = 'Verifying...';
+    elements.resultMessage.textContent = 'Please wait while we verify the ticket';
+    elements.resultDetails.innerHTML = '';
+    elements.resultTimestamp.textContent = '';
+}
+
+function handleVerificationResponse(result) {
+    utils.debugLog('Handling verification response:', result);
     
-    const formData = {
-        action: 'createTicket',
-        ticketId: utils.generateTicketId(),
-        name: utils.sanitizeInput(elements.nameInput.value),
-        age: parseInt(elements.ageInput.value),
-        phone: utils.sanitizeInput(elements.phoneInput.value),
-        ticketType: elements.ticketTypeSelect.value,
-        timestamp: new Date().toISOString()
+    elements.resultDiv.classList.remove('hidden', 'loading');
+    
+    const name = result.data?.name || 'Unknown';
+    const type = result.data?.type || 'Unknown';
+    const timestamp = utils.formatTimestamp();
+    
+    // Create result details HTML
+    const createDetailsHTML = (name, type, additionalInfo = '') => {
+        return `
+            <div class="result-info">
+                <div class="info-row">
+                    <span class="info-label">👤 Name:</span>
+                    <span class="info-value">${name}</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">🎫 Pass Type:</span>
+                    <span class="info-value">${type}</span>
+                </div>
+                ${additionalInfo}
+                ${result.debug && CONFIG.DEBUG_MODE ? `
+                    <div class="info-row debug-info">
+                        <span class="info-label">🔍 Debug:</span>
+                        <span class="info-value">${result.debug}</span>
+                    </div>
+                ` : ''}
+            </div>
+        `;
     };
-
-    console.log('📝 Form data:', formData);
-
-    // Validate form
-    const validationErrors = validation.validateForm(formData);
-    if (validationErrors.length > 0) {
-        utils.showNotification(`❌ ${validationErrors[0]}`, 'error');
-        return;
-    }
-
-    utils.toggleLoadingState(true);
-
-    try {
-        await api.createTicket(formData);
-        await displayTicket(formData);
-        utils.showNotification('🎉 Ticket generated successfully!', 'success');
-        console.log('✅ Ticket generation completed successfully');
-    } catch (error) {
-        console.error('Generation error:', error);
-        utils.showNotification(`❌ ${error.message}`, 'error');
-    } finally {
-        utils.toggleLoadingState(false);
-    }
-});
-
-// Download button
-elements.downloadBtn.addEventListener('click', () => {
-    downloadManager.downloadTicket();
-});
-
-// Generate another ticket
-elements.generateAnotherBtn.addEventListener('click', () => {
-    elements.ticketResultDiv.classList.add('hidden');
-    elements.form.parentElement.classList.remove('hidden');
-    elements.form.reset();
     
-    // Focus on first input
-    elements.nameInput.focus();
+    switch (result.status) {
+        case 'success':
+            elements.resultDiv.className = 'verification-result success';
+            elements.resultIcon.innerHTML = '✅';
+            elements.resultTitle.textContent = 'Valid Ticket!';
+            elements.resultMessage.textContent = 'Entry approved - ticket is authentic';
+            elements.resultDetails.innerHTML = createDetailsHTML(name, type, `
+                <div class="info-row success-note">
+                    <span class="info-label">🟢 Status:</span>
+                    <span class="info-value">APPROVED FOR ENTRY</span>
+                </div>
+            `);
+            
+            utils.showToast(`✅ Entry approved for ${name}`, 'success');
+            utils.updateStats('verified');
+            break;
+            
+        case 'already_verified':
+            elements.resultDiv.className = 'verification-result warning';
+            elements.resultIcon.innerHTML = '⚠️';
+            elements.resultTitle.textContent = 'Already Used!';
+            elements.resultMessage.textContent = 'This ticket has been previously verified';
+            elements.resultDetails.innerHTML = createDetailsHTML(name, type, `
+                <div class="info-row warning-note">
+                    <span class="info-label">🟡 Status:</span>
+                    <span class="info-value">DUPLICATE ENTRY ATTEMPT</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">⚠️ Action:</span>
+                    <span class="info-value">Entry should be denied</span>
+                </div>
+            `);
+            
+            utils.showToast(`⚠️ Duplicate ticket detected for ${name}`, 'warning');
+            utils.updateStats('duplicates');
+            break;
+            
+        case 'not_found':
+            elements.resultDiv.className = 'verification-result error';
+            elements.resultIcon.innerHTML = '❌';
+            elements.resultTitle.textContent = 'Invalid Ticket!';
+            elements.resultMessage.textContent = 'Ticket not found in our system';
+            elements.resultDetails.innerHTML = `
+                <div class="result-info">
+                    <div class="info-row error-note">
+                        <span class="info-label">🔴 Status:</span>
+                        <span class="info-value">ENTRY DENIED</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">❌ Reason:</span>
+                        <span class="info-value">Ticket ID not found</span>
+                    </div>
+                </div>
+            `;
+            
+            utils.showToast('❌ Invalid ticket - entry denied', 'error');
+            utils.updateStats('rejected');
+            break;
+            
+        default:
+            elements.resultDiv.className = 'verification-result error';
+            elements.resultIcon.innerHTML = '❌';
+            elements.resultTitle.textContent = 'Verification Error';
+            elements.resultMessage.textContent = result.message || 'An unknown error occurred';
+            elements.resultDetails.innerHTML = createDetailsHTML('N/A', 'N/A', `
+                <div class="info-row error-note">
+                    <span class="info-label">🔴 Status:</span>
+                    <span class="info-value">SYSTEM ERROR</span>
+                </div>
+            `);
+            
+            utils.showToast('❌ System error during verification', 'error');
+            utils.updateStats('rejected');
+            break;
+    }
     
-    utils.showNotification('📝 Ready for new ticket generation', 'success');
-    console.log('🔄 Ready for new ticket generation');
+    elements.resultTimestamp.textContent = `Verified at: ${timestamp}`;
+    
+    // Scroll to result
+    elements.resultDiv.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
+
+// Event Listeners (keeping all existing functionality)
+elements.toggleCameraBtn.addEventListener('click', async () => {
+    if (isScannerActive) {
+        await cameraManager.stopScanner();
+    } else {
+        await cameraManager.startScanner();
+    }
 });
 
-// Logout functionality
-elements.logoutBtn.addEventListener('click', () => {
+elements.switchCameraBtn.addEventListener('click', () => {
+    cameraManager.switchCamera();
+});
+
+elements.manualVerifyForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const ticketId = elements.manualIdInput.value.trim();
+    
+    if (ticketId) {
+        verifyTicketId(ticketId);
+    } else {
+        utils.showToast('Please enter a ticket ID', 'warning');
+        elements.manualIdInput.focus();
+    }
+});
+
+elements.logoutBtn.addEventListener('click', async () => {
     if (confirm('🚪 Are you sure you want to logout?')) {
-        console.log('🚪 User logging out...');
-        sessionStorage.removeItem('isGeneratorLoggedIn');
-        sessionStorage.removeItem('generatorLoginTime');
-        sessionStorage.removeItem('generatorUser');
-        utils.showNotification('👋 Logged out successfully', 'success');
+        await cameraManager.stopScanner();
+        sessionStorage.removeItem('isVerifierLoggedIn');
+        utils.showToast('👋 Logged out successfully', 'info');
         setTimeout(() => {
-            window.location.href = 'generator_login.html';
+            window.location.href = 'login.html';
         }, 1000);
     }
 });
 
-// Real-time validation
-elements.phoneInput.addEventListener('input', (e) => {
-    // Only allow numbers
-    e.target.value = e.target.value.replace(/[^0-9]/g, '');
+// Manual input validation
+elements.manualIdInput.addEventListener('input', utils.debounce((e) => {
+    const value = e.target.value.trim().toUpperCase();
+    e.target.value = value;
     
-    // Limit to 10 digits
-    if (e.target.value.length > 10) {
-        e.target.value = e.target.value.substr(0, 10);
-    }
-    
-    // Visual feedback
-    if (e.target.value.length === 10 && utils.validatePhone(e.target.value)) {
-        e.target.style.borderColor = '#28a745';
-    } else if (e.target.value.length > 0) {
+    if (value && !utils.validateTicketId(value)) {
         e.target.style.borderColor = '#dc3545';
+        e.target.title = 'Invalid format. Expected: EVENT-XXXXX';
     } else {
         e.target.style.borderColor = '';
+        e.target.title = '';
     }
-});
+}, 300));
 
-elements.nameInput.addEventListener('input', (e) => {
-    // Remove numbers and special characters
-    e.target.value = e.target.value.replace(/[^a-zA-Z\s]/g, '');
-});
+// FAB Menu
+if (elements.fabMain) {
+    elements.fabMain.addEventListener('click', () => {
+        const menu = document.querySelector('.fab-menu');
+        if (menu) {
+            menu.classList.toggle('hidden');
+        }
+    });
+}
 
-elements.ageInput.addEventListener('input', (e) => {
-    const age = parseInt(e.target.value);
-    if (age < 1 || age > 120) {
-        e.target.style.borderColor = '#dc3545';
+// Global Functions for FAB actions
+window.clearResults = function() {
+    if (elements.resultDiv) {
+        elements.resultDiv.classList.add('hidden');
+    }
+    if (elements.manualIdInput) {
+        elements.manualIdInput.value = '';
+    }
+    utils.showToast('🗑️ Results cleared', 'info');
+};
+
+window.exportStats = function() {
+    const statsData = {
+        timestamp: utils.formatTimestamp(),
+        stats: sessionStats,
+        session_duration: 'Current session'
+    };
+    
+    const dataStr = JSON.stringify(statsData, null, 2);
+    const dataBlob = new Blob([dataStr], { type: 'application/json' });
+    const url = URL.createObjectURL(dataBlob);
+    
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = `verification-stats-${Date.now()}.json`;
+    link.click();
+    
+    URL.revokeObjectURL(url);
+    utils.showToast('📊 Stats exported successfully', 'success');
+};
+
+window.refreshStats = function() {
+    sessionStats = { verified: 0, rejected: 0, duplicates: 0, total: 0 };
+    if (elements.verifiedCount) elements.verifiedCount.textContent = '0';
+    if (elements.rejectedCount) elements.rejectedCount.textContent = '0';
+    if (elements.duplicateCount) elements.duplicateCount.textContent = '0';
+    if (elements.totalCount) elements.totalCount.textContent = '0';
+    utils.showToast('🔄 Stats refreshed', 'info');
+};
+
+// NEW: Debug functions
+window.testConnection = async function() {
+    utils.showToast('🔍 Testing API connection...', 'info');
+    const result = await api.testConnection();
+    
+    if (result.success) {
+        utils.showToast('✅ API connection successful!', 'success');
+        console.log('API Test Result:', result.result);
     } else {
-        e.target.style.borderColor = '#28a745';
+        utils.showToast(`❌ API connection failed: ${result.error}`, 'error');
+        console.error('API Test Failed:', result);
     }
-});
+};
 
-// Initialize
-document.addEventListener('DOMContentLoaded', () => {
-    console.log('🚀 Ticket generator initialized');
-    
-    // Focus first input
-    elements.nameInput.focus();
-    
-    // Show welcome message
-    const currentUser = sessionStorage.getItem('generatorUser') || 'User';
-    utils.showNotification(`👋 Welcome ${currentUser}! Ready to generate tickets.`, 'success');
-});
+window.debugMode = function(enable = true) {
+    CONFIG.DEBUG_MODE = enable;
+    utils.showToast(`🔍 Debug mode ${enable ? 'enabled' : 'disabled'}`, 'info');
+};
 
 // Keyboard shortcuts
 document.addEventListener('keydown', (e) => {
-    // Ctrl + Enter to download ticket
-    if ((e.ctrlKey || e.metaKey) && e.key === 'Enter' && !elements.ticketResultDiv.classList.contains('hidden')) {
-        elements.downloadBtn.click();
+    // Alt + S to focus manual input
+    if (e.altKey && e.key === 's') {
+        e.preventDefault();
+        if (elements.manualIdInput) {
+            elements.manualIdInput.focus();
+        }
     }
     
-    // Escape to go back
-    if (e.key === 'Escape' && !elements.ticketResultDiv.classList.contains('hidden')) {
-        elements.generateAnotherBtn.click();
+    // Alt + C to toggle camera
+    if (e.altKey && e.key === 'c') {
+        e.preventDefault();
+        if (elements.toggleCameraBtn) {
+            elements.toggleCameraBtn.click();
+        }
     }
+    
+    // Alt + T to test connection
+    if (e.altKey && e.key === 't') {
+        e.preventDefault();
+        window.testConnection();
+    }
+    
+    // Escape to clear results
+    if (e.key === 'Escape') {
+        window.clearResults();
+    }
+});
+
+// Initialize on page load
+document.addEventListener('DOMContentLoaded', async () => {
+    utils.debugLog('=== Verification System Initializing ===');
+    
+    // Test API connection first
+    const connectionTest = await api.testConnection();
+    if (!connectionTest.success) {
+        utils.showToast('⚠️ API connection issue detected. Check console for details.', 'warning', 5000);
+        console.error('API Connection Test Failed:', connectionTest);
+    }
+    
+    // Initialize cameras
+    await cameraManager.initializeCameras();
+    
+    // Focus manual input
+    if (elements.manualIdInput) {
+        elements.manualIdInput.focus();
+    }
+    
+    // Auto-start camera if available
+    if (availableCameras.length > 0) {
+        setTimeout(() => {
+            cameraManager.startScanner();
+        }, 1000);
+    }
+    
+    utils.debugLog('Verification system initialized');
+    console.log('🔍 Debug mode enabled. Use Alt+T to test API connection.');
 });
 
 // Performance monitoring
 if ('performance' in window) {
     window.addEventListener('load', () => {
         const loadTime = performance.timing.loadEventEnd - performance.timing.navigationStart;
-        console.log(`🚀 Ticket Generator loaded in ${loadTime}ms`);
+        utils.debugLog(`Verification system loaded in ${loadTime}ms`);
     });
 }
-
-console.log('✅ Script initialization completed successfully');
