@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Staff Login | Ticket Verification System</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#3498db">
+    <link rel="icon" type="image/x-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🔐</text></svg>">
+</head>
+<body class="login-body">
+    <div class="login-container">
+        <div class="login-card">
+            <header class="login-header">
+                <div class="login-logo">
+                    <div class="logo-circle">
+                        <span class="logo-icon">🔐</span>
+                    </div>
+                    <h1>Staff Login</h1>
+                    <p class="login-subtitle">Ticket Verification System</p>
+                </div>
+            </header>
+
+            <main class="login-main">
+                <div class="login-info">
+                    <h2>🔍 Access Verification Panel</h2>
+                    <p>Log in with your staff credentials to verify event tickets</p>
+                </div>
+
+                <form id="loginForm" class="login-form">
+                    <div class="form-group">
+                        <label for="username">
+                            <span class="label-icon">👤</span>
+                            Username
+                        </label>
+                        <div class="input-wrapper">
+                            <input 
+                                type="text" 
+                                id="username" 
+                                placeholder="Enter your username"
+                                autocomplete="username"
+                                required
+                            >
+                            <span class="input-icon">👤</span>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="password">
+                            <span class="label-icon">🔒</span>
+                            Password
+                        </label>
+                        <div class="input-wrapper">
+                            <input 
+                                type="password" 
+                                id="password" 
+                                placeholder="Enter your password"
+                                autocomplete="current-password"
+                                required
+                            >
+                            <span class="input-icon">🔒</span>
+                            <button type="button" class="password-toggle" id="passwordToggle">
+                                <span id="toggleIcon">👁️</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <button type="submit" id="loginBtn" class="login-btn">
+                        <span class="btn-content">
+                            <span class="btn-icon">🚀</span>
+                            <span class="btn-text">Sign In</span>
+                        </span>
+                    </button>
+                </form>
+
+                <div id="loginMessage" class="login-message hidden"></div>
+
+                <div class="login-footer">
+                    <div class="login-features">
+                        <div class="feature-item">
+                            <span class="feature-icon">📱</span>
+                            <span>QR Code Scanning</span>
+                        </div>
+                        <div class="feature-item">
+                            <span class="feature-icon">⚡</span>
+                            <span>Real-time Verification</span>
+                        </div>
+                        <div class="feature-item">
+                            <span class="feature-icon">📊</span>
+                            <span>Live Statistics</span>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+
+        <div class="background-animation">
+            <div class="floating-shape shape-1"></div>
+            <div class="floating-shape shape-2"></div>
+            <div class="floating-shape shape-3"></div>
+            <div class="floating-shape shape-4"></div>
+        </div>
+    </div>
+
+    <!-- Loading Overlay -->
+    <div id="loadingOverlay" class="loading-overlay hidden">
+        <div class="loading-content">
+            <div class="loading-spinner-large"></div>
+            <h3>Authenticating...</h3>
+            <p>Please wait while we verify your credentials</p>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('contextmenu', event => event.preventDefault());
+    </script>
+    <script src="login.js"></script>
+</body>
+</html>
