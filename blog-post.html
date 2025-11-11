@@ -1,0 +1,1241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog | Digital Story Studio - Wedding Photography & Videography Tips</title>
+    <meta name="description" content="Latest tips, trends, and insights about wedding photography, videography, and event coverage from Delhi's premier Digital Story Studio professionals.">
+    <meta name="keywords" content="wedding photography blog, videography tips Delhi, wedding planning blog, photography tutorials, cinematic wedding films, Delhi wedding photographer blog">
+    <meta name="author" content="Digital Story Studio">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://digitalstorystudio.in/blog.html">
+
+    <!-- Include all your existing head elements -->
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+    <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+    <script src="script.js"></script>
+
+    <!-- Blog-specific styles -->
+    <style>        
+        .blog-post-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            display: grid;
+            grid-template-columns: 1fr 300px;
+            gap: 60px;
+        }
+
+        .blog-post-main {
+            background: rgba(0, 140, 255, 0.1);
+            border-radius: 15px;
+            padding: 40px;
+            border: 1px solid rgba(0, 240, 255, 0.2);
+        }
+
+        .blog-post-header {
+            margin-bottom: 30px;
+        }
+
+        .breadcrumb {
+            margin-bottom: 20px;
+        }
+
+        .breadcrumb a {
+            color: var(--text-light);
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .breadcrumb a:hover {
+            color: var(--primary);
+        }
+
+        .breadcrumb span {
+            color: var(--text-light);
+            margin: 0 8px;
+        }
+
+        .post-title {
+            font-size: 2.5rem;
+            color: var(--primary);
+            margin-bottom: 20px;
+            line-height: 1.2;
+            text-shadow: var(--glow);
+        }
+
+        .post-meta {
+            display: flex;
+            gap: 30px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+            font-size: 0.95rem;
+            color: var(--text-light);
+        }
+
+        .meta-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .meta-item i {
+            color: var(--primary);
+        }
+
+        .post-category {
+            background: var(--primary);
+            color: #0a0a1a;
+            padding: 6px 15px;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 0.85rem;
+        }
+
+        .post-featured-image {
+            width: 100%;
+            height: 400px;
+            object-fit: cover;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .post-content {
+            color: var(--text-light);
+            line-height: 1.8;
+            font-size: 1.1rem;
+        }
+
+        .post-content h2 {
+            color: var(--primary);
+            font-size: 1.8rem;
+            margin: 40px 0 20px;
+            text-shadow: var(--glow);
+        }
+
+        .post-content h3 {
+            color: var(--primary);
+            font-size: 1.5rem;
+            margin: 30px 0 15px;
+        }
+
+        .post-content p {
+            margin-bottom: 20px;
+        }
+
+        .post-content ul, .post-content ol {
+            margin: 20px 0;
+            padding-left: 30px;
+        }
+
+        .post-content li {
+            margin-bottom: 10px;
+        }
+
+        .post-content blockquote {
+            background: rgba(0, 240, 255, 0.1);
+            border-left: 4px solid var(--primary);
+            padding: 20px 25px;
+            margin: 30px 0;
+            border-radius: 0 10px 10px 0;
+            font-style: italic;
+            color: var(--primary);
+        }
+
+        .post-content img {
+            width: 100%;
+            height: auto;
+            border-radius: 10px;
+            margin: 20px 0;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .post-tags {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin: 40px 0;
+            padding-top: 30px;
+            border-top: 1px solid rgba(0, 240, 255, 0.2);
+        }
+
+        .tag {
+            background: rgba(0, 140, 255, 0.2);
+            color: var(--text-light);
+            padding: 5px 15px;
+            border-radius: 15px;
+            font-size: 0.85rem;
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .tag:hover {
+            background: var(--primary);
+            color: #0a0a1a;
+        }
+
+        .post-share {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+            margin: 30px 0;
+            padding: 20px 0;
+            border-top: 1px solid rgba(0, 240, 255, 0.2);
+            border-bottom: 1px solid rgba(0, 240, 255, 0.2);
+        }
+
+        .share-label {
+            color: var(--primary);
+            font-weight: 600;
+            margin-right: 10px;
+        }
+
+        .share-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            color: white;
+            transition: var(--transition);
+            font-size: 1.1rem;
+        }
+
+        .share-btn.facebook { background: #4267B2; }
+        .share-btn.twitter { background: #1DA1F2; }
+        .share-btn.whatsapp { background: #25D366; }
+        .share-btn.linkedin { background: #0077B5; }
+
+        .share-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .author-info {
+            background: rgba(0, 240, 255, 0.1);
+            border-radius: 15px;
+            padding: 25px;
+            margin: 40px 0;
+            border: 1px solid rgba(0, 240, 255, 0.2);
+        }
+
+        .author-info h3 {
+            color: var(--primary);
+            margin-bottom: 15px;
+        }
+
+        .author-details {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .author-avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid var(--primary);
+        }
+
+        .author-text {
+            flex: 1;
+        }
+
+        .author-name {
+            color: var(--primary);
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .author-role {
+            color: var(--text-light);
+            font-size: 0.9rem;
+            margin-bottom: 10px;
+        }
+
+        .author-bio {
+            color: var(--text-light);
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+
+        .sidebar {
+            background: rgba(0, 140, 255, 0.1);
+            border-radius: 15px;
+            padding: 30px;
+            border: 1px solid rgba(0, 240, 255, 0.2);
+            height: fit-content;
+            position: sticky;
+            top: 140px;
+        }
+
+        .sidebar h3 {
+            color: var(--primary);
+            margin-bottom: 20px;
+            font-size: 1.3rem;
+        }
+
+        .sidebar-section {
+            margin-bottom: 40px;
+        }
+
+        .recent-posts {
+            list-style: none;
+        }
+
+        .recent-posts li {
+            margin-bottom: 20px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid rgba(0, 240, 255, 0.1);
+        }
+
+        .recent-posts li:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+
+        .recent-post-title {
+            color: var(--text-light);
+            text-decoration: none;
+            font-size: 0.95rem;
+            line-height: 1.4;
+            transition: var(--transition);
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        .recent-post-title:hover {
+            color: var(--primary);
+        }
+
+        .recent-post-date {
+            font-size: 0.8rem;
+            color: #888;
+        }
+
+        .categories-list {
+            list-style: none;
+        }
+
+        .categories-list li {
+            margin-bottom: 10px;
+        }
+
+        .categories-list a {
+            color: var(--text-light);
+            text-decoration: none;
+            transition: var(--transition);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 0;
+        }
+
+        .categories-list a:hover {
+            color: var(--primary);
+            padding-left: 10px;
+        }
+
+        .category-count {
+            background: rgba(0, 240, 255, 0.2);
+            color: var(--primary);
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-size: 0.8rem;
+        }
+
+        .related-posts {
+            margin-top: 50px;
+        }
+
+        .related-posts h3 {
+            color: var(--primary);
+            font-size: 1.8rem;
+            margin-bottom: 30px;
+            text-shadow: var(--glow);
+        }
+
+        .related-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+        }
+
+        .related-card {
+            background: rgba(0, 240, 255, 0.1);
+            border-radius: 15px;
+            overflow: hidden;
+            border: 1px solid rgba(0, 240, 255, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .related-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 240, 255, 0.3);
+        }
+
+        .related-card img {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+        }
+
+        .related-card-content {
+            padding: 20px;
+        }
+
+        .related-card h4 {
+            color: var(--primary);
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+        }
+
+        .related-card h4 a {
+            color: inherit;
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .related-card h4 a:hover {
+            text-shadow: var(--glow);
+        }
+
+        .related-card-meta {
+            font-size: 0.85rem;
+            color: var(--text-light);
+        }
+
+        .back-to-blog {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 600;
+            margin-bottom: 30px;
+            transition: var(--transition);
+        }
+
+        .back-to-blog:hover {
+            text-shadow: var(--glow);
+            transform: translateX(-5px);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .blog-post-container {
+                grid-template-columns: 1fr;
+                gap: 40px;
+                padding: 20px 15px;
+            }
+
+            .blog-post-main {
+                padding: 25px;
+            }
+
+            .post-title {
+                font-size: 2rem;
+            }
+
+            .post-meta {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .post-featured-image {
+                height: 250px;
+            }
+
+            .author-details {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .sidebar {
+                position: static;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Top Bar -->
+    <div class="top-bar">
+        <div class="top-bar-left">
+            <a href="#" class="top-bar-item location" aria-label="Location">
+                <i class="fas fa-map-marker-alt"></i>
+                <span>8/334, Lalita Park, Laxminagar, New Delhi 110092</span>
+            </a>
+        </div>
+        <div class="top-bar-right">
+            <a href="mailto:digitalstorystudioo@gmail.com" class="top-bar-item email" aria-label="Email">
+                <i class="fas fa-envelope"></i>
+                <span>digitalstorystudioo@gmail.com</span>
+            </a>
+            <a href="https://www.youtube.com/channel/UCElZTJcE8x4mt1HCghZFBuw" target="_blank" class="top-bar-item youtube" aria-label="YouTube">
+                <i class="fab fa-youtube"></i>
+            </a>
+            <a href="https://www.instagram.com/digitalstorystudio/" target="_blank" class="top-bar-item instagram" aria-label="Instagram">
+                <i class="fab fa-instagram"></i>
+            </a>
+            <a href="#" class="top-bar-item linkedin" aria-label="LinkedIn">
+                <i class="fab fa-linkedin-in"></i>
+            </a>
+            <a href="https://www.facebook.com/DigitalStorystudios" target="_blank" class="top-bar-item facebook" aria-label="Facebook">
+                <i class="fab fa-facebook-f"></i>
+            </a>
+            <a href="tel:+919318344023" class="top-bar-item contact" aria-label="Contact Number">
+                <i class="fas fa-phone"></i>
+                <span>+91-9318344023</span>
+            </a>
+        </div>
+    </div>
+
+    <div class="main-website">
+        <nav class="navbar" id="navbar">
+            <div class="logo-wrapper">
+                <a href="index.html" class="logo-link">
+                    <img src="assets/logo.jpeg" alt="Digital Story Studio Logo" class="logo" loading="lazy">
+                    <span class="logo-text">Digital Story Studio</span></a>
+            </div>
+            <button class="hamburger" id="hamburger" aria-label="Toggle menu" aria-expanded="false">
+                <i class="fas fa-bars"></i>
+            </button>
+            <ul class="nav-links" id="navLinks">
+                <li class="nav-item">
+                    <a href="index.html" class="nav-link">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a href="about.html" class="nav-link">About</a>
+                </li>
+                <li class="nav-item">
+                    <a href="services.html" class="nav-link">Services
+                        <i class="fas fa-chevron-down dropdown-arrow"></i>
+                    </a>
+                    <div class="dropdown-menu">
+                        <div class="dropdown-item">
+                            <a href="#" class="dropdown-link">
+                                Wedding
+                                <i class="fas fa-chevron-right"></i>
+                            </a>
+                            <div class="submenu">
+                                <div class="dropdown-item">
+                                    <a href="#" class="dropdown-link">
+                                        Videography
+                                        <i class="fas fa-chevron-right"></i>
+                                    </a>
+                                    <div class="submenu">
+                                        <a href="#" class="submenu-link featured-item">Cinematic Wedding Videography</a>
+                                        <a href="#" class="submenu-link">Traditional Wedding Videography</a>
+                                        <a href="#" class="submenu-link">Destination Wedding Videography</a>
+                                        <a href="#" class="submenu-link">Luxury Wedding Videography</a>
+                                        <a href="#" class="submenu-link">Pre-Wedding Shoot</a>
+                                        <a href="#" class="submenu-link">Drone Wedding Videography</a>
+                                        <a href="#" class="submenu-link">Haldi Ceremony</a>
+                                        <a href="#" class="submenu-link">Mehndi Ceremony</a>
+                                        <a href="#" class="submenu-link">Engagement/Roka Videography</a>
+                                        <a href="#" class="submenu-link">Wedding Highlight and Teaser Films</a>
+                                        <a href="#" class="submenu-link">Full Documentary Wedding Videography</a>
+                                    </div>
+                                </div>
+                                <div class="dropdown-item">
+                                    <a href="#" class="dropdown-link">
+                                        Wedding Photography
+                                        <i class="fas fa-chevron-right"></i>
+                                    </a>
+                                    <div class="submenu">
+                                        <a href="#" class="submenu-link">Pre-Wedding Photography</a>
+                                        <a href="#" class="submenu-link">Candid Photography</a>
+                                        <a href="#" class="submenu-link">Destination Wedding Photography</a>
+                                        <a href="#" class="submenu-link">Luxury Wedding Photography</a>
+                                        <a href="#" class="submenu-link featured-item">Traditional Wedding Photography</a>
+                                        <a href="#" class="submenu-link">Engagement & Roka Photography</a>
+                                        <a href="#" class="submenu-link">Haldi & Mehndi Ceremony Photography</a>
+                                        <a href="#" class="submenu-link">Reception Photography</a>
+                                        <a href="#" class="submenu-link">Couple Portrait Photography</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="dropdown-item">
+                            <a href="#" class="dropdown-link">
+                                Events
+                                <i class="fas fa-chevron-right"></i>
+                            </a>
+                            <div class="submenu">
+                                <div class="dropdown-item">
+                                    <a href="#" class="dropdown-link">
+                                        Event Videography
+                                        <i class="fas fa-chevron-right"></i>
+                                    </a>
+                                    <div class="submenu">
+                                        <a href="#" class="submenu-link">Drone & Aerial Videography</a>
+                                        <a href="#" class="submenu-link">Corporate Event Videography</a>
+                                        <a href="#" class="submenu-link">Cocktail Party Shoot</a>
+                                        <a href="#" class="submenu-link">Award Ceremony & Event Videography</a>
+                                        <a href="#" class="submenu-link">Music Concert Videography</a>
+                                        <a href="#" class="submenu-link">Live Show Videography</a>
+                                        <a href="#" class="submenu-link">School & College Event Videography</a>
+                                        <a href="#" class="submenu-link">Trade Show Videography</a>
+                                        <a href="#" class="submenu-link">Religious & Temple Event Videography</a>
+                                        <a href="#" class="submenu-link">Exhibition Show Videography</a>
+                                        <a href="#" class="submenu-link">Training & Workshop Videography</a>
+                                        <a href="#" class="submenu-link">Charity & Fund Raising Event Videography</a>
+                                    </div>
+                                </div>
+                                <div class="dropdown-item">
+                                    <a href="#" class="dropdown-link">
+                                        Event Photography
+                                        <i class="fas fa-chevron-right"></i>
+                                    </a>
+                                    <div class="submenu">
+                                        <a href="#" class="submenu-link">Drone & Aerial Photography</a>
+                                        <a href="#" class="submenu-link">Corporate Event Photography</a>
+                                        <a href="#" class="submenu-link">Award Ceremony Photography</a>
+                                        <a href="#" class="submenu-link">College Event Photography</a>
+                                        <a href="#" class="submenu-link">Cultural Events Photography</a>
+                                        <a href="#" class="submenu-link">Seminar & Conference Photography</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="dropdown-item">
+                            <a href="#" class="dropdown-link">
+                                Model/Fashion Shoot
+                                <i class="fas fa-chevron-right"></i>
+                            </a>
+                            <div class="submenu">
+                                <div class="dropdown-item">
+                                    <a href="#" class="dropdown-link">
+                                        Model/Fashion Videography
+                                        <i class="fas fa-chevron-right"></i>
+                                    </a>
+                                    <div class="submenu">
+                                        <a href="#" class="submenu-link">Fashion Shoot Videography</a>
+                                        <a href="#" class="submenu-link">Jewellery & Luxury Product Photography</a>
+                                        <a href="#" class="submenu-link">Lifestyle Shoot Videography</a>
+                                    </div>
+                                </div>
+                                <div class="dropdown-item">
+                                    <a href="#" class="dropdown-link">
+                                        Model/Fashion Photography
+                                        <i class="fas fa-chevron-right"></i>
+                                    </a>
+                                    <div class="submenu">
+                                        <a href="#" class="submenu-link">Portfolio Shoot for Models & Actors</a>
+                                        <a href="#" class="submenu-link">Model Shoot</a>
+                                        <a href="#" class="submenu-link">Fashion Shoot Photography</a>
+                                        <a href="#" class="submenu-link">Model Photography</a>
+                                        <a href="#" class="submenu-link">Celebrity & Influencer Shoot</a>
+                                        <a href="#" class="submenu-link">Lifestyle Photoshoot</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="dropdown-item">
+                            <a href="#" class="dropdown-link">
+                                Creative Shoot
+                                <i class="fas fa-chevron-right"></i>
+                            </a>
+                            <div class="submenu">
+                                <a href="#" class="submenu-link">Advertising & Commercial Ad Shoot</a>
+                                <a href="#" class="submenu-link">Product Shoot</a>
+                                <a href="#" class="submenu-link">E-Commerce Product Shoot</a>
+                                <a href="#" class="submenu-link">Real Estate & Interior Shoot</a>
+                                <a href="#" class="submenu-link">Food & Restaurant Ad Shoot</a>
+                                <a href="#" class="submenu-link">Brand Promotion Shoot</a>
+                                <a href="#" class="submenu-link">Music Video Shoot</a>
+                                <a href="#" class="submenu-link">Short Film & Ad Film Shoot</a>
+                                <a href="#" class="submenu-link">Magazine & Editorial Shoot</a>
+                                <a href="#" class="submenu-link">Fitness & Gym Shoot</a>
+                                <a href="#" class="submenu-link">Creative Concept Shoot</a>
+                                <a href="#" class="submenu-link">Green Screen & Professional Video Shoot</a>
+                                <a href="#" class="submenu-link">Industrial/Machinery Photography</a>
+                            </div>
+                        </div>
+                        <div class="dropdown-item">
+                            <a href="#" class="dropdown-link">
+                                Others
+                                <i class="fas fa-chevron-right"></i>
+                            </a>
+                            <div class="submenu">
+                                <a href="#" class="submenu-link">Anniversary Event Shoot</a>
+                                <a href="#" class="submenu-link">Birthday Party Shoot</a>
+                                <a href="#" class="submenu-link">Maternity & Baby Shower Shoot</a>
+                                <a href="#" class="submenu-link">Family Event & Social Gathering Shoot</a>
+                                <a href="#" class="submenu-link">New Born/Kids Photography</a>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <a href="ourwork.html" class="nav-link">Our Work
+                        <i class="fas fa-chevron-down dropdown-arrow"></i>
+                    </a>
+                    <div class="dropdown-menu">
+                        <div class="dropdown-item">
+                            <a href="#" class="dropdown-link">
+                                Wedding
+                                <i class="fas fa-chevron-right"></i>
+                            </a>
+                            <div class="submenu">
+                                <a href="#" class="submenu-link">Destination Wedding Videography from Delhi</a>
+                                <a href="#" class="submenu-link">Hindu Wedding Videography in Delhi</a>
+                                <a href="#" class="submenu-link">Sikh Wedding Videography in Delhi</a>
+                                <a href="#" class="submenu-link">Muslim Wedding Videography in Delhi</a>
+                                <a href="#" class="submenu-link">Pre-wedding Shoot Videography in Delhi NCR</a>
+                                <a href="#" class="submenu-link">Engagement and Roka Ceremony in Gurgaon</a>
+                                <a href="#" class="submenu-link">Mehndi Ceremony Videography in Delhi NCR</a>
+                                <a href="#" class="submenu-link">Reception Ceremony Videography in Delhi and Gurgaon</a>
+                                <a href="#" class="submenu-link">Wedding Photography Service in Delhi NCR</a>
+                                <a href="#" class="submenu-link">Wedding Highlight and Teaser Video Production in Delhi</a>
+                                <a href="#" class="submenu-link">Same-Day Edit Wedding Videography in Delhi</a>
+                                <a href="#" class="submenu-link">Live Streaming Wedding Services in Delhi</a>
+                            </div>
+                        </div>
+                        <div class="dropdown-item">
+                            <a href="#" class="dropdown-link">Events</a>
+                        </div>
+                        <div class="dropdown-item">
+                            <a href="#" class="dropdown-link">Model</a>
+                        </div>
+                        <div class="dropdown-item">
+                            <a href="#" class="dropdown-link">Creative</a>
+                        </div>
+                        <div class="dropdown-item">
+                            <a href="#" class="dropdown-link">Others</a>
+                        </div>
+                        <div class="dropdown-item">
+                            <a href="#" class="dropdown-link">💬 Client Testimonials</a>
+                        </div>
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <a href="contactus.html" class="nav-link">Contact & Booking</a>
+                </li>
+                <li class="nav-item">
+                    <a href="contactus.html" class="nav-link login-link">Login</a>
+                </li>
+            </ul>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="blog-post-container">
+                <!-- Main Blog Post -->
+                <article class="blog-post-main">
+                    <a href="blog.html" class="back-to-blog">
+                        <i class="fas fa-arrow-left"></i>
+                        Back to Blog
+                    </a>
+
+                    <header class="blog-post-header">
+                        <nav class="breadcrumb">
+                            <a href="index.html">Home</a>
+                            <span>/</span>
+                            <a href="blog.html">Blog</a>
+                            <span>/</span>
+                            <span>Wedding Photography Tips</span>
+                        </nav>
+
+                        <h1 class="post-title">10 Essential Wedding Photography Tips for Delhi Couples</h1>
+                        
+                        <div class="post-meta">
+                            <div class="meta-item">
+                                <i class="fas fa-calendar"></i>
+                                <span>December 15, 2024</span>
+                            </div>
+                            <div class="meta-item">
+                                <i class="fas fa-user"></i>
+                                <span>By Ravi Singh</span>
+                            </div>
+                            <div class="meta-item">
+                                <i class="fas fa-clock"></i>
+                                <span>8 min read</span>
+                            </div>
+                            <div class="meta-item">
+                                <i class="fas fa-eye"></i>
+                                <span>1,234 views</span>
+                            </div>
+                            <span class="post-category">Wedding Tips</span>
+                        </div>
+                    </header>
+
+                    <img src="https://images.unsplash.com/photo-1606800052052-a08af7148866?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80" alt="Wedding Photography Tips" class="post-featured-image">
+
+                    <div class="post-content">
+                        <p>Planning your dream wedding in Delhi? As professional wedding photographers with over 500 successful projects, we've learned what makes the difference between good photos and absolutely stunning ones. Here are our top 10 essential tips specifically for Delhi couples.</p>
+
+                        <h2>1. Choose the Right Time for Your Shoot</h2>
+                        <p>Delhi's weather can be unpredictable, but timing is everything in photography. The golden hour - just after sunrise or before sunset - provides the most flattering light for your photos.</p>
+
+                        <blockquote>
+                            "The best wedding photos are not just about the camera settings, but about capturing the right moment at the right time with the right light." - Digital Story Studio Team
+                        </blockquote>
+
+                        <h3>Best Times for Different Seasons:</h3>
+                        <ul>
+                            <li><strong>Winter (December-February):</strong> 11 AM - 4 PM for warm, soft lighting</li>
+                            <li><strong>Summer (April-June):</strong> Early morning (6-9 AM) or late evening (6-8 PM)</li>
+                            <li><strong>Monsoon (July-September):</strong> Overcast days provide natural diffused lighting</li>
+                            <li><strong>Post-Monsoon (October-November):</strong> Clear skies make any time perfect</li>
+                        </ul>
+
+                        <h2>2. Scout Your Venues in Advance</h2>
+                        <p>Delhi offers incredible venues from historic Red Fort to luxurious hotels in South Delhi. Each location has its unique charm and lighting conditions. We always recommend visiting your venue at different times to understand how natural light changes throughout the day.</p>
+
+                        <h3>Popular Delhi Wedding Photography Locations:</h3>
+                        <ol>
+                            <li>Lodhi Gardens - Perfect for pre-wedding shoots</li>
+                            <li>India Gate - Iconic backdrop for couple portraits</li>
+                            <li>Humayun's Tomb - Historic architecture</li>
+                            <li>The Imperial Hotel - Luxury indoor/outdoor options</li>
+                            <li>Kingdom of Dreams, Gurgaon - Modern glamour</li>
+                        </ol>
+
+                        <h2>3. Coordinate Your Outfits</h2>
+                        <p>Your outfits play a crucial role in how your photos turn out. Choose colors that complement each other and the venue. Avoid overly busy patterns that can be distracting in photos.</p>
+
+                        <h2>4. Trust Your Photographer's Vision</h2>
+                        <p>While it's important to communicate your preferences, remember that professional photographers bring years of experience. We know what works best in different lighting conditions and settings.</p>
+
+                        <h2>5. Plan for Candid Moments</h2>
+                        <p>Some of the most beautiful wedding photos come from unposed, natural moments. Allow time in your schedule for spontaneous shots between planned poses.</p>
+
+                        <h2>6. Consider the Guest Experience</h2>
+                        <p>Remember that your guests' comfort affects the overall atmosphere of your wedding, which will show in your photos. Happy, comfortable guests create a joyful environment that translates beautifully on camera.</p>
+
+                        <h2>7. Prepare a Shot List</h2>
+                        <p>Create a list of must-have shots including family combinations, special traditions, and important moments. Share this with your photographer well in advance.</p>
+
+                        <h2>8. Weather Backup Plans</h2>
+                        <p>Delhi weather can be unpredictable. Always have indoor alternatives for outdoor shoots. Sometimes, unexpected weather can create the most dramatic and beautiful photos.</p>
+
+                        <h2>9. Communicate Special Requirements</h2>
+                        <p>If you have specific cultural traditions, religious ceremonies, or family dynamics that need special attention, communicate these to your photographer beforehand.</p>
+
+                        <h2>10. Relax and Enjoy Your Day</h2>
+                        <p>The most important tip is to relax and enjoy your special day. Genuine emotions and happiness create the most beautiful photographs. Trust your photographer to capture these precious moments while you focus on celebrating.</p>
+
+                        <p>At Digital Story Studio, we've been capturing love stories across Delhi NCR for years. Our experience with local venues, lighting conditions, and cultural traditions ensures that your wedding photos will be nothing short of spectacular.</p>
+
+                        <p>Ready to book your wedding photography? <a href="contactus.html" style="color: var(--primary); font-weight: 600;">Contact us today</a> for a consultation and let's create magic together!</p>
+                    </div>
+
+                    <!-- Tags -->
+                    <div class="post-tags">
+                        <a href="#" class="tag">Wedding Photography</a>
+                        <a href="#" class="tag">Delhi Weddings</a>
+                        <a href="#" class="tag">Photography Tips</a>
+                        <a href="#" class="tag">Wedding Planning</a>
+                        <a href="#" class="tag">Candid Photography</a>
+                        <a href="#" class="tag">Professional Photography</a>
+                    </div>
+
+                    <!-- Share Buttons -->
+                    <div class="post-share">
+                        <span class="share-label">Share this article:</span>
+                        <a href="#" class="share-btn facebook" aria-label="Share on Facebook">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="#" class="share-btn twitter" aria-label="Share on Twitter">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="#" class="share-btn whatsapp" aria-label="Share on WhatsApp">
+                            <i class="fab fa-whatsapp"></i>
+                        </a>
+                        <a href="#" class="share-btn linkedin" aria-label="Share on LinkedIn">
+                            <i class="fab fa-linkedin-in"></i>
+                        </a>
+                    </div>
+
+                    <!-- Author Info -->
+                    <div class="author-info">
+                        <h3>About the Author</h3>
+                        <div class="author-details">
+                            <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=200&q=80" alt="Ravi Singh" class="author-avatar">
+                            <div class="author-text">
+                                <div class="author-name">Ravi Singh</div>
+                                <div class="author-role">Lead Wedding Photographer & Owner</div>
+                                <div class="author-bio">With over 8 years of experience in wedding photography across Delhi NCR, Ravi has captured over 500 weddings and specializes in candid and cinematic wedding photography. His work has been featured in several wedding magazines and photography blogs.</div>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Sidebar -->
+                <aside class="sidebar">
+                    <!-- Recent Posts -->
+                    <div class="sidebar-section">
+                        <h3>Recent Posts</h3>
+                        <ul class="recent-posts">
+                            <li>
+                                <a href="#" class="recent-post-title">Cinematic Wedding Videography Trends in 2024</a>
+                                <div class="recent-post-date">Dec 12, 2024</div>
+                            </li>
+                            <li>
+                                <a href="#" class="recent-post-title">How to Plan the Perfect Pre-Wedding Shoot in Delhi NCR</a>
+                                <div class="recent-post-date">Dec 10, 2024</div>
+                            </li>
+                            <li>
+                                <a href="#" class="recent-post-title">Mastering Candid Photography: Behind the Scenes</a>
+                                <div class="recent-post-date">Dec 8, 2024</div>
+                            </li>
+                            <li>
+                                <a href="#" class="recent-post-title">Latest Wedding Decoration Trends That Look Great on Camera</a>
+                                <div class="recent-post-date">Dec 5, 2024</div>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- Categories -->
+                    <div class="sidebar-section">
+                        <h3>Categories</h3>
+                        <ul class="categories-list">
+                            <li><a href="#">Wedding Tips <span class="category-count">12</span></a></li>
+                            <li><a href="#">Photography <span class="category-count">8</span></a></li>
+                            <li><a href="#">Videography <span class="category-count">6</span></a></li>
+                            <li><a href="#">Planning <span class="category-count">9</span></a></li>
+                            <li><a href="#">Trends <span class="category-count">5</span></a></li>
+                        </ul>
+                    </div>
+
+                    <!-- Newsletter -->
+                    <div class="sidebar-section">
+                        <h3>Stay Updated</h3>
+                        <p style="color: var(--text-light); margin-bottom: 20px; font-size: 0.95rem;">Get the latest photography tips and wedding trends delivered to your inbox.</p>
+                        <form class="newsletter-form" style="display: flex; flex-direction: column; gap: 10px;">
+                            <input type="email" placeholder="Your email" style="padding: 12px; border-radius: 8px; border: 1px solid rgba(0, 240, 255, 0.3); background: rgba(0, 0, 0, 0.4); color: var(--text-light);">
+                            <button type="submit" style="padding: 12px; background: var(--primary); color: #0a0a1a; border: none; border-radius: 8px; font-weight: 600; cursor: pointer;">Subscribe</button>
+                        </form>
+                    </div>
+                </aside>
+            </div>
+
+            <!-- Related Posts -->
+            <section class="related-posts" style="padding: 0 20px;">
+                <div style="max-width: 1200px; margin: 0 auto;">
+                    <h3>You Might Also Like</h3>
+                    <div class="related-grid">
+                        <article class="related-card">
+                            <img src="https://images.unsplash.com/photo-1516035069371-29a1b244cc32?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="Cinematic Videography">
+                            <div class="related-card-content">
+                                <h4><a href="#">Cinematic Wedding Videography Trends in 2024</a></h4>
+                                <div class="related-card-meta">Dec 12, 2024 • 6 min read</div>
+                            </div>
+                        </article>
+                        <article class="related-card">
+                            <img src="https://images.unsplash.com/photo-1519225421980-715cb0215aed?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="Pre-wedding Shoot">
+                            <div class="related-card-content">
+                                <h4><a href="#">How to Plan the Perfect Pre-Wedding Shoot in Delhi NCR</a></h4>
+                                <div class="related-card-meta">Dec 10, 2024 • 7 min read</div>
+                            </div>
+                        </article>
+                        <article class="related-card">
+                            <img src="https://images.unsplash.com/photo-1511285560929-80b456fea0bc?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="Candid Photography">
+                            <div class="related-card-content">
+                                <h4><a href="#">Mastering Candid Photography: Behind the Scenes</a></h4>
+                                <div class="related-card-meta">Dec 8, 2024 • 5 min read</div>
+                            </div>
+                        </article>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Audio Controls -->
+        <audio id="bg-music" loop>
+            <source src="assets/bgm.mp3" type="audio/mpeg">
+            Your browser does not support the audio element.
+        </audio>
+
+        <div class="audio-controls" id="audioControls">
+            <button class="audio-btn" id="audioToggle">
+                <i class="fas fa-volume-up"></i>
+            </button>
+        </div>
+
+        <a href="https://wa.me/+919318344023" class="whatsapp-btn" target="_blank" aria-label="Chat on WhatsApp">
+            <i class="fab fa-whatsapp"></i>
+        </a>
+
+        <!-- Footer -->
+       <!-- Offer Marquee -->
+        <div class="offer-marquee">
+            <div class="marquee-content">
+                🎉 SPECIAL OFFER GOING ON! CALL US NOW FOR EXCLUSIVE WEDDING PACKAGES! 📞 +91-93183 44023 🎉 BOOK YOUR DREAM WEDDING SHOOT TODAY! 🎉
+            </div>
+        </div>
+
+       
+        <!-- Main Footer -->
+        <footer class="footer">
+            <!-- Footer Header -->
+            <div class="footer-header">
+                <div class="footer-logo">
+                    <img src="assets/logo.jpeg" alt="Digital Story Studio Logo">
+                    <span class="footer-logo-text">Digital Story Studio</span>
+                </div>
+                <p class="footer-tagline">"Cinematic Wedding Films & Event Shoot in Delhi — Crafted with Passion."</p>
+                <div class="footer-contact-info">
+                    <div class="footer-contact-item">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <span>Delhi NCR, India</span>
+                    </div>
+                    <div class="footer-contact-item">
+                        <i class="fas fa-phone"></i>
+                        <span>+91-93183 44023</span>
+                    </div>
+                    <div class="footer-contact-item">
+                        <i class="fas fa-envelope"></i>
+                        <span>digitalstorystudioo@gmail.com</span>
+                    </div>
+                </div>
+            </div>
+            
+            
+
+            <!-- Footer Links -->
+            <div class="footer-links">
+                <div class="footer-column">
+                    <h4>Company</h4>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="services.html">Services</a></li>
+                        <li><a href="ourwork.html">Our Work</a></li>
+                        <li><a href="contactus.html">Contact Us</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-column">
+                    <h4>Services</h4>
+                    <ul>
+                        <li><a href="#">Weddings</a></li>
+                        <li><a href="#">Events</a></li>
+                        <li><a href="#">Fashion Shoot</a></li>
+                        <li><a href="#">Creative Shoot</a></li>
+                        <li><a href="#">Others</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-column">
+                    <h4>Wedding Types</h4>
+                    <ul>
+                        <li><a href="#">Sikh Wedding</a></li>
+                        <li><a href="#">Hindu Wedding</a></li>
+                        <li><a href="#">Muslim Wedding</a></li>
+                        <li><a href="#">Christian Wedding</a></li>
+                        <li><a href="#">Royal Weddings</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-column">
+                    <h4>Explore Us</h4>
+                    <ul>
+                        <li><a href="#">Blog</a></li>
+                        <li><a href="#">Testimonial</a></li>
+                        <li><a href="#">Package</a></li>
+                        <li><a href="#">FAQs</a></li>
+                        <li><a href="#">Clients Login</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-column">
+                    <h4>Event & Model | Fashion</h4>
+                    <ul>
+                        <li><a href="#mode">Model Videography</a></li>
+                        <li><a href="#">Model Photography</a></li>
+                        <li><a href="#">Event Videography</a></li>
+                        <li><a href="#">Event Photography</a></li>
+                        <li><a href="#">Ad Shoot</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- Social Media Section -->
+              <!-- Recent Memories Section -->
+            <div class="recent-memories">
+                <h3>📸 Recent Memories from Our Lens</h3>
+                <div class="memories-slider">
+                    <div class="memories-track">
+                        <div class="memory-item">
+                            <img src="assets/raj.jpeg" alt="Wedding Photography 1" loading="lazy">
+                            <div class="memory-overlay">Wedding 1</div>
+                        </div>
+                        <div class="memory-item">
+                            <img src="assets/raj.jpeg" alt="Event Photography 1" loading="lazy">
+                            <div class="memory-overlay">Event 1</div>
+                        </div>
+                        <div class="memory-item">
+                            <img src="assets/fashion1.jpg" alt="Fashion Photography 1" loading="lazy">
+                            <div class="memory-overlay">Fashion 1</div>
+                        </div>
+                        <div class="memory-item">
+                            <img src="assets/wedding2.jpg" alt="Wedding Photography 2" loading="lazy">
+                            <div class="memory-overlay">Wedding 2</div>
+                        </div>
+                        <div class="memory-item">
+                            <img src="assets/event2.jpg" alt="Event Photography 2" loading="lazy">
+                            <div class="memory-overlay">Event 2</div>
+                        </div>
+                        <div class="memory-item">
+                            <img src="assets/fashion2.jpg" alt="Fashion Photography 2" loading="lazy">
+                            <div class="memory-overlay">Fashion 2</div>
+                        </div>
+                        <div class="memory-item">
+                            <img src="assets/wedding3.jpg" alt="Wedding Photography 3" loading="lazy">
+                            <div class="memory-overlay">Wedding 3</div>
+                        </div>
+                        <div class="memory-item">
+                            <img src="assets/event3.jpg" alt="Event Photography 3" loading="lazy">
+                            <div class="memory-overlay">Event 3</div>
+                        </div>
+                        <div class="memory-item">
+                            <img src="assets/fashion3.jpg" alt="Fashion Photography 3" loading="lazy">
+                            <div class="memory-overlay">Fashion 3</div>
+                        </div>
+                        <div class="memory-item">
+                            <img src="assets/wedding4.jpg" alt="Wedding Photography 4" loading="lazy">
+                            <div class="memory-overlay">Wedding 4</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="social-section">
+                <h3>🌐 Follow Us On:</h3>
+                <div class="social-slider">
+                    <div class="social-track">
+                        <a href="https://www.instagram.com/digitalstorystudio/" class="social-item" target="_blank">
+                            <i class="fab fa-instagram"></i>
+                            <span>Instagram</span>
+                        </a>
+                        <a href="https://www.youtube.com/channel/UCElZTJcE8x4mt1HCghZFBuw" class="social-item" target="_blank">
+                            <i class="fab fa-youtube"></i>
+                            <span>YouTube</span>
+                        </a>
+                        <a href="#" class="social-item" target="_blank">
+                            <i class="fas fa-heart"></i>
+                            <span>WedMeGood</span>
+                        </a>
+                        <a href="#" class="social-item" target="_blank">
+                            <i class="fas fa-ring"></i>
+                            <span>WeddingWire</span>
+                        </a>
+                        <a href="#" class="social-item" target="_blank">
+                            <i class="fas fa-shopping-bag"></i>
+                            <span>WeddingBazaar</span>
+                        </a>
+                        <a href="#" class="social-item" target="_blank">
+                            <i class="fas fa-store"></i>
+                            <span>SaadiDukan</span>
+                        </a>
+                        <a href="#" class="social-item" target="_blank">
+                            <i class="fas fa-phone-alt"></i>
+                            <span>Justdial</span>
+                        </a>
+                        <a href="#" class="social-item" target="_blank">
+                            <i class="fas fa-search"></i>
+                            <span>Sulekha</span>
+                        </a>
+                        <a href="https://www.facebook.com/DigitalStorystudios" class="social-item" target="_blank">
+                            <i class="fab fa-facebook-f"></i>
+                            <span>Facebook</span>
+                        </a>
+                        <!-- Duplicate for seamless loop -->
+                        <a href="https://www.instagram.com/digitalstorystudio/" class="social-item" target="_blank">
+                            <i class="fab fa-instagram"></i>
+                            <span>Instagram</span>
+                        </a>
+                        <a href="https://www.youtube.com/channel/UCElZTJcE8x4mt1HCghZFBuw" class="social-item" target="_blank">
+                            <i class="fab fa-youtube"></i>
+                            <span>YouTube</span>
+                        </a>
+                        <a href="#" class="social-item" target="_blank">
+                            <i class="fas fa-heart"></i>
+                            <span>WedMeGood</span>
+                        </a>
+                        <a href="#" class="social-item" target="_blank">
+                            <i class="fas fa-ring"></i>
+                            <span>WeddingWire</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Footer Bottom -->
+            <div class="footer-bottom">
+                <div class="footer-bottom-left">
+                    <div class="designed-by">
+                        designed by 
+                        <a href="https://www.instagram.com/lostinhack/" target="_blank">
+                            Lostinhack <i class="fab fa-instagram"></i>
+                        </a>
+                    </div>
+                    <div class="visitor-counter">
+                        Visitors: <span id="visitorCount">100000</span>
+                    </div>
+                </div>
+                
+                <div class="copyright">
+                    © <span id="currentYear">2025</span> Digital Story Studio. All Rights Reserved.
+                </div>
+                
+                <div class="footer-links-bottom">
+                    <a href="privacy-policy.html">Privacy</a>
+                    <a href="privacy-policy.html">Terms</a>
+                </div>
+            </div>
+        </footer>
+        
+    </div> 
+    </div>
+
+    <script>
+        // Share functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const shareButtons = document.querySelectorAll('.share-btn');
+            const currentUrl = window.location.href;
+            const title = document.querySelector('.post-title').textContent;
+            
+            shareButtons.forEach(btn => {
+                btn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    if (this.classList.contains('facebook')) {
+                        window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(currentUrl)}`, '_blank', 'width=600,height=400');
+                    } else if (this.classList.contains('twitter')) {
+                        window.open(`https://twitter.com/intent/tweet?url=${encodeURIComponent(currentUrl)}&text=${encodeURIComponent(title)}`, '_blank', 'width=600,height=400');
+                    } else if (this.classList.contains('whatsapp')) {
+                        window.open(`https://wa.me/?text=${encodeURIComponent(title + ' ' + currentUrl)}`, '_blank');
+                    } else if (this.classList.contains('linkedin')) {
+                        window.open(`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(currentUrl)}`, '_blank', 'width=600,height=400');
+                    }
+                });
+            });
+
+            // Newsletter form
+            const newsletterForm = document.querySelector('.newsletter-form');
+            if (newsletterForm) {
+                newsletterForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    const email = this.querySelector('input[type="email"]').value;
+                    if (email) {
+                        alert('Thank you for subscribing! We\'ll keep you updated with the latest photography tips.');
+                        this.querySelector('input[type="email"]').value = '';
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+</html>
