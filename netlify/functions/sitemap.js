@@ -1,37 +1,26 @@
-import { createClient } from "@supabase/supabase-js";
-
-const supabase = createClient(
-  "https://zkekqsvnbfelsuqkuwoz.supabase.co",
-  "sb_publishable__cvthxlZb5tbI4UyNXwbkg_bDLjseJ0"
-);
-
 export async function handler() {
-  const { data, error } = await supabase
-    .from("posts")
-    .select("slug, updated_at")
-    .eq("status", "published");
+  const res = await fetch(
+    "https://zkekqsvnbfelsuqkuwoz.supabase.co/rest/v1/posts?select=slug",
+    {
+      headers: {
+        apikey: process.env.SUPABASE_ANON_KEY,
+      },
+    }
+  );
 
-  if (error) {
-    return {
-      statusCode: 500,
-      body: "Error generating sitemap",
-    };
-  }
+  const posts = await res.json();
 
-  const urls = data
+  const urls = posts
     .map(
-      (p) => `
-  <url>
-    <loc>https://digitalstorystudio.in/Blog/post.html?slug=${p.slug}</loc>
-    <lastmod>${new Date(p.updated_at).toISOString()}</lastmod>
-  </url>`
+      (p) =>
+        `<url><loc>https://digitalstorystudio.in/blog/post.html?slug=${p.slug}</loc></url>`
     )
     .join("");
 
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-${urls}
-</urlset>`;
+  <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+    ${urls}
+  </urlset>`;
 
   return {
     statusCode: 200,
