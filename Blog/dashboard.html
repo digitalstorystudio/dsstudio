@@ -3,131 +3,212 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Admin Dashboard</title>
+  <title>Dashboard – Digital Story Studio</title>
 
   <link rel="stylesheet" href="./blog-styles.css" />
 
   <style>
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background: #0b0f1a;
-      color: #fff;
+    body{
+      margin:0;
+      font-family:Inter, Arial, sans-serif;
+      background:#050816;
+      color:#e5e7eb;
     }
 
-    .dashboard {
-      max-width: 1100px;
-      margin: auto;
-      padding: 30px 20px;
+    .layout{
+      display:flex;
+      min-height:100vh;
     }
 
-    .topbar {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 25px;
+    /* SIDEBAR */
+    .sidebar{
+      width:240px;
+      background:rgba(15,23,42,0.9);
+      backdrop-filter:blur(20px);
+      border-right:1px solid #111827;
+      padding:20px;
     }
 
-    .title {
-      font-size: 26px;
-      font-weight: bold;
-      color: #00d9ff;
+    .logo{
+      font-size:18px;
+      font-weight:700;
+      color:#22d3ee;
+      margin-bottom:30px;
     }
 
-    .btn {
-      background: linear-gradient(135deg, #00d9ff, #0077ff);
-      border: none;
-      padding: 10px 18px;
-      border-radius: 8px;
-      color: #fff;
-      cursor: pointer;
-      font-weight: bold;
+    .menu a{
+      display:block;
+      padding:10px 12px;
+      border-radius:8px;
+      color:#cbd5e1;
+      text-decoration:none;
+      margin-bottom:6px;
+      font-size:14px;
     }
 
-    .btn:hover {
-      opacity: 0.9;
+    .menu a:hover{
+      background:#0f172a;
+      color:#22d3ee;
     }
 
-    .card {
-      background: #111827;
-      border-radius: 12px;
-      padding: 20px;
-      box-shadow: 0 0 20px rgba(0,0,0,0.3);
+    /* MAIN */
+    .main{
+      flex:1;
+      padding:30px;
     }
 
-    table {
-      width: 100%;
-      border-collapse: collapse;
+    .topbar{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      margin-bottom:25px;
     }
 
-    th, td {
-      padding: 14px;
-      text-align: left;
-      border-bottom: 1px solid #1f2937;
+    .title{
+      font-size:24px;
+      font-weight:600;
     }
 
-    th {
-      color: #9ca3af;
-      font-size: 13px;
-      text-transform: uppercase;
+    .btn{
+      background:linear-gradient(135deg,#22d3ee,#6366f1);
+      border:none;
+      padding:10px 18px;
+      border-radius:10px;
+      color:#000;
+      font-weight:600;
+      cursor:pointer;
     }
 
-    .action-btn {
-      padding: 6px 12px;
-      border-radius: 6px;
-      border: none;
-      cursor: pointer;
-      font-size: 12px;
-      margin-right: 6px;
+    /* CARDS */
+    .cards{
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+      gap:16px;
+      margin-bottom:25px;
     }
 
-    .edit {
-      background: #2563eb;
-      color: white;
+    .card{
+      background:rgba(15,23,42,0.8);
+      border:1px solid #111827;
+      border-radius:14px;
+      padding:18px;
+      backdrop-filter:blur(20px);
     }
 
-    .delete {
-      background: #dc2626;
-      color: white;
+    .card h3{
+      margin:0;
+      font-size:13px;
+      color:#94a3b8;
     }
 
-    .empty {
-      text-align: center;
-      padding: 40px;
-      color: #9ca3af;
+    .card p{
+      margin:6px 0 0;
+      font-size:22px;
+      font-weight:700;
+      color:#22d3ee;
+    }
+
+    /* TABLE */
+    table{
+      width:100%;
+      border-collapse:collapse;
+      background:rgba(15,23,42,0.8);
+      border-radius:14px;
+      overflow:hidden;
+    }
+
+    th,td{
+      padding:14px;
+      border-bottom:1px solid #111827;
+      font-size:14px;
+    }
+
+    th{
+      color:#94a3b8;
+      text-align:left;
+      background:#020617;
+    }
+
+    .action{
+      padding:6px 10px;
+      border:none;
+      border-radius:6px;
+      cursor:pointer;
+      font-size:12px;
+      margin-right:6px;
+    }
+
+    .edit{ background:#2563eb; color:#fff; }
+    .delete{ background:#dc2626; color:#fff; }
+
+    .empty{
+      text-align:center;
+      padding:40px;
+      color:#64748b;
     }
   </style>
 </head>
 
 <body>
 
-  <div class="dashboard">
+<div class="layout">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="logo">Digital Story CMS</div>
+
+    <nav class="menu">
+      <a href="#">Dashboard</a>
+      <a href="./admin.html">New Post</a>
+      <a href="./blog.html" target="_blank">View Blog</a>
+      <a id="logoutBtn" href="#">Logout</a>
+    </nav>
+  </aside>
+
+  <!-- MAIN -->
+  <main class="main">
 
     <div class="topbar">
-      <div class="title">Blog CMS Dashboard</div>
+      <div class="title">Dashboard</div>
       <button id="newPostBtn" class="btn">+ New Post</button>
     </div>
 
-    <div class="card">
-      <table>
-        <thead>
-          <tr>
-            <th>Title</th>
-            <th>Slug</th>
-            <th>Date</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody id="postsList">
-          <tr>
-            <td colspan="4" class="empty">Loading posts...</td>
-          </tr>
-        </tbody>
-      </table>
+    <!-- STATS -->
+    <div class="cards">
+      <div class="card">
+        <h3>Total Posts</h3>
+        <p id="totalPosts">0</p>
+      </div>
+
+      <div class="card">
+        <h3>Total Views</h3>
+        <p id="totalViews">0</p>
+      </div>
+
+      <div class="card">
+        <h3>Latest Post</h3>
+        <p id="latestPost">—</p>
+      </div>
     </div>
 
-  </div>
+    <!-- POSTS TABLE -->
+    <table>
+      <thead>
+        <tr>
+          <th>Title</th>
+          <th>Slug</th>
+          <th>Date</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody id="postsList">
+        <tr><td colspan="4" class="empty">Loading...</td></tr>
+      </tbody>
+    </table>
 
-  <script type="module" src="./dashboard.js"></script>
+  </main>
+</div>
+
+<script type="module" src="./dashboard.js"></script>
 </body>
 </html>
