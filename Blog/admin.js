@@ -1,88 +1,98 @@
 import { supabase } from "./supabase.js";
 
-/* ================= IMAGE OPTIMIZE UPLOAD ================= */
+const titleInput = document.getElementById("title");
+const slugInput = document.getElementById("slug");
+const seoTitleInput = document.getElementById("seoTitle");
+const metaDescInput = document.getElementById("metaDesc");
+const saveBtn = document.getElementById("saveBtn");
 
-async function uploadOptimizedImage(file) {
-  const formData = new FormData();
-  formData.append("file", file);
-
-  const res = await fetch("/.netlify/functions/optimize-image", {
-    method: "POST",
-    body: JSON.stringify({
-      imageUrl: URL.createObjectURL(file),
-      fileName: Date.now().toString(),
-    }),
-  });
-
-  const data = await res.json();
-
-  if (!data.url) {
-    alert("Image upload failed");
-    throw new Error("Upload failed");
-  }
-
-  return data.url;
+// 🔐 Auth check
+const { data: sessionData } = await supabase.auth.getSession();
+if (!sessionData.session) {
+  window.location.href = "/blog/admin-login.html";
 }
 
-/* ================= POST CREATE / EDIT ================= */
+// ✍️ Quill editor
+const quill = new Quill("#editor", { theme: "snow" });
 
-const form = document.getElementById("postForm");
-const fileInput = document.getElementById("image");
 
-const params = new URLSearchParams(location.search);
-const editId = params.get("edit");
+// ===== AUTO SLUG =====
+titleInput.addEventListener("input", () => {
+  slugInput.value = titleInput.value
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-|-$/g, "");
+});
 
-/* ====== EDIT MODE LOAD ====== */
-if (editId) {
-  const { data, error } = await supabase
+
+// ===== AUTO SEO GENERATOR =====
+function generateSEO() {
+  const title = titleInput.value.trim();
+  const text = quill.root.innerText.trim();
+
+  if (!title) return;
+
+  // Delhi keyword injection
+  const seoTitle = `${title} | Best Wedding Videographer in Delhi`;
+
+  // 150 char smart description
+  const metaDesc =
+    (text.slice(0, 140) || title) +
+    " – Professional wedding cinematography in Delhi by Digital Story Studio.";
+
+  seoTitleInput.value = seoTitle;
+  metaDescInput.value = metaDesc;
+}
+
+// run on typing
+titleInput.addEventListener("blur", generateSEO);
+quill.on("text-change", generateSEO);
+
+
+// ===== EDIT MODE =====
+const params = new URLSearchParams(window.location.search);
+const postId = params.get("id");
+
+if (postId) {
+  const { data } = await supabase
     .from("posts")
     .select("*")
-    .eq("id", editId)
+    .eq("id", postId)
     .single();
 
-  if (!error && data) {
-    form.title.value = data.title;
-    form.slug.value = data.slug;
-    document.getElementById("content").value = data.content || "";
+  if (data) {
+    titleInput.value = data.title;
+    slugInput.value = data.slug;
+    quill.root.innerHTML = data.content;
+    seoTitleInput.value = data.seo_title || "";
+    metaDescInput.value = data.meta_description || "";
   }
 }
 
-/* ====== SUBMIT ====== */
-form.addEventListener("submit", async (e) => {
-  e.preventDefault();
 
-  const title = form.title.value.trim();
-  const slug = form.slug.value.trim();
-  const content = document.getElementById("content").value;
+// ===== SAVE POST =====
+saveBtn.addEventListener("click", async () => {
+  const title = titleInput.value.trim();
+  const slug = slugInput.value.trim();
+  const content = quill.root.innerHTML;
+  const seo_title = seoTitleInput.value.trim();
+  const meta_description = metaDescInput.value.trim();
 
-  let imageUrl = "";
-
-  const file = fileInput?.files?.[0];
-
-  /* ==== Upload optimized image if selected ==== */
-  if (file) {
-    try {
-      imageUrl = await uploadOptimizedImage(file);
-    } catch (err) {
-      console.error(err);
-      return;
-    }
+  if (!title || !slug || !content) {
+    alert("Fill all fields");
+    return;
   }
 
-  const payload = {
-    title,
-    slug,
-    content,
-    image_url: imageUrl || null,
-  };
-
-  /* ===== INSERT or UPDATE ===== */
-  if (editId) {
-    await supabase.from("posts").update(payload).eq("id", editId);
+  if (postId) {
+    await supabase
+      .from("posts")
+      .update({ title, slug, content, seo_title, meta_description })
+      .eq("id", postId);
   } else {
-    await supabase.from("posts").insert([payload]);
+    await supabase
+      .from("posts")
+      .insert({ title, slug, content, seo_title, meta_description });
   }
 
-  /* ===== Redirect to dashboard ===== */
-  location.href = "/Blog/dashboard.html";
+  window.location.href = "/blog/dashboard.html";
 });
