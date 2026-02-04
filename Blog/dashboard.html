@@ -1,90 +1,59 @@
-import { supabase } from "./supabase.js";
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Admin Dashboard – Digital Story Studio</title>
 
-const postsList = document.getElementById("postsList");
-const totalPosts = document.getElementById("totalPosts");
-const totalViews = document.getElementById("totalViews");
-const latestPost = document.getElementById("latestPost");
+  <link rel="stylesheet" href="./blog-styles.css" />
+</head>
 
+<body>
 
-// 🔐 Auth check
-const { data: sessionData } = await supabase.auth.getSession();
-if (!sessionData.session) {
-  window.location.href = "/blog/admin-login.html";
-}
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <h2>📊 CMS</h2>
+    <nav>
+      <a href="dashboard.html">Dashboard</a>
+      <a href="admin.html">New Post</a>
+      <a href="blog.html">View Blog</a>
+      <a id="logoutBtn">Logout</a>
+    </nav>
+  </aside>
 
+  <!-- Main -->
+  <main class="main">
 
-// 📥 Load posts
-async function loadDashboard() {
-  const { data, error } = await supabase
-    .from("posts")
-    .select("*")
-    .order("created_at", { ascending: false });
+    <h1>Dashboard</h1>
 
-  if (error) {
-    postsList.innerHTML =
-      `<tr><td colspan="4" class="empty">Error loading</td></tr>`;
-    console.error(error);
-    return;
-  }
+    <!-- Stats -->
+    <section class="stats">
+      <div class="card">
+        <h3 id="totalPosts">0</h3>
+        <p>Total Posts</p>
+      </div>
 
-  if (!data.length) {
-    postsList.innerHTML =
-      `<tr><td colspan="4" class="empty">No posts yet</td></tr>`;
-    return;
-  }
+      <div class="card">
+        <h3 id="totalViews">0</h3>
+        <p>Total Views</p>
+      </div>
 
-  // Stats
-  totalPosts.textContent = data.length;
-  totalViews.textContent = data.reduce((sum,p)=>sum+(p.views||0),0);
-  latestPost.textContent = data[0].title;
+      <div class="card">
+        <h3 id="latestPost">—</h3>
+        <p>Latest Post</p>
+      </div>
+    </section>
 
-  postsList.innerHTML = "";
+    <!-- Posts list -->
+    <section>
+      <h2>All Posts</h2>
+      <div id="postsList" class="posts"></div>
+    </section>
 
-  data.forEach(post => {
-    const tr = document.createElement("tr");
+  </main>
 
-    tr.innerHTML = `
-      <td>${post.title}</td>
-      <td>${post.slug}</td>
-      <td>${new Date(post.created_at).toLocaleDateString()}</td>
-      <td>
-        <button class="action edit" data-id="${post.id}">Edit</button>
-        <button class="action delete" data-id="${post.id}">Delete</button>
-      </td>
-    `;
+  <!-- ✅ IMPORTANT: JS load -->
+  <script type="module" src="./dashboard.js"></script>
 
-    postsList.appendChild(tr);
-  });
-}
-
-
-// ❌ Delete
-postsList.addEventListener("click", async (e) => {
-  if (e.target.classList.contains("delete")) {
-    if (!confirm("Delete this post?")) return;
-
-    await supabase.from("posts").delete().eq("id", e.target.dataset.id);
-    loadDashboard();
-  }
-
-  if (e.target.classList.contains("edit")) {
-    window.location.href = `/blog/admin.html?id=${e.target.dataset.id}`;
-  }
-});
-
-
-// ➕ New post
-document.getElementById("newPostBtn").onclick = () => {
-  window.location.href = "/blog/admin.html";
-};
-
-
-// 🚪 Logout
-document.getElementById("logoutBtn").onclick = async () => {
-  await supabase.auth.signOut();
-  window.location.href = "/blog/admin-login.html";
-};
-
-
-// 🚀 Start
-loadDashboard();
+</body>
+</html>
