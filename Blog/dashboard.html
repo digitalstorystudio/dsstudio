@@ -1,214 +1,90 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Dashboard – Digital Story Studio</title>
+import { supabase } from "./supabase.js";
 
-  <link rel="stylesheet" href="./blog-styles.css" />
+const postsList = document.getElementById("postsList");
+const totalPosts = document.getElementById("totalPosts");
+const totalViews = document.getElementById("totalViews");
+const latestPost = document.getElementById("latestPost");
 
-  <style>
-    body{
-      margin:0;
-      font-family:Inter, Arial, sans-serif;
-      background:#050816;
-      color:#e5e7eb;
-    }
 
-    .layout{
-      display:flex;
-      min-height:100vh;
-    }
+// 🔐 Auth check
+const { data: sessionData } = await supabase.auth.getSession();
+if (!sessionData.session) {
+  window.location.href = "/blog/admin-login.html";
+}
 
-    /* SIDEBAR */
-    .sidebar{
-      width:240px;
-      background:rgba(15,23,42,0.9);
-      backdrop-filter:blur(20px);
-      border-right:1px solid #111827;
-      padding:20px;
-    }
 
-    .logo{
-      font-size:18px;
-      font-weight:700;
-      color:#22d3ee;
-      margin-bottom:30px;
-    }
+// 📥 Load posts
+async function loadDashboard() {
+  const { data, error } = await supabase
+    .from("posts")
+    .select("*")
+    .order("created_at", { ascending: false });
 
-    .menu a{
-      display:block;
-      padding:10px 12px;
-      border-radius:8px;
-      color:#cbd5e1;
-      text-decoration:none;
-      margin-bottom:6px;
-      font-size:14px;
-    }
+  if (error) {
+    postsList.innerHTML =
+      `<tr><td colspan="4" class="empty">Error loading</td></tr>`;
+    console.error(error);
+    return;
+  }
 
-    .menu a:hover{
-      background:#0f172a;
-      color:#22d3ee;
-    }
+  if (!data.length) {
+    postsList.innerHTML =
+      `<tr><td colspan="4" class="empty">No posts yet</td></tr>`;
+    return;
+  }
 
-    /* MAIN */
-    .main{
-      flex:1;
-      padding:30px;
-    }
+  // Stats
+  totalPosts.textContent = data.length;
+  totalViews.textContent = data.reduce((sum,p)=>sum+(p.views||0),0);
+  latestPost.textContent = data[0].title;
 
-    .topbar{
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
-      margin-bottom:25px;
-    }
+  postsList.innerHTML = "";
 
-    .title{
-      font-size:24px;
-      font-weight:600;
-    }
+  data.forEach(post => {
+    const tr = document.createElement("tr");
 
-    .btn{
-      background:linear-gradient(135deg,#22d3ee,#6366f1);
-      border:none;
-      padding:10px 18px;
-      border-radius:10px;
-      color:#000;
-      font-weight:600;
-      cursor:pointer;
-    }
+    tr.innerHTML = `
+      <td>${post.title}</td>
+      <td>${post.slug}</td>
+      <td>${new Date(post.created_at).toLocaleDateString()}</td>
+      <td>
+        <button class="action edit" data-id="${post.id}">Edit</button>
+        <button class="action delete" data-id="${post.id}">Delete</button>
+      </td>
+    `;
 
-    /* CARDS */
-    .cards{
-      display:grid;
-      grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
-      gap:16px;
-      margin-bottom:25px;
-    }
+    postsList.appendChild(tr);
+  });
+}
 
-    .card{
-      background:rgba(15,23,42,0.8);
-      border:1px solid #111827;
-      border-radius:14px;
-      padding:18px;
-      backdrop-filter:blur(20px);
-    }
 
-    .card h3{
-      margin:0;
-      font-size:13px;
-      color:#94a3b8;
-    }
+// ❌ Delete
+postsList.addEventListener("click", async (e) => {
+  if (e.target.classList.contains("delete")) {
+    if (!confirm("Delete this post?")) return;
 
-    .card p{
-      margin:6px 0 0;
-      font-size:22px;
-      font-weight:700;
-      color:#22d3ee;
-    }
+    await supabase.from("posts").delete().eq("id", e.target.dataset.id);
+    loadDashboard();
+  }
 
-    /* TABLE */
-    table{
-      width:100%;
-      border-collapse:collapse;
-      background:rgba(15,23,42,0.8);
-      border-radius:14px;
-      overflow:hidden;
-    }
+  if (e.target.classList.contains("edit")) {
+    window.location.href = `/blog/admin.html?id=${e.target.dataset.id}`;
+  }
+});
 
-    th,td{
-      padding:14px;
-      border-bottom:1px solid #111827;
-      font-size:14px;
-    }
 
-    th{
-      color:#94a3b8;
-      text-align:left;
-      background:#020617;
-    }
+// ➕ New post
+document.getElementById("newPostBtn").onclick = () => {
+  window.location.href = "/blog/admin.html";
+};
 
-    .action{
-      padding:6px 10px;
-      border:none;
-      border-radius:6px;
-      cursor:pointer;
-      font-size:12px;
-      margin-right:6px;
-    }
 
-    .edit{ background:#2563eb; color:#fff; }
-    .delete{ background:#dc2626; color:#fff; }
+// 🚪 Logout
+document.getElementById("logoutBtn").onclick = async () => {
+  await supabase.auth.signOut();
+  window.location.href = "/blog/admin-login.html";
+};
 
-    .empty{
-      text-align:center;
-      padding:40px;
-      color:#64748b;
-    }
-  </style>
-</head>
 
-<body>
-
-<div class="layout">
-
-  <!-- SIDEBAR -->
-  <aside class="sidebar">
-    <div class="logo">Digital Story CMS</div>
-
-    <nav class="menu">
-      <a href="#">Dashboard</a>
-      <a href="./admin.html">New Post</a>
-      <a href="./blog.html" target="_blank">View Blog</a>
-      <a id="logoutBtn" href="#">Logout</a>
-    </nav>
-  </aside>
-
-  <!-- MAIN -->
-  <main class="main">
-
-    <div class="topbar">
-      <div class="title">Dashboard</div>
-      <button id="newPostBtn" class="btn">+ New Post</button>
-    </div>
-
-    <!-- STATS -->
-    <div class="cards">
-      <div class="card">
-        <h3>Total Posts</h3>
-        <p id="totalPosts">0</p>
-      </div>
-
-      <div class="card">
-        <h3>Total Views</h3>
-        <p id="totalViews">0</p>
-      </div>
-
-      <div class="card">
-        <h3>Latest Post</h3>
-        <p id="latestPost">—</p>
-      </div>
-    </div>
-
-    <!-- POSTS TABLE -->
-    <table>
-      <thead>
-        <tr>
-          <th>Title</th>
-          <th>Slug</th>
-          <th>Date</th>
-          <th>Actions</th>
-        </tr>
-      </thead>
-      <tbody id="postsList">
-        <tr><td colspan="4" class="empty">Loading...</td></tr>
-      </tbody>
-    </table>
-
-  </main>
-</div>
-
-<script type="module" src="./dashboard.js"></script>
-</body>
-</html>
+// 🚀 Start
+loadDashboard();
