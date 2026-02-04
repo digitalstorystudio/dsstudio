@@ -1,21 +1,20 @@
 import { supabase } from "./supabase.js";
 
 const postsList = document.getElementById("postsList");
-const newPostBtn = document.getElementById("newPostBtn");
+const totalPosts = document.getElementById("totalPosts");
+const totalViews = document.getElementById("totalViews");
+const latestPost = document.getElementById("latestPost");
 
 
-// 🔐 Check login
-async function checkAuth() {
-  const { data } = await supabase.auth.getSession();
-
-  if (!data.session) {
-    window.location.href = "/blog/admin-login.html";
-  }
+// 🔐 Auth check
+const { data: sessionData } = await supabase.auth.getSession();
+if (!sessionData.session) {
+  window.location.href = "/blog/admin-login.html";
 }
 
 
 // 📥 Load posts
-async function loadPosts() {
+async function loadDashboard() {
   const { data, error } = await supabase
     .from("posts")
     .select("*")
@@ -23,7 +22,7 @@ async function loadPosts() {
 
   if (error) {
     postsList.innerHTML =
-      `<tr><td colspan="4" class="empty">Error loading posts</td></tr>`;
+      `<tr><td colspan="4" class="empty">Error loading</td></tr>`;
     console.error(error);
     return;
   }
@@ -33,6 +32,11 @@ async function loadPosts() {
       `<tr><td colspan="4" class="empty">No posts yet</td></tr>`;
     return;
   }
+
+  // Stats
+  totalPosts.textContent = data.length;
+  totalViews.textContent = data.reduce((sum,p)=>sum+(p.views||0),0);
+  latestPost.textContent = data[0].title;
 
   postsList.innerHTML = "";
 
@@ -44,8 +48,8 @@ async function loadPosts() {
       <td>${post.slug}</td>
       <td>${new Date(post.created_at).toLocaleDateString()}</td>
       <td>
-        <button class="action-btn edit" data-id="${post.id}">Edit</button>
-        <button class="action-btn delete" data-id="${post.id}">Delete</button>
+        <button class="action edit" data-id="${post.id}">Edit</button>
+        <button class="action delete" data-id="${post.id}">Delete</button>
       </td>
     `;
 
@@ -55,28 +59,12 @@ async function loadPosts() {
 
 
 // ❌ Delete
-async function deletePost(id) {
-  if (!confirm("Delete this post?")) return;
-
-  const { error } = await supabase
-    .from("posts")
-    .delete()
-    .eq("id", id);
-
-  if (error) {
-    alert("Delete failed");
-    console.error(error);
-    return;
-  }
-
-  loadPosts();
-}
-
-
-// 🎯 Click events
-postsList.addEventListener("click", e => {
+postsList.addEventListener("click", async (e) => {
   if (e.target.classList.contains("delete")) {
-    deletePost(e.target.dataset.id);
+    if (!confirm("Delete this post?")) return;
+
+    await supabase.from("posts").delete().eq("id", e.target.dataset.id);
+    loadDashboard();
   }
 
   if (e.target.classList.contains("edit")) {
@@ -85,11 +73,18 @@ postsList.addEventListener("click", e => {
 });
 
 
-newPostBtn.addEventListener("click", () => {
+// ➕ New post
+document.getElementById("newPostBtn").onclick = () => {
   window.location.href = "/blog/admin.html";
-});
+};
+
+
+// 🚪 Logout
+document.getElementById("logoutBtn").onclick = async () => {
+  await supabase.auth.signOut();
+  window.location.href = "/blog/admin-login.html";
+};
 
 
 // 🚀 Start
-await checkAuth();
-await loadPosts();
+loadDashboard();
