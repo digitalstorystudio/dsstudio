@@ -2,50 +2,94 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Admin Editor – Digital Story Studio</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Create Post – Digital Story CMS</title>
 
-  <!-- Global CSS -->
-  <link rel="stylesheet" href="/Css/style.css" />
+  <link rel="stylesheet" href="./blog-styles.css" />
 
-  <!-- Blog CSS -->
-  <link rel="stylesheet" href="/Blog/blog-styles.css" />
+  <!-- Quill Editor CSS -->
+  <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+
+  <style>
+    body{
+      margin:0;
+      font-family:Inter, Arial, sans-serif;
+      background:#050816;
+      color:#e5e7eb;
+      padding:30px;
+    }
+
+    .container{
+      max-width:900px;
+      margin:auto;
+      background:#0f172a;
+      padding:25px;
+      border-radius:16px;
+      border:1px solid #111827;
+    }
+
+    input, textarea{
+      width:100%;
+      padding:12px;
+      margin:10px 0 20px;
+      border-radius:10px;
+      border:none;
+      background:#020617;
+      color:#fff;
+      font-size:14px;
+    }
+
+    label{
+      font-size:13px;
+      color:#94a3b8;
+    }
+
+    #editor{
+      background:#fff;
+      color:#000;
+      border-radius:10px;
+    }
+
+    .btn{
+      background:linear-gradient(135deg,#22d3ee,#6366f1);
+      border:none;
+      padding:12px 20px;
+      border-radius:10px;
+      font-weight:600;
+      cursor:pointer;
+      margin-right:10px;
+    }
+  </style>
 </head>
 
 <body>
 
-  <main class="admin-container">
-    <h1>Create / Edit Blog Post</h1>
+<div class="container">
 
-    <!-- ===== IMPORTANT: IDs must match admin.js ===== -->
-    <form id="postForm" class="admin-form">
+  <h2>Create / Edit Blog Post</h2>
 
-      <!-- Title -->
-      <label>Post Title</label>
-      <input type="text" name="title" placeholder="Enter post title" required />
+  <label>Title</label>
+  <input id="title" placeholder="Post title" />
 
-      <!-- Slug -->
-      <label>SEO Slug</label>
-      <input type="text" name="slug" placeholder="example-my-blog-post" required />
+  <label>Slug</label>
+  <input id="slug" placeholder="post-url-slug" />
 
-      <!-- Content (Rich editor will attach here) -->
-      <label>Post Content</label>
-      <textarea id="content" placeholder="Write your blog content..."></textarea>
+  <label>Content</label>
+  <div id="editor"></div>
+  <input type="hidden" id="content" />
 
-      <!-- Image upload -->
-      <label>Featured Image</label>
-      <input type="file" id="image" accept="image/*" />
+  <br>
 
-      <!-- Submit -->
-      <button type="submit" class="btn-primary">
-        Publish Post
-      </button>
+  <button id="saveBtn" class="btn">Save Post</button>
+  <button onclick="location.href='dashboard.html'" class="btn">Back</button>
 
-    </form>
-  </main>
+</div>
 
-  <!-- ===== REQUIRED JS ===== -->
-  <script type="module" src="/Blog/admin.js"></script>
+<!-- Quill JS -->
+<script src="https://cdn.quilljs.com/1.3.6/quill.min.js"></script>
+
+<!-- Admin Logic -->
+<script type="module" src="./admin.js"></script>
 
 </body>
 </html>
