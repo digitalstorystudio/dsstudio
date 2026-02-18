@@ -643,12 +643,12 @@ Total: ${sanitizedTotalPrice}
 Additional Services: ${sanitizedAddons}
 Event Details: ${sanitizedEventDetails}
 
-Contact: +91-93183 44023
+Contact: +91-88106 96407
 Website: digitalstorystudio.in`;
 
         // Use secure URL encoding
         const encodedText = SecurityUtils.encodeURLParam(shareText);
-        const whatsappUrl = `https://wa.me/919318344023?text=${encodedText}`;
+        const whatsappUrl = `https://wa.me/918810696407?text=${encodedText}`;
         
         window.open(whatsappUrl, '_blank', 'noopener,noreferrer');
     }
