@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Admin Dashboard – Digital Story Studio</title>
+  <meta name="robots" content="noindex, nofollow">
+
+
+  <link rel="stylesheet" href="./blog-styles.css" />
+</head>
+
+<body>
+
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <h2>📊 CMS</h2>
+    <nav>
+      <a href="dashboard.html">Dashboard</a>
+      <a href="admin.html">New Post</a>
+      <a href="blog.html">View Blog</a>
+      <a id="logoutBtn">Logout</a>
+    </nav>
+  </aside>
+
+  <!-- Main -->
+  <main class="main">
+
+    <h1>Dashboard</h1>
+
+    <!-- Stats -->
+    <section class="stats">
+      <div class="card">
+        <h3 id="totalPosts">0</h3>
+        <p>Total Posts</p>
+      </div>
+
+      <div class="card">
+        <h3 id="totalViews">0</h3>
+        <p>Total Views</p>
+      </div>
+
+      <div class="card">
+        <h3 id="latestPost">—</h3>
+        <p>Latest Post</p>
+      </div>
+    </section>
+
+    <!-- Posts list -->
+    <section>
+      <h2>All Posts</h2>
+      <div id="postsList" class="posts"></div>
+    </section>
+
+  </main>
+
+  <!-- ✅ IMPORTANT: JS load -->
+  <script type="module" src="./dashboard.js"></script>
+
+</body>
+</html>

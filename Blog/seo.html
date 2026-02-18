@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>AI SEO Analyzer – Digital Story Studio</title>
+  <meta name="robots" content="noindex, nofollow">
+</head>
+
+<body style="font-family:Arial, sans-serif; max-width:900px; margin:auto; padding:30px;">
+
+  <h1>AI SEO Analyzer</h1>
+
+  <label>Target Keyword</label><br>
+  <input id="keyword" style="width:100%; padding:10px;"
+    placeholder="e.g. wedding videographer in Delhi"><br><br>
+
+  <label>Blog Content</label><br>
+  <textarea id="content" rows="12" style="width:100%; padding:10px;"
+    placeholder="Paste full blog content here..."></textarea><br><br>
+
+  <button onclick="analyzeSEO()" style="padding:10px 16px; cursor:pointer;">
+    Analyze SEO
+  </button>
+
+  <button onclick="suggestTopics()" style="padding:10px 16px; cursor:pointer;">
+    Suggest Blog Topics
+  </button>
+
+  <h2 id="score" style="margin-top:25px;"></h2>
+  <p id="tips"></p>
+
+  <h3>Suggested Topics</h3>
+  <ul id="topics"></ul>
+
+  <script type="module" src="./seo.js"></script>
+</body>
+</html>

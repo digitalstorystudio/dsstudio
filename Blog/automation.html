@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+  <title>Business Automation Dashboard – Digital Story Studio</title>
+
+  <!-- 🔒 IMPORTANT: prevent Google indexing -->
+  <meta name="robots" content="noindex, nofollow">
+
+  <!-- CMS Theme -->
+  <link rel="stylesheet" href="./blog-styles.css">
+
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body class="cms">
+
+  <!-- ===== SIDEBAR ===== -->
+  <div class="sidebar">
+    <h2>Digital CMS</h2>
+
+    <a href="dashboard.html">Dashboard</a>
+    <a href="admin.html">New Post</a>
+    <a href="crm.html">Leads</a>
+    <a href="automation.html">Analytics</a>
+    <a href="seo.html">AI SEO</a>
+  </div>
+
+
+  <!-- ===== MAIN CONTENT ===== -->
+  <div class="main">
+
+    <h1>📊 Business Automation Dashboard</h1>
+
+    <!-- ===== SUMMARY CARDS ===== -->
+    <div class="cards">
+
+      <div class="card">
+        <h3>Total Leads</h3>
+        <h2 id="totalLeads">0</h2>
+      </div>
+
+      <div class="card">
+        <h3>Total Bookings</h3>
+        <h2 id="totalBookings">0</h2>
+      </div>
+
+      <div class="card">
+        <h3>Total Revenue</h3>
+        <h2 id="totalRevenue">₹0</h2>
+      </div>
+
+      <div class="card">
+        <h3>Conversion Rate</h3>
+        <h2 id="conversion">0%</h2>
+      </div>
+
+    </div>
+
+
+    <!-- ===== REVENUE GRAPH ===== -->
+    <h2>Monthly Revenue</h2>
+    <canvas id="revenueChart" height="120"></canvas>
+
+
+    <!-- ===== TOP POSTS ===== -->
+    <h2 style="margin-top:40px;">Top Performing Posts</h2>
+    <ul id="topPosts"></ul>
+
+  </div>
+
+
+  <!-- ===== LOGIC ===== -->
+  <script type="module" src="./automation.js"></script>
+
+</body>
+</html>
