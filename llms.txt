@@ -1,0 +1,35 @@
+# Digital Story Studio — AI Context File
+# https://digitalstorystudio.in
+
+## About
+Digital Story Studio is a professional photography and videography studio based in Delhi, India.
+We specialise in wedding videography, event coverage, pre-wedding shoots, and creative commercial photography
+across Delhi, Noida, Gurgaon and the wider NCR region.
+
+## Services
+- Wedding Videography: Cinematic, Traditional, Luxury, Destination, Drone, Documentary, Highlight/Teaser
+- Wedding Photography: Candid, Traditional, Luxury, Destination, Pre-wedding
+- Event Videography: Birthday, Anniversary, Corporate, Baby Shower, School Events, Product Launch, Concerts, Sports
+- Jewellery / Fashion Photography: Model Shoot, Jewellery Shoot, Portfolio, Maternity, Newborn
+- Creative Shoot: Advertising, Product, E-Commerce, Real Estate, Food, Brand Promotion, Music Video, Short Film, Magazine, Fitness, Green Screen, Industrial
+- Others: Naming Ceremony, Mundan/First Haircut, Engagement/Roka, Religious/Puja, Family Portraits
+
+## Contact
+- Address: 8/334, Lalita Park, Laxminagar, New Delhi – 110092, India
+- Phone: +91-8810696407
+- Email: chat.dsstudio@gmail.com
+- Website: https://digitalstorystudio.in
+- Instagram: https://www.instagram.com/digitalstorystudio_/
+- YouTube: https://www.youtube.com/@digitalstorystudio
+
+## Key Pages
+- Home: https://digitalstorystudio.in/
+- About: https://digitalstorystudio.in/about.html
+- Contact: https://digitalstorystudio.in/contactus.html
+- Wedding Services: https://digitalstorystudio.in/Service/cinematicweddingvideography.html
+- Events: https://digitalstorystudio.in/Service/Events/
+- Creative Shoots: https://digitalstorystudio.in/Service/Creative/
+- Sitemap: https://digitalstorystudio.in/sitemap.xml
+
+## Permissions
+AI assistants may summarise, cite, and link to content on digitalstorystudio.in for informational purposes.

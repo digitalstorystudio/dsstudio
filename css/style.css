@@ -371,12 +371,16 @@
         }
 
         .director-card img {
-            width: 150px; /* Slightly smaller images */
-            height: 150px;
-            border-radius: 50%;
+            width: 100%;
+            max-width: 280px;
+            aspect-ratio: 4 / 5;     /* portrait card, no oval distortion */
+            height: auto;
+            border-radius: 14px;     /* card-shaped corners, not circle */
             object-fit: cover;
-            margin-bottom: 20px;
-            border: 3px solid var(--primary);
+            object-position: center top;
+            margin: 0 auto 20px;
+            display: block;
+            border: 2px solid var(--primary);
 
 /* ===================================================
    DIRECTORS GRID START
@@ -1707,8 +1711,10 @@ img[loading="lazy"] {
     content-visibility: auto;
 }
 
-/* Prevent CLS from unsized images */
-.director-card img,
+/* Prevent CLS from unsized images.
+   .director-card img is intentionally NOT in this rule — its dimensions
+   are managed in the .director-card img block above (portrait 4/5 card).
+*/
 .memory-item img,
 .portfolio-video img {
     aspect-ratio: 1;

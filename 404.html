@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="google-adsense-account" content="ca-pub-8260403690025239">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Page Not Found (404) | Digital Story Studio</title>
+    <meta name="description" content="The page you're looking for doesn't exist. Browse Digital Story Studio's wedding photography & videography services across Delhi NCR.">
+    <meta name="robots" content="noindex, follow">
+    <link rel="canonical" href="https://digitalstorystudio.in/404.html">
+
+    <meta property="og:title" content="Page Not Found | Digital Story Studio">
+    <meta property="og:description" content="The page you're looking for doesn't exist. Find what you need below or call us.">
+    <meta property="og:image" content="https://digitalstorystudio.in/assets/logo.jpeg">
+    <meta property="og:type" content="website">
+    <meta property="og:locale" content="en_IN">
+
+    <!-- Favicon -->
+    <link rel="icon" href="assets/logo.jpeg" type="image/jpeg">
+    <link rel="apple-touch-icon" href="assets/logo.jpeg">
+    <link rel="shortcut icon" href="assets/logo.jpeg">
+
+    <!-- External Stylesheets -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/nav.css">
+
+    <!-- 404-page-specific styles, layered on top of the site theme -->
+    <style>
+        :root {
+            --primary: #00f0ff;
+            --primary-dark: #008cff;
+            --text-light: #b0b0ff;
+            --bg-dark: #0a0a1a;
+            --bg-panel: rgba(10, 15, 39, 0.6);
+        }
+
+        body.error-page {
+            background: linear-gradient(135deg, #0a0a1a 0%, #0d0d26 50%, #0a0a1a 100%);
+            color: #fff;
+            font-family: 'Montserrat', sans-serif;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Subtle animated grid backdrop matching the cyan futuristic theme */
+        body.error-page::before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            background-image:
+                linear-gradient(rgba(0, 240, 255, 0.04) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 240, 255, 0.04) 1px, transparent 1px);
+            background-size: 60px 60px;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .error-wrap {
+            position: relative;
+            z-index: 1;
+            min-height: calc(100vh - var(--top-bar-height-desktop) - var(--navbar-height-desktop));
+            padding: 80px 24px 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .error-card {
+            max-width: 880px;
+            width: 100%;
+            text-align: center;
+            background: var(--bg-panel);
+            border: 1px solid rgba(0, 240, 255, 0.15);
+            border-radius: 16px;
+            padding: 60px 40px 50px;
+            backdrop-filter: blur(8px);
+            box-shadow: 0 0 40px rgba(0, 240, 255, 0.08),
+                        inset 0 0 60px rgba(0, 240, 255, 0.03);
+        }
+
+        .error-code {
+            font-size: clamp(5.5rem, 18vw, 11rem);
+            font-weight: 800;
+            line-height: 0.9;
+            letter-spacing: -0.04em;
+            color: var(--primary);
+            text-shadow: 0 0 30px rgba(0, 240, 255, 0.5),
+                         0 0 60px rgba(0, 240, 255, 0.25);
+            margin-bottom: 4px;
+            animation: glowPulse 2.4s ease-in-out infinite alternate;
+        }
+
+        @keyframes glowPulse {
+            from { text-shadow: 0 0 25px rgba(0, 240, 255, 0.4),
+                                0 0 45px rgba(0, 240, 255, 0.15); }
+            to   { text-shadow: 0 0 35px rgba(0, 240, 255, 0.7),
+                                0 0 80px rgba(0, 240, 255, 0.35); }
+        }
+
+        .error-tag {
+            color: var(--text-light);
+            text-transform: uppercase;
+            letter-spacing: 0.4em;
+            font-size: 0.78rem;
+            margin-bottom: 24px;
+            opacity: 0.85;
+        }
+
+        .error-card h1 {
+            font-size: clamp(1.5rem, 3.4vw, 2.4rem);
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 18px;
+            letter-spacing: -0.01em;
+        }
+
+        .error-card p.lead {
+            font-size: 1.05rem;
+            color: var(--text-light);
+            max-width: 560px;
+            margin: 0 auto 14px;
+            line-height: 1.6;
+        }
+
+        .error-card p.hindi {
+            font-family: 'Noto Sans Devanagari', 'Mangal', sans-serif;
+            color: var(--text-light);
+            opacity: 0.85;
+            font-size: 1rem;
+            margin-bottom: 36px;
+        }
+
+        .error-actions {
+            display: flex;
+            gap: 14px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 40px;
+        }
+
+        .err-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 14px 28px;
+            border-radius: 30px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            font-size: 0.88rem;
+            text-decoration: none;
+            transition: all 0.25s ease;
+            border: 2px solid transparent;
+            cursor: pointer;
+        }
+
+        .err-btn-primary {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: #0a0a1a;
+            box-shadow: 0 0 20px rgba(0, 240, 255, 0.35);
+        }
+        .err-btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 0 30px rgba(0, 240, 255, 0.6);
+        }
+
+        .err-btn-ghost {
+            background: transparent;
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+        .err-btn-ghost:hover {
+            background: rgba(0, 240, 255, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .err-btn-whatsapp {
+            background: #25d366;
+            color: #fff;
+        }
+        .err-btn-whatsapp:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 0 20px rgba(37, 211, 102, 0.5);
+        }
+
+        .quick-section {
+            margin-top: 12px;
+            padding-top: 32px;
+            border-top: 1px solid rgba(0, 240, 255, 0.12);
+        }
+
+        .quick-section h2 {
+            font-size: 0.9rem;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            color: var(--primary);
+            margin-bottom: 22px;
+            font-weight: 600;
+        }
+
+        .quick-grid {
+            list-style: none;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 10px;
+            padding: 0;
+            margin: 0;
+        }
+
+        .quick-grid li a {
+            display: block;
+            padding: 12px 16px;
+            background: rgba(0, 240, 255, 0.04);
+            border: 1px solid rgba(0, 240, 255, 0.1);
+            border-radius: 8px;
+            color: #e0e6ff;
+            text-decoration: none;
+            font-size: 0.92rem;
+            font-weight: 500;
+            transition: all 0.2s ease;
+            text-align: left;
+        }
+        .quick-grid li a:hover {
+            background: rgba(0, 240, 255, 0.12);
+            border-color: var(--primary);
+            color: #fff;
+            transform: translateX(2px);
+        }
+        .quick-grid li a i {
+            color: var(--primary);
+            margin-right: 8px;
+            font-size: 0.85rem;
+        }
+
+        /* Compact footer for the 404 — keeps the page tight */
+        .error-footer {
+            position: relative;
+            z-index: 1;
+            background: rgba(10, 10, 26, 0.95);
+            border-top: 1px solid rgba(0, 240, 255, 0.12);
+            padding: 24px;
+            text-align: center;
+            color: var(--text-light);
+            font-size: 0.88rem;
+        }
+        .error-footer a {
+            color: var(--primary);
+            text-decoration: none;
+        }
+        .error-footer a:hover { text-decoration: underline; }
+        .error-footer .sep { opacity: 0.4; margin: 0 8px; }
+
+        @media (max-width: 640px) {
+            .error-card { padding: 40px 22px 36px; }
+            .err-btn { padding: 12px 20px; font-size: 0.82rem; }
+            .error-wrap { padding: 60px 16px 40px; }
+        }
+    </style>
+</head>
+
+<body class="error-page">
+
+    <div class="main-website">
+
+        <!-- Top Bar — same as the rest of the site -->
+        <div class="top-bar">
+            <div class="top-bar-left">
+                <a href="contactus.html" class="top-bar-item location" aria-label="Location">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <span>8/334, Lalita Park, Laxminagar, New Delhi 110092</span>
+                </a>
+            </div>
+            <div class="top-bar-right">
+                <a href="mailto:chat.dsstudio@gmail.com" class="top-bar-item email" aria-label="Email">
+                    <i class="fas fa-envelope"></i>
+                    <span>chat.dsstudio@gmail.com</span>
+                </a>
+                <a href="https://www.youtube.com/channel/UCElZTJcE8x4mt1HCghZFBuw/?sub_confirmation=1" target="_blank" rel="noopener" class="top-bar-item youtube" aria-label="YouTube">
+                    <i class="fab fa-youtube"></i>
+                </a>
+                <a href="https://www.instagram.com/digitalstorystudio/" target="_blank" rel="noopener" class="top-bar-item instagram" aria-label="Instagram">
+                    <i class="fab fa-instagram"></i>
+                </a>
+                <a href="https://www.facebook.com/DigitalStorystudios" target="_blank" rel="noopener" class="top-bar-item facebook" aria-label="Facebook">
+                    <i class="fab fa-facebook-f"></i>
+                </a>
+                <a href="tel:+91-8810696407" class="top-bar-item contact" aria-label="Contact Number">
+                    <i class="fas fa-phone"></i>
+                    <span>+91-8810696407</span>
+                </a>
+            </div>
+        </div>
+
+        <!-- Simplified navbar that matches site styling -->
+        <nav class="navbar" id="navbar" style="position:sticky;">
+            <div class="logo-wrapper">
+                <a href="index.html" class="logo-link">
+                    <img src="assets/logo.jpeg" alt="Digital Story Studio Logo" class="logo" loading="lazy">
+                    <span class="logo-text">Digital Story Studio</span>
+                </a>
+            </div>
+            <ul class="nav-links" id="navLinks">
+                <li class="nav-item"><a href="index.html" class="nav-link">Home</a></li>
+                <li class="nav-item"><a href="about.html" class="nav-link">About</a></li>
+                <li class="nav-item"><a href="contactus.html" class="nav-link">Services</a></li>
+                <li class="nav-item"><a href="Ourwork/destination-wedding.html" class="nav-link">Our Work</a></li>
+                <li class="nav-item"><a href="contactus.html" class="nav-link">Contact</a></li>
+            </ul>
+        </nav>
+
+        <main class="error-wrap">
+            <div class="error-card">
+                <div class="error-code">404</div>
+                <div class="error-tag">Page Not Found</div>
+
+                <h1>This page got camera-shy.</h1>
+                <p class="lead">
+                    The page you're looking for doesn't exist or has been moved.
+                    But your shoot — wedding, event, fashion, corporate, brand or
+                    family — still deserves cinematic coverage. Let's get you back on track.
+                </p>
+                <p class="hindi">
+                    यह पेज मौजूद नहीं है। नीचे दिए गए लिंक से अपनी ज़रूरत का पेज चुनें या हमें सीधे कॉल करें।
+                </p>
+
+                <div class="error-actions">
+                    <a href="index.html" class="err-btn err-btn-primary">
+                        <i class="fas fa-home"></i> Back to Home
+                    </a>
+                    <a href="tel:+91-8810696407" class="err-btn err-btn-ghost">
+                        <i class="fas fa-phone"></i> Call +91 88106 96407
+                    </a>
+                    <a href="https://wa.me/918810696407" rel="nofollow noopener" class="err-btn err-btn-whatsapp">
+                        <i class="fab fa-whatsapp"></i> WhatsApp Us
+                    </a>
+                </div>
+
+                <div class="quick-section">
+                    <h2>Where do you want to go?</h2>
+                    <ul class="quick-grid">
+                        <li><a href="Service/cinematicweddingvideography.html"><i class="fas fa-video"></i>Wedding Videography</a></li>
+                        <li><a href="Service/candidphotography.html"><i class="fas fa-camera-retro"></i>Wedding Photography</a></li>
+                        <li><a href="Service/preweddingshoot.html"><i class="fas fa-heart"></i>Pre-Wedding Shoot</a></li>
+                        <li><a href="Service/Events/corporateeventvideography.html"><i class="fas fa-briefcase"></i>Corporate Events</a></li>
+                        <li><a href="Service/Events/musicconcertvideography.html"><i class="fas fa-music"></i>Music Concerts</a></li>
+                        <li><a href="Service/Jewellery/fashionshootphotography.html"><i class="fas fa-tshirt"></i>Fashion Shoots</a></li>
+                        <li><a href="Service/Jewellery/modelphotography.html"><i class="fas fa-user"></i>Model Photography</a></li>
+                        <li><a href="Service/Jewellery/jewelleryluxuryproductvideography.html"><i class="fas fa-gem"></i>Jewellery & Luxury Product</a></li>
+                        <li><a href="Service/Creative/ecommerceproductshoot.html"><i class="fas fa-box"></i>Product / E-commerce</a></li>
+                        <li><a href="Service/Creative/realestateinteriorshoot.html"><i class="fas fa-home"></i>Real Estate / Interior</a></li>
+                        <li><a href="Service/Creative/musicvideoshoot.html"><i class="fas fa-film"></i>Music Video / Ad Film</a></li>
+                        <li><a href="Service/Others/birthdaypartyshoot.html"><i class="fas fa-birthday-cake"></i>Birthday &amp; Anniversary</a></li>
+                        <li><a href="Service/Others/maternitybabyshowershoot.html"><i class="fas fa-baby"></i>Maternity &amp; Newborn</a></li>
+                        <li><a href="Service/droneweddingvideography.html"><i class="fas fa-helicopter"></i>Drone Videography</a></li>
+                        <li><a href="locations/index.html"><i class="fas fa-map-marker-alt"></i>All Service Areas</a></li>
+                        <li><a href="contactus.html"><i class="fas fa-envelope"></i>Contact &amp; Booking</a></li>
+                        <li><a href="about.html"><i class="fas fa-info-circle"></i>About Us</a></li>
+                        <li><a href="sitemap.xml"><i class="fas fa-sitemap"></i>Full Sitemap</a></li>
+                    </ul>
+                </div>
+            </div>
+        </main>
+
+        <footer class="error-footer">
+            <p>
+                <strong style="color:#fff;">Digital Story Studio</strong>
+                <span class="sep">·</span>
+                8/334 Lalita Park, Laxminagar, New Delhi 110092
+            </p>
+            <p style="margin-top:6px;">
+                <a href="tel:+91-8810696407">+91-8810696407</a>
+                <span class="sep">·</span>
+                <a href="mailto:chat.dsstudio@gmail.com">chat.dsstudio@gmail.com</a>
+                <span class="sep">·</span>
+                <a href="index.html">Home</a>
+                <span class="sep">·</span>
+                <a href="locations/index.html">Service Areas</a>
+            </p>
+            <p style="margin-top:10px; opacity:0.5; font-size:0.78rem;">
+                &copy; Digital Story Studio. All rights reserved.
+            </p>
+        </footer>
+
+    </div>
+
+</body>
+</html>

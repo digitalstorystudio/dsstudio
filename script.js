@@ -156,9 +156,11 @@ document.addEventListener('DOMContentLoaded', function() {
         document.documentElement.style.setProperty('--header-total-height', totalH  + 'px');
 
         // Update nav-links panel top (always, so position is correct at all widths)
+        // nav-links is position:absolute inside .navbar (position:fixed),
+        // so its `top` is relative to navbar's top edge — use navbarH, not totalH
         const navLinksEl = document.getElementById('navLinks');
         if (navLinksEl) {
-            navLinksEl.style.top = totalH + 'px';
+            navLinksEl.style.top = navbarH + 'px';
             navLinksEl.style.maxHeight = (window.innerHeight - totalH) + 'px';
         }
 
@@ -692,11 +694,20 @@ function switchTab(tab) {
 
 function initSecureForms() {
     const forms = document.querySelectorAll('form');
-    
+
+    // Forms handled by forms.js (Google Sheet + email integration) —
+    // skip the CSRF/honeypot/rate-limit handler here to avoid
+    // the "Security validation failed" false positive.
+    const FORMS_HANDLED_ELSEWHERE = ['bookingForm', 'generalForm', 'destinationContactForm'];
+
     forms.forEach(form => {
+        if (FORMS_HANDLED_ELSEWHERE.indexOf(form.id) !== -1) {
+            return; // forms.js handles this one
+        }
+
         // Add security attributes
         form.setAttribute('autocomplete', 'off');
-        
+
         // Prevent multiple submissions
         let isSubmitting = false;
         

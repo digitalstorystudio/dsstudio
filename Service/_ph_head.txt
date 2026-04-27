@@ -1,0 +1,32 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
+    <meta name="author" content="Digital Story Studio">
+    <meta name="geo.region" content="IN-DL">
+    <meta name="geo.placename" content="Delhi NCR, India">
+    <meta name="geo.position" content="28.6131;77.2745708">
+    <meta name="ICBM" content="28.6131, 77.2745708">
+    <meta name="language" content="English">
+    <meta name="revisit-after" content="3 days">
+    <meta name="distribution" content="global">
+    <meta name="rating" content="general">
+    <meta property="og:site_name" content="Digital Story Studio">
+    <meta property="og:locale" content="en_IN">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@digitalstorystudio">
+    <link rel="icon" href="../assets/logo.jpeg" type="image/jpeg">
+    <link rel="apple-touch-icon" href="../assets/logo.jpeg">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/nav.css">
+    <link rel="stylesheet" href="css/servicephotography.css">
+    <script src="../script.js" defer></script>
+    <!-- PAGE_META -->
+</head>
+<body>
