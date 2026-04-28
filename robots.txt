@@ -9,7 +9,7 @@ Allow: /css/
 Disallow: /blog-system/
 Disallow: /files.zip
 Disallow: /website.zip
-Crawl-delay: 1
+# Crawl-delay removed — letting Google crawl at its own pace
 
 # AI Crawlers — allowed for indexing
 User-agent: GPTBot
