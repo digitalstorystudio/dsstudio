@@ -504,7 +504,7 @@
 
                         <!-- Booking Form -->
                         <div id="booking-form" class="form-step active">
-                            <form id="bookingForm">
+                            <form id="bookingForm" method="post">
                                 <div class="form-group-row">
                                     <div class="form-group">
                                         <label for="booking-name">Full Name *</label>
@@ -571,7 +571,7 @@
 
                         <!-- General Inquiry Form -->
                         <div id="general-form" class="form-step">
-                            <form id="generalForm">
+                            <form id="generalForm" method="post">
                                 <div class="form-group-row">
                                     <div class="form-group">
                                         <label for="general-name">Your Name *</label>
@@ -633,8 +633,8 @@
                 <!-- Newsletter Section -->
                 <div class="newsletter">
                     <h3>💌 Subscribe to Our Mailing List</h3>
-                    <form class="newsletter-form">
-                        <input type="email" class="newsletter-input" placeholder="Your Email Address" required>
+                    <form class="newsletter-form" id="newsletterForm" method="post">
+                        <input type="email" class="newsletter-input" name="email" placeholder="Your Email Address" required>
                         <button type="submit" class="newsletter-btn">Subscribe</button>
                     </form>
                 </div>
@@ -730,7 +730,7 @@
                 <div class="footer-column">
                     <h4>Explore Us</h4>
                     <ul>
-                        <li><a href="blog-system/index.html">Blog</a></li>
+
                         <li><a href="Ourwork/testimonials.html">Testimonial</a></li>
                         <li><a href="contactus.html">Package</a></li>
                         <li><a href="contactus.html">FAQs</a></li>
@@ -854,27 +854,4 @@
                             <span>WedMeGood</span>
                         </a>
                         <a href="#" class="social-item" target="_blank">
-                            <i class="fas fa-ring"></i>
-                            <span>WeddingWire</span>
-                        </a>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Footer Bottom -->
-            <div class="footer-bottom">
-                <div class="footer-bottom-left">
-                    <div class="designed-by">
-                        designed by 
-                        <a href="https://www.instagram.com/lostinhack/" target="_blank">
-                            Lostinhack <i class="fab fa-instagram"></i>
-                        </a>
-                    </div>
-                    <div class="visitor-counter">
-                        Visitors: <span id="visitorCount">100000</span>
-                    </div>
-                </div>
-
-<script src="forms.js" defer></script>
-</body>
-</html>
+    

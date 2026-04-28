@@ -3,7 +3,6 @@ Allow: /
 Allow: /Service/
 Allow: /Ourwork/
 Allow: /locations/
-Allow: /locations/pincode/
 Allow: /delhi-ncr/
 Allow: /assets/
 Allow: /css/

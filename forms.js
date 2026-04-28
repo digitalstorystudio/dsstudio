@@ -35,7 +35,8 @@
   const FORM_MAP = {
     bookingForm:            { type: "booking", subject: "New BOOKING Inquiry" },
     generalForm:            { type: "general", subject: "New GENERAL Inquiry" },
-    destinationContactForm: { type: "quote",   subject: "New QUOTE Request" }
+    destinationContactForm: { type: "quote",        subject: "New QUOTE Request" },
+    newsletterForm:         { type: "newsletter",   subject: "New NEWSLETTER Signup" }
   };
 
   // ---- Helpers -----------------------------------------------------------

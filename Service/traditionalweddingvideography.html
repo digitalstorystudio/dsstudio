@@ -275,7 +275,7 @@
     <div class="main-website">
         <!-- Original social-bar removed as per instructions -->
         <!-- <div class="social-bar">
-            <a href="../www.youtube.com/channel/UCElZTJcE8x4mt1HCghZFBuw/?sub_confirmation=1" class="social-link" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+            <a href="https://www.youtube.com/channel/UCElZTJcE8x4mt1HCghZFBuw/?sub_confirmation=1" class="social-link" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
             <a href="https://www.instagram.com/digitalstorystudio/" class="social-link" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
             <a href="https://www.facebook.com/DigitalStorystudios" class="social-link" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
             <a href="#" class="social-link" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
@@ -1199,7 +1199,7 @@
                 <div class="footer-column">
                     <h4>Explore Us</h4>
                     <ul>
-                        <li><a href="../blog-system/index.html">Blog</a></li>
+
                         <li><a href="../Ourwork/testimonials.html">Testimonial</a></li>
                         <li><a href="../contactus.html">Package</a></li>
                         <li><a href="../contactus.html">FAQs</a></li>
@@ -1369,49 +1369,4 @@ function playYT(el){
     el.style.cursor='default';
 }
 
-// ── Portfolio tab switcher ────────────────────────────────────────────────────
-(function () {
-    var tabs    = document.querySelectorAll('.release-tab');
-    var panels  = document.querySelectorAll('.release-tabs + div[id], .release-tabs ~ div[id]');
-
-    // Build a panel lookup: id → element
-    // We target the three specific gallery divs by their IDs
-    var galleryIds = ['hindu-weddings', 'sikh-weddings', 'punjabi-weddings'];
-
-    function showPanel(targetId) {
-        galleryIds.forEach(function (id) {
-            var el = document.getElementById(id);
-            if (el) {
-                el.style.display = (id === targetId) ? '' : 'none';
-            }
-        });
-    }
-
-    function activateTab(clickedBtn) {
-        tabs.forEach(function (btn) {
-            btn.classList.remove('active');
-        });
-        clickedBtn.classList.add('active');
-        showPanel(clickedBtn.getAttribute('data-tab'));
-    }
-
-    tabs.forEach(function (btn) {
-        btn.addEventListener('click', function () {
-            activateTab(this);
-        });
-    });
-
-    // Ensure default state: Hindu visible, others hidden
-    var defaultId = 'hindu-weddings';
-    tabs.forEach(function (btn) {
-        if (btn.getAttribute('data-tab') === defaultId) {
-            btn.classList.add('active');
-        } else {
-            btn.classList.remove('active');
-        }
-    });
-    showPanel(defaultId);
-}());
-</script>
-</body>
-</html>
+// ── Portfolio tab switcher ──────────────────────────────────────────────�
