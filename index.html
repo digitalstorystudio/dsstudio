@@ -87,7 +87,6 @@
     
     <!-- Preload Critical Resources -->
     <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" as="style">
-    <link rel="preload" href="assets/topvideo.mp4" as="video" type="video/mp4">
     
     <!-- External Stylesheets -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -461,9 +460,9 @@
         <main class="main-content">
             <section class="banner" id="home-banner">
                 <!-- Banner video sources reverted to original or functional placeholders -->
-                <video class="banner-video active" src="assets/web.mp4" muted loop playsinline autoplay aria-label="Banner video 1 - Tech Demo"></video> 
-                <video class="banner-video" src="assets/drone.mp4" muted loop playsinline aria-label="Banner video 3 - Animated Scene"></video> 
-                <video class="banner-video" src="assets/web.mp4" muted loop playsinline aria-label="Banner video 3 - Wedding Reel"></video>
+                <video class="banner-video active" src="assets/web.mp4" muted loop playsinline autoplay preload="metadata" aria-label="Banner video 1 - Tech Demo"></video>
+                <video class="banner-video" src="assets/drone.mp4" muted loop playsinline preload="none" aria-label="Banner video 3 - Animated Scene"></video>
+                <video class="banner-video" src="assets/web.mp4" muted loop playsinline preload="none" aria-label="Banner video 3 - Wedding Reel"></video>
                 <div class="banner-nav">
                     <button class="banner-btn" id="prevBanner" aria-label="Previous image"><i class="fas fa-chevron-left"></i></button>
                     <button class="banner-btn" id="nextBanner" aria-label="Next image"><i class="fas fa-chevron-right"></i></button>
@@ -641,7 +640,7 @@
                 <div class="footer-column">
                     <h4>Explore Us</h4>
                     <ul>
-                        <li><a href="blog-system/index.html">Blog</a></li>
+                        <li><a href="https://blog.digitalstorystudio.in/blog" target="_blank">Blog</a></li>
                         <li><a href="Ourwork/testimonials.html">Testimonial</a></li>
                         <li><a href="contactus.html">Package</a></li>
                         <li><a href="contactus.html">FAQs</a></li>
