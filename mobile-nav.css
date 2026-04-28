@@ -1,0 +1,118 @@
+/* ── Mobile Hamburger Nav — shared for delhi-ncr & locations pages ──
+   Works with both .topbar/.navbar (delhi-ncr) and plain <header> (locations) */
+
+.ham-btn {
+  display: none;
+  background: none;
+  border: 2px solid rgba(0, 240, 255, 0.35);
+  border-radius: 6px;
+  color: #fff;
+  font-size: 1.4rem;
+  cursor: pointer;
+  padding: 5px 10px;
+  min-width: 44px;
+  min-height: 44px;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+  transition: border-color 0.2s, color 0.2s;
+  z-index: 10001;
+  flex-shrink: 0;
+}
+.ham-btn:hover,
+.ham-btn:focus { border-color: #00f0ff; color: #00f0ff; outline: none; }
+
+@media (max-width: 768px) {
+  /* Show hamburger */
+  .ham-btn { display: flex !important; }
+
+  /* Hide nav links (works for both .navbar nav and plain header nav) */
+  .navbar nav,
+  header nav {
+    display: none !important;
+  }
+
+  /* Full-screen overlay when open */
+  .navbar nav.ham-open,
+  header nav.ham-open {
+    display: flex !important;
+    flex-direction: column !important;
+    position: fixed !important;
+    inset: 0 !important;
+    width: 100vw !important;
+    height: 100vh !important;
+    background: rgba(10, 10, 26, 0.98) !important;
+    backdrop-filter: blur(12px) !important;
+    -webkit-backdrop-filter: blur(12px) !important;
+    z-index: 10000 !important;
+    justify-content: center !important;
+    align-items: center !important;
+    gap: 0 !important;
+    padding: 60px 24px 40px !important;
+    overflow-y: auto !important;
+  }
+
+  /* Nav links inside overlay */
+  .navbar nav.ham-open a,
+  header nav.ham-open a {
+    display: block !important;
+    margin: 0 !important;
+    padding: 16px 32px !important;
+    font-size: 1.15rem !important;
+    font-weight: 600 !important;
+    color: #fff !important;
+    text-align: center !important;
+    width: 100% !important;
+    max-width: 320px !important;
+    border-bottom: 1px solid rgba(0, 240, 255, 0.12) !important;
+    text-decoration: none !important;
+    transition: color 0.15s, background 0.15s !important;
+    -webkit-tap-highlight-color: transparent !important;
+    min-height: 52px !important;
+    line-height: 52px !important;
+    padding: 0 32px !important;
+  }
+  .navbar nav.ham-open a:hover,
+  header nav.ham-open a:hover {
+    color: #00f0ff !important;
+    background: rgba(0, 240, 255, 0.08) !important;
+    text-decoration: none !important;
+  }
+  .navbar nav.ham-open a:last-child,
+  header nav.ham-open a:last-child { border-bottom: none !important; }
+
+  /* Close button rendered via JS — top-right ✕ */
+  .ham-close-btn {
+    position: fixed;
+    top: 18px;
+    right: 20px;
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 1.8rem;
+    cursor: pointer;
+    z-index: 10002;
+    padding: 6px;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  /* Topbar slide on scroll */
+  .topbar {
+    transition: transform 0.3s cubic-bezier(0.4,0,0.2,1), opacity 0.3s ease !important;
+    will-change: transform, opacity !important;
+  }
+  .topbar.mob-hidden {
+    transform: translateY(-110%) !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+  }
+}
+
+@media (min-width: 769px) {
+  /* On desktop: always show nav, never show hamburger */
+  .ham-btn { display: none !important; }
+  .navbar nav,
+  header nav { display: flex !important; }
+}
