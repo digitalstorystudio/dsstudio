@@ -154,35 +154,272 @@
   ]
 }
 </script>
-<link rel="stylesheet" href="../mobile-nav.css">
+<link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/nav.css">
 </head>
 <body>
 
-<div class="topbar">
-  <div><i class="fas fa-map-marker-alt"></i> 8/334, Lalita Park, Laxminagar, New Delhi 110092</div>
-  <div class="icons">
-    <a href="mailto:chat.dsstudio@gmail.com"><i class="fas fa-envelope"></i> chat.dsstudio@gmail.com</a>
-    <a href="https://www.instagram.com/digitalstorystudio/" target="_blank" rel="noopener"><i class="fab fa-instagram"></i></a>
-    <a href="https://www.facebook.com/DigitalStorystudios" target="_blank" rel="noopener"><i class="fab fa-facebook-f"></i></a>
-    <a href="https://www.youtube.com/channel/UCElZTJcE8x4mt1HCghZFBuw" target="_blank" rel="noopener"><i class="fab fa-youtube"></i></a>
-    <a href="tel:+91-8810696407"><i class="fas fa-phone"></i> +91-8810696407</a>
-  </div>
-</div>
+<!-- Top Bar - Added new top bar as per instructions -->
+    <div class="top-bar">
+        <div class="top-bar-left">
+            <a href="#" class="top-bar-item location" aria-label="Location">
+                <i class="fas fa-map-marker-alt"></i>
+                <span>8/334, Lalita Park, Laxminagar, New Delhi 110092</span>
+            </a>
+        </div>
+        <div class="top-bar-right">
+            <a href="mailto:chat.dsstudio@gmail.com" class="top-bar-item email" aria-label="Email">
+                <i class="fas fa-envelope"></i>
+                <span>chat.dsstudio@gmail.com</span>
+            </a>
+            <!-- Added YouTube Icon -->
+            <a href="https://www.youtube.com/channel/UCElZTJcE8x4mt1HCghZFBuw" target="_blank" class="top-bar-item youtube" aria-label="YouTube">
+                <i class="fab fa-youtube"></i>
+            </a>
+            <a href="https://www.instagram.com/digitalstorystudio/" target="_blank" class="top-bar-item instagram" aria-label="Instagram">
+                <i class="fab fa-instagram"></i>
+            </a>
+            <a href="#" class="top-bar-item linkedin" aria-label="LinkedIn">
+                <i class="fab fa-linkedin-in"></i>
+            </a>
+            <a href="https://www.facebook.com/DigitalStorystudios" target="_blank" class="top-bar-item facebook" aria-label="Facebook">
+                <i class="fab fa-facebook-f"></i>
+            </a>
+            
+            <a href="tel:+91-8810696407" class="top-bar-item contact" aria-label="Contact Number">
+                <i class="fas fa-phone"></i>
+                <span>+91-8810696407</span>
+            </a>
+        </div>
+    </div>
+    <!-- End Top Bar -->
 
-<header class="navbar">
-  <a href="../index.html" class="brand">
-    <img src="../assets/logo.jpeg" alt="DIGITAL STORY STUDIO logo">
-    <span>DIGITAL STORY STUDIO</span>
-  </a>
-  <nav>
-    <a href="../index.html">Home</a>
-    <a href="../about.html">About</a>
-    <a href="../contactus.html">Services</a>
-    <a href="../Ourwork/destination-wedding.html">Our Work</a>
-    <a href="../contactus.html">Contact</a>
-  </nav>
-  <button class="ham-btn" id="ham-btn" aria-label="Toggle navigation menu" aria-expanded="false"><i class="fas fa-bars"></i></button>
-</header>
+    <nav class="navbar" id="navbar">
+            <div class="logo-wrapper">
+                <a href="../index.html" class="logo-link">
+                    <img src="../assets/logo.jpeg" alt="Digital Story Studio Logo" class="logo" loading="lazy">
+                    <span class="logo-text">Digital Story Studio</span></a>
+            </div>
+            <button class="hamburger" id="hamburger" aria-label="Toggle menu" aria-expanded="false">
+                <i class="fas fa-bars"></i>
+            </button>
+            <ul class="nav-links" id="navLinks">
+                <li class="nav-item">
+                    <a href="../index.html" class="nav-link">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a href="../about.html" class="nav-link">About</a>
+                </li>
+                <li class="nav-item">
+                    <a href="../contactus.html" class="nav-link">Services
+                        <i class="fas fa-chevron-down dropdown-arrow"></i>
+                    </a>
+                    <div class="dropdown-menu">
+                        <div class="dropdown-item">
+                            <a href="#" class="dropdown-link">
+                                Wedding
+                                <i class="fas fa-chevron-right"></i>
+                            </a>
+                            <div class="submenu">
+                                <div class="dropdown-item">
+                                    <a href="#" class="dropdown-link">
+                                        Videography
+                                        <i class="fas fa-chevron-right"></i>
+                                    </a>
+                                    <div class="submenu">
+                                        <a href="../Service/cinematicweddingvideography.html" class="submenu-link featured-item">Cinematic Wedding Videography</a>
+                                        <a href="../Service/traditionalweddingvideography.html" class="submenu-link">Traditional Wedding Videography</a>
+                                        <a href="../Service/destinationweddingvideography.html" class="submenu-link">Destination Wedding Videography</a>
+                                        <a href="../Service/luxuryweddingvideography.html" class="submenu-link">Luxury Wedding Videography</a>
+                                        <a href="../Service/preweddingshoot.html" class="submenu-link">Pre-Wedding Shoot</a>
+                                        <a href="../Service/droneweddingvideography.html" class="submenu-link">Drone Wedding Videography</a>
+                                        <a href="../Service/haldiceremonyvideography.html" class="submenu-link">Haldi Ceremony</a>
+                                        <a href="../Service/mehndiceremonyvideography.html" class="submenu-link">Mehndi Ceremony</a>
+                                        <a href="../Service/engagementroka.html" class="submenu-link">Engagement/Roka Videography</a>
+                                        <a href="../Service/weddinghighlightteaser.html" class="submenu-link">Wedding Highlight and Teaser Films</a>
+                                        <a href="../Service/fulldocumentarywedding.html" class="submenu-link">Full Documentary Wedding Videography</a>
+                                    </div>
+                                </div>
+                                <div class="dropdown-item">
+                                    <a href="#" class="dropdown-link">
+                                        Wedding Photography
+                                        <i class="fas fa-chevron-right"></i>
+                                    </a>
+                                    <div class="submenu">
+                                        <a href="../Service/preweddingphotography.html" class="submenu-link">Pre-Wedding Photography</a>
+                                        <a href="../Service/candidphotography.html" class="submenu-link">Candid Photography</a>
+                                        <a href="../Service/destinationweddingphotography.html" class="submenu-link">Destination Wedding Photography</a>
+                                        <a href="../Service/luxuryweddingphotography.html" class="submenu-link">Luxury Wedding Photography</a>
+                                        <a href="../Service/traditionalweddingphotography.html" class="submenu-link featured-item">Traditional Wedding Photography</a>
+                                        <a href="../Service/engagementroka.html" class="submenu-link">Engagement & Roka Photography</a>
+                                        <a href="../Service/mehndiceremonyvideography.html" class="submenu-link">Haldi & Mehndi Ceremony Photography</a>
+                                        <a href="../Service/candidphotography.html" class="submenu-link">Reception Photography</a>
+                                        <a href="../Service/preweddingphotography.html" class="submenu-link">Couple Portrait Photography</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="dropdown-item">
+                            <a href="#" class="dropdown-link">
+                                Events
+                                <i class="fas fa-chevron-right"></i>
+                            </a>
+                            <div class="submenu">
+                                <div class="dropdown-item">
+                                    <a href="#" class="dropdown-link">
+                                        Event Videography
+                                        <i class="fas fa-chevron-right"></i>
+                                    </a>
+                                    <div class="submenu">
+                                        <a href="../Service/Events/droneaerialvideography.html" class="submenu-link">Drone & Aerial Videography</a>
+                                        <a href="../Service/Events/corporateeventvideography.html" class="submenu-link">Corporate Event Videography</a>
+                                        <a href="../Service/Events/cocktailpartyshoot.html" class="submenu-link">Cocktail Party Shoot</a>
+                                        <a href="../Service/Events/awardceremonyeventvideography.html" class="submenu-link">Award Ceremony & Event Videography</a>
+                                        <a href="../Service/Events/musicconcertvideography.html" class="submenu-link">Music Concert Videography</a>
+                                        <a href="../Service/Events/liveshowvideography.html" class="submenu-link">Live Show Videography</a>
+                                        <a href="../Service/Events/schoolcollegeeventvideography.html" class="submenu-link">School & College Event Videography</a>
+                                        <a href="../Service/Events/tradeshowvideography.html" class="submenu-link">Trade Show Videography</a>
+                                        <a href="../Service/Events/religioustempleeventvideography.html" class="submenu-link">Religious & Temple Event Videography</a>
+                                        <a href="../Service/Events/exhibitionshowvideography.html" class="submenu-link">Exhibition Show Videography</a>
+                                        <a href="../Service/Events/trainingworkshopvideography.html" class="submenu-link">Training & Workshop Videography</a>
+                                        <a href="../Service/Events/charityeventvideography.html" class="submenu-link">Charity & Fund Raising Event Videography</a>
+                                    </div>
+                                </div>
+                                <div class="dropdown-item">
+                                    <a href="#" class="dropdown-link">
+                                        Event Photography
+                                        <i class="fas fa-chevron-right"></i>
+                                    </a>
+                                    <div class="submenu">
+                                        <a href="../Service/Events/droneaerialphotography.html" class="submenu-link">Drone & Aerial Photography</a>
+                                        <a href="../Service/Events/corporateeventphotography.html" class="submenu-link">Corporate Event Photography</a>
+                                        <a href="../Service/Events/awardceremonyphotography.html" class="submenu-link">Award Ceremony Photography</a>
+                                        <a href="../Service/Events/collegeeventphotography.html" class="submenu-link">College Event Photography</a>
+                                        <a href="../Service/Events/culturaleventsphotography.html" class="submenu-link">Cultural Events Photography</a>
+                                        <a href="../Service/Events/seminarconferencephotography.html" class="submenu-link">Seminar & Conference Photography</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="dropdown-item">
+                            <a href="#" class="dropdown-link">
+                                Model/Fashion Shoot
+                                <i class="fas fa-chevron-right"></i>
+                            </a>
+                            <div class="submenu">
+                                <div class="dropdown-item">
+                                    <a href="#" class="dropdown-link">
+                                        Model/Fashion Videography
+                                        <i class="fas fa-chevron-right"></i>
+                                    </a>
+                                    <div class="submenu">
+                                        <a href="../Service/Jewellery/fashionshootvideography.html" class="submenu-link">Fashion Shoot Videography</a>
+                                        <a href="../Service/Jewellery/jewelleryluxuryproductvideography.html" class="submenu-link">Jewellery & Luxury Product Photography</a>
+                                        <a href="../Service/Jewellery/lifestyleshootvideography.html" class="submenu-link">Lifestyle Shoot Videography</a>
+                                    </div>
+                                </div>
+                                <div class="dropdown-item">
+                                    <a href="#" class="dropdown-link">
+                                        Model/Fashion Photography
+                                        <i class="fas fa-chevron-right"></i>
+                                    </a>
+                                    <div class="submenu">
+                                        <a href="../Service/Jewellery/portfolioshootmodelsactors.html" class="submenu-link">Portfolio Shoot for Models & Actors</a>
+                                        <a href="../Service/Jewellery/modelshoot.html" class="submenu-link">Model Shoot</a>
+                                        <a href="../Service/Jewellery/fashionshootphotography.html" class="submenu-link">Fashion Shoot Photography</a>
+                                        <a href="../Service/Jewellery/modelphotography.html" class="submenu-link">Model Photography</a>
+                                        <a href="../Service/Jewellery/celebrityinfluencershoot.html" class="submenu-link">Celebrity & Influencer Shoot</a>
+                                        <a href="../Service/Jewellery/lifestylephotoshoot.html" class="submenu-link">Lifestyle Photoshoot</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="dropdown-item">
+                            <a href="#" class="dropdown-link">
+                                Creative Shoot
+                                <i class="fas fa-chevron-right"></i>
+                            </a>
+                            <div class="submenu">
+                                <a href="../Service/Creative/advertisingcommercialshoot.html" class="submenu-link">Advertising & Commercial Ad Shoot</a>
+                                <a href="../Service/Creative/productshoot.html" class="submenu-link">Product Shoot</a>
+                                <a href="../Service/Creative/ecommerceproductshoot.html" class="submenu-link">E-Commerce Product Shoot</a>
+                                <a href="../Service/Creative/realestateinteriorshoot.html" class="submenu-link">Real Estate & Interior Shoot</a>
+                                <a href="../Service/Creative/foodrestaurantshoot.html" class="submenu-link">Food & Restaurant Ad Shoot</a>
+                                <a href="../Service/Creative/brandpromotionshoot.html" class="submenu-link">Brand Promotion Shoot</a>
+                                <a href="../Service/Creative/musicvideoshoot.html" class="submenu-link">Music Video Shoot</a>
+                                <a href="../Service/Creative/shortfilmadfilmshoot.html" class="submenu-link">Short Film & Ad Film Shoot</a>
+                                <a href="../Service/Creative/magazineeditorialshoot.html" class="submenu-link">Magazine & Editorial Shoot</a>
+                                <a href="../Service/Creative/fitnessgymshoot.html" class="submenu-link">Fitness & Gym Shoot</a>
+                                <a href="../Service/Creative/creativeconceptshoot.html" class="submenu-link">Creative Concept Shoot</a>
+                                <a href="../Service/Creative/greenscreenvideoshoot.html" class="submenu-link">Green Screen & Professional Video Shoot</a>
+                                <a href="../Service/Creative/industrialmachineryphotography.html" class="submenu-link">Industrial/Machinery Photography</a>
+                            </div>
+                        </div>
+                        <div class="dropdown-item">
+                            <a href="#" class="dropdown-link">
+                                Others
+                                <i class="fas fa-chevron-right"></i>
+                            </a>
+                            <div class="submenu">
+                                <a href="../Service/Others/anniversaryeventshoot.html" class="submenu-link">Anniversary Event Shoot</a>
+                                <a href="../Service/Others/birthdaypartyshoot.html" class="submenu-link">Birthday Party Shoot</a>
+                                <a href="../Service/Others/maternitybabyshowershoot.html" class="submenu-link">Maternity & Baby Shower Shoot</a>
+                                <a href="../Service/Others/familygatheringshoot.html" class="submenu-link">Family Event & Social Gathering Shoot</a>
+                                <a href="../Service/Others/newbornkidsphotography.html" class="submenu-link">New Born/Kids Photography</a>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <a href="../Ourwork/destination-wedding.html" class="nav-link">Our Work
+                        <i class="fas fa-chevron-down dropdown-arrow"></i>
+                    </a>
+                    <div class="dropdown-menu">
+                        <div class="dropdown-item">
+                            <a href="#" class="dropdown-link">
+                                Wedding
+                                <i class="fas fa-chevron-right"></i>
+                            </a>
+                            <div class="submenu">
+                                <a href="../Ourwork/destination-wedding.html" class="submenu-link">Destination Wedding Videography from Delhi</a>
+                                <a href="../Ourwork/destination-wedding.html" class="submenu-link">Hindu Wedding Videography in Delhi</a>
+                                <a href="../Ourwork/destination-wedding.html" class="submenu-link">Sikh Wedding Videography in Delhi</a>
+                                <a href="../Ourwork/destination-wedding.html" class="submenu-link">Muslim Wedding Videography in Delhi</a>
+                                <a href="../Ourwork/wedding-highlights-teaser.html" class="submenu-link">Pre-wedding Shoot Videography in Delhi NCR</a>
+                                <a href="../Ourwork/wedding-highlights-teaser.html" class="submenu-link">Engagement and Roka Ceremony in Gurgaon</a>
+                                <a href="../Ourwork/destination-wedding.html" class="submenu-link">Mehndi Ceremony Videography in Delhi NCR</a>
+                                <a href="../Ourwork/destination-wedding.html" class="submenu-link">Reception Ceremony Videography in Delhi and Gurgaon</a>
+                                <a href="../Ourwork/destination-wedding.html" class="submenu-link">Wedding Photography Service in Delhi NCR</a>
+                                <a href="../Ourwork/wedding-highlights-teaser.html" class="submenu-link">Wedding Highlight and Teaser Video Production in Delhi</a>
+                                <a href="../Ourwork/same-day-edit.html" class="submenu-link">Same-Day Edit Wedding Videography in Delhi</a>
+                                <a href="../Ourwork/live-streaming.html" class="submenu-link">Live Streaming Wedding Services in Delhi</a>
+                            </div>
+                        </div>
+                        <div class="dropdown-item">
+                            <a href="../Ourwork/events.html" class="dropdown-link">Events</a>
+                        </div>
+                        <div class="dropdown-item">
+                            <a href="../Ourwork/model-photoshoot.html" class="dropdown-link">Model</a>
+                        </div>
+                        <div class="dropdown-item">
+                            <a href="../Ourwork/creative-shoot.html" class="dropdown-link">Creative</a>
+                        </div>
+                        <div class="dropdown-item">
+                            <a href="../Ourwork/others.html" class="dropdown-link">Others</a>
+                        </div>
+                        <div class="dropdown-item">
+                            <a href="../Ourwork/testimonials.html" class="dropdown-link">💬 Client Testimonials</a>
+                        </div>
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <a href="../contactus.html" class="nav-link">Contact & Booking</a>
+                </li>
+                <li class="nav-item">
+                    <a href="../contactus.html" class="nav-link login-link">Login</a>
+                </li>
+            </ul>
+        </nav>
 
 <section class="hero">
   <div class="pin"><i class="fas fa-map-marker-alt"></i> Delhi NCR · India</div>
@@ -302,20 +539,225 @@
   </section>
 </main>
 
-<footer>
-  <p><strong style="color:#fff;">DIGITAL STORY STUDIO</strong> <span class="sep">·</span> 8/334 Lalita Park, Laxminagar, New Delhi 110092</p>
-  <p style="margin-top:6px;">
-    <a href="tel:+91-8810696407">+91 88106 96407</a>
-    <span class="sep">·</span>
-    <a href="mailto:chat.dsstudio@gmail.com">chat.dsstudio@gmail.com</a>
-    <span class="sep">·</span>
-    <a href="../index.html">Home</a>
-    <span class="sep">·</span>
-    <a href="../about.html">About</a>
-    <span class="sep">·</span>
-    <a href="../contactus.html">Contact</a>
-    <span class="sep">·</span>
-    <a href="index.html">All Delhi NCR Pages</a>
-  </p>
-  <p style="margin-top:10px;opacity:0.55;font-size:0.78rem;">© DIGITAL STORY STUDIO. DESTINATION WEDDIN
-<script src="../mobile-nav.js" defer></script>
+<footer class="footer">
+            <!-- Footer Header -->
+            <div class="footer-header">
+                <div class="footer-logo">
+                    <img src="../assets/logo.jpeg" alt="Digital Story Studio Logo" loading="lazy">
+                    <span class="footer-logo-text">Digital Story Studio</span>
+                </div>
+                <p class="footer-tagline">"Cinematic Wedding Films & Event Shoot in Delhi — Crafted with Passion."</p>
+                <div class="footer-contact-info">
+                    <div class="footer-contact-item">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <span>Delhi NCR, India</span>
+                    </div>
+                    <div class="footer-contact-item">
+                        <i class="fas fa-phone"></i>
+                        <span>+91-8810696407</span>
+                    </div>
+                    <div class="footer-contact-item">
+                        <i class="fas fa-envelope"></i>
+                        <span>chat.dsstudio@gmail.com</span>
+                    </div>
+                </div>
+            </div>
+            
+            
+
+            <!-- Footer Links -->
+            <div class="footer-links">
+                <div class="footer-column">
+                    <h4>Company</h4>
+                    <ul>
+                        <li><a href="../index.html">Home</a></li>
+                        <li><a href="../about.html">About Us</a></li>
+                        <li><a href="../contactus.html">Services</a></li>
+                        <li><a href="../Ourwork/destination-wedding.html">Our Work</a></li>
+                        <li><a href="../contactus.html">Contact Us</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-column">
+                    <h4>Services</h4>
+                    <ul>
+                        <li><a href="../Service/cinematicweddingvideography.html">Weddings</a></li>
+                        <li><a href="../Ourwork/events.html">Events</a></li>
+                        <li><a href="../Service/Jewellery/fashionshootphotography.html">Fashion Shoot</a></li>
+                        <li><a href="../Ourwork/creative-shoot.html">Creative Shoot</a></li>
+                        <li><a href="../Ourwork/others.html">Others</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-column">
+                    <h4>Wedding Types</h4>
+                    <ul>
+                        <li><a href="../Ourwork/destination-wedding.html">Sikh Wedding</a></li>
+                        <li><a href="../Ourwork/destination-wedding.html">Hindu Wedding</a></li>
+                        <li><a href="../Ourwork/destination-wedding.html">Muslim Wedding</a></li>
+                        <li><a href="../Ourwork/destination-wedding.html">Christian Wedding</a></li>
+                        <li><a href="../Service/luxuryweddingvideography.html">Royal Weddings</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-column">
+                    <h4>Explore Us</h4>
+                    <ul>
+
+                        <li><a href="../Ourwork/testimonials.html">Testimonial</a></li>
+                        <li><a href="../contactus.html">Package</a></li>
+                        <li><a href="../contactus.html">FAQs</a></li>
+                        <li><a href="../contactus.html">Clients Login</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-column">
+                    <h4>Event & Model | Fashion</h4>
+                    <ul>
+                        <li><a href="#mode">Model Videography</a></li>
+                        <li><a href="../Service/Jewellery/modelphotography.html">Model Photography</a></li>
+                        <li><a href="../Ourwork/events.html">Event Videography</a></li>
+                        <li><a href="../Ourwork/events.html">Event Photography</a></li>
+                        <li><a href="../Service/Creative/advertisingcommercialshoot.html">Ad Shoot</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- Social Media Section -->
+              <!-- Recent Memories Section -->
+            <div class="recent-memories">
+                <h3>📸 Recent Memories from Our Lens</h3>
+                <div class="memories-slider">
+                    <div class="memories-track">
+                        <div class="memory-item">
+                            <img src="../assets/raj.jpeg" alt="Wedding Photography 1" loading="lazy">
+                            <div class="memory-overlay">Wedding 1</div>
+                        </div>
+                        <div class="memory-item">
+                            <img src="../assets/raj.jpeg" alt="Event Photography 1" loading="lazy">
+                            <div class="memory-overlay">Event 1</div>
+                        </div>
+                        <div class="memory-item">
+                            <img src="https://ik.imagekit.io/digitalstorystudio/fashion1.jpg" alt="Fashion Photography 1" onerror="this.style.display=\'none\'" loading="lazy">
+                            <div class="memory-overlay">Fashion 1</div>
+                        </div>
+                        <div class="memory-item">
+                            <img src="https://ik.imagekit.io/digitalstorystudio/wedding2.jpg" alt="Wedding Photography 2" onerror="this.style.display=\'none\'" loading="lazy">
+                            <div class="memory-overlay">Wedding 2</div>
+                        </div>
+                        <div class="memory-item">
+                            <img src="https://ik.imagekit.io/digitalstorystudio/event2.jpg" alt="Event Photography 2" onerror="this.style.display=\'none\'" loading="lazy">
+                            <div class="memory-overlay">Event 2</div>
+                        </div>
+                        <div class="memory-item">
+                            <img src="https://ik.imagekit.io/digitalstorystudio/fashion2.jpg" alt="Fashion Photography 2" onerror="this.style.display=\'none\'" loading="lazy">
+                            <div class="memory-overlay">Fashion 2</div>
+                        </div>
+                        <div class="memory-item">
+                            <img src="https://ik.imagekit.io/digitalstorystudio/wedding3.jpg" alt="Wedding Photography 3" onerror="this.style.display=\'none\'" loading="lazy">
+                            <div class="memory-overlay">Wedding 3</div>
+                        </div>
+                        <div class="memory-item">
+                            <img src="https://ik.imagekit.io/digitalstorystudio/event3.jpg" alt="Event Photography 3" onerror="this.style.display=\'none\'" loading="lazy">
+                            <div class="memory-overlay">Event 3</div>
+                        </div>
+                        <div class="memory-item">
+                            <img src="https://ik.imagekit.io/digitalstorystudio/fashion3.jpg" alt="Fashion Photography 3" onerror="this.style.display=\'none\'" loading="lazy">
+                            <div class="memory-overlay">Fashion 3</div>
+                        </div>
+                        <div class="memory-item">
+                            <img src="https://ik.imagekit.io/digitalstorystudio/wedding4.jpg" alt="Wedding Photography 4" onerror="this.style.display=\'none\'" loading="lazy">
+                            <div class="memory-overlay">Wedding 4</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="social-section">
+                <h3>🌐 Follow Us On:</h3>
+                <div class="social-slider">
+                    <div class="social-track">
+                        <a href="https://www.instagram.com/digitalstorystudio/" class="social-item" target="_blank">
+                            <i class="fab fa-instagram"></i>
+                            <span>Instagram</span>
+                        </a>
+                        <a href="https://www.youtube.com/channel/UCElZTJcE8x4mt1HCghZFBuw" class="social-item" target="_blank">
+                            <i class="fab fa-youtube"></i>
+                            <span>YouTube</span>
+                        </a>
+                        <a href="#" class="social-item" target="_blank">
+                            <i class="fas fa-heart"></i>
+                            <span>WedMeGood</span>
+                        </a>
+                        <a href="#" class="social-item" target="_blank">
+                            <i class="fas fa-ring"></i>
+                            <span>WeddingWire</span>
+                        </a>
+                        <a href="#" class="social-item" target="_blank">
+                            <i class="fas fa-shopping-bag"></i>
+                            <span>WeddingBazaar</span>
+                        </a>
+                        <a href="#" class="social-item" target="_blank">
+                            <i class="fas fa-store"></i>
+                            <span>SaadiDukan</span>
+                        </a>
+                        <a href="#" class="social-item" target="_blank">
+                            <i class="fas fa-phone-alt"></i>
+                            <span>Justdial</span>
+                        </a>
+                        <a href="#" class="social-item" target="_blank">
+                            <i class="fas fa-search"></i>
+                            <span>Sulekha</span>
+                        </a>
+                        <a href="https://www.facebook.com/DigitalStorystudios" class="social-item" target="_blank">
+                            <i class="fab fa-facebook-f"></i>
+                            <span>Facebook</span>
+                        </a>
+                        <!-- Duplicate for seamless loop -->
+                        <a href="https://www.instagram.com/digitalstorystudio/" class="social-item" target="_blank">
+                            <i class="fab fa-instagram"></i>
+                            <span>Instagram</span>
+                        </a>
+                        <a href="https://www.youtube.com/channel/UCElZTJcE8x4mt1HCghZFBuw" class="social-item" target="_blank">
+                            <i class="fab fa-youtube"></i>
+                            <span>YouTube</span>
+                        </a>
+                        <a href="#" class="social-item" target="_blank">
+                            <i class="fas fa-heart"></i>
+                            <span>WedMeGood</span>
+                        </a>
+                        <a href="#" class="social-item" target="_blank">
+                            <i class="fas fa-ring"></i>
+                            <span>WeddingWire</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Footer Bottom -->
+            <div class="footer-bottom">
+                <div class="footer-bottom-left">
+                    <div class="designed-by">
+                        designed by 
+                        <a href="https://www.instagram.com/lostinhack/" target="_blank">
+                            Lostinhack <i class="fab fa-instagram"></i>
+                        </a>
+                    </div>
+                    <div class="visitor-counter">
+                        Visitors: <span id="visitorCount">100000</span>
+                    </div>
+                </div>
+                
+                <div class="copyright">
+                    © <span id="currentYear">2025</span> Digital Story Studio. All Rights Reserved.
+                </div>
+                
+                <div class="footer-links-bottom">
+                    <a href="../privacy-policy.html">Privacy</a>
+                    <a href="../contactus.html">Terms</a>
+                </div>
+            </div>
+        </footer>
+<script src="../script.js" defer></script>
+</body>
+</html>

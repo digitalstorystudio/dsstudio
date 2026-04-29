@@ -724,6 +724,44 @@
     box-shadow: 0 0 18px rgba(255,68,68,0.2);
 }
 
+/* ---- YouTube Player inside event-video-embed ---- */
+.event-video-embed .yt-player {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, #0d0d2b 0%, #12133a 50%, #0a0a20 100%);
+    cursor: pointer;
+    overflow: hidden;
+}
+.event-video-embed .yt-player img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.3s;
+}
+.event-video-embed .yt-player:hover img { transform: scale(1.04); }
+.event-video-embed .yt-player .yt-play-btn {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0,0,0,0.25);
+    transition: background 0.3s;
+}
+.event-video-embed .yt-player:hover .yt-play-btn { background: rgba(0,0,0,0.15); }
+.event-video-embed .yt-player iframe {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    border: 0;
+}
+
 /* ---- Offer Marquee ---- */
 .event-offer-marquee {
     background: linear-gradient(90deg, rgba(0,240,255,0.12), rgba(0,140,255,0.12));

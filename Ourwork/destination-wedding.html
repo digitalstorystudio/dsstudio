@@ -133,6 +133,7 @@
   ]
 }
     </script>
+    <link rel="stylesheet" href="../css/style.css">
 </head>
 <body>
     <!-- Top Bar - Added new top bar as per instructions -->
@@ -170,16 +171,7 @@
     </div>
     <!-- End Top Bar -->
 
-    <div class="main-website">
-        <!-- Original social-bar removed as per instructions -->
-        <!-- <div class="social-bar">
-            <a href="https://www.youtube.com/channel/UCElZTJcE8x4mt1HCghZFBuw/?sub_confirmation=1" class="social-link" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
-            <a href="https://www.instagram.com/digitalstorystudio/" class="social-link" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
-            <a href="https://www.facebook.com/DigitalStorystudios" class="social-link" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
-            <a href="#" class="social-link" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
-        </div> -->
-
-        <nav class="navbar" id="navbar">
+    <nav class="navbar" id="navbar">
             <div class="logo-wrapper">
                 <a href="../index.html" class="logo-link">
                     <img src="../assets/logo.jpeg" alt="Digital Story Studio Logo" class="logo" loading="lazy">
@@ -194,9 +186,6 @@
                 </li>
                 <li class="nav-item">
                     <a href="../about.html" class="nav-link">About</a>
-                </li>
-                <li class="nav-item">
-                    <a href="../locations/index.html" class="nav-link">Service Areas</a>
                 </li>
                 <li class="nav-item">
                     <a href="../contactus.html" class="nav-link">Services
@@ -1344,35 +1333,35 @@
                             <div class="memory-overlay">Event 1</div>
                         </div>
                         <div class="memory-item">
-                            <img src="https://ik.imagekit.io/digitalstorystudio/fashion1.jpg" alt="Fashion Photography 1" loading="lazy">
+                            <img src="https://ik.imagekit.io/digitalstorystudio/fashion1.jpg" alt="Fashion Photography 1" onerror="this.style.display=\'none\'" loading="lazy">
                             <div class="memory-overlay">Fashion 1</div>
                         </div>
                         <div class="memory-item">
-                            <img src="https://ik.imagekit.io/digitalstorystudio/wedding2.jpg" alt="Wedding Photography 2" loading="lazy">
+                            <img src="https://ik.imagekit.io/digitalstorystudio/wedding2.jpg" alt="Wedding Photography 2" onerror="this.style.display=\'none\'" loading="lazy">
                             <div class="memory-overlay">Wedding 2</div>
                         </div>
                         <div class="memory-item">
-                            <img src="https://ik.imagekit.io/digitalstorystudio/event2.jpg" alt="Event Photography 2" loading="lazy">
+                            <img src="https://ik.imagekit.io/digitalstorystudio/event2.jpg" alt="Event Photography 2" onerror="this.style.display=\'none\'" loading="lazy">
                             <div class="memory-overlay">Event 2</div>
                         </div>
                         <div class="memory-item">
-                            <img src="https://ik.imagekit.io/digitalstorystudio/fashion2.jpg" alt="Fashion Photography 2" loading="lazy">
+                            <img src="https://ik.imagekit.io/digitalstorystudio/fashion2.jpg" alt="Fashion Photography 2" onerror="this.style.display=\'none\'" loading="lazy">
                             <div class="memory-overlay">Fashion 2</div>
                         </div>
                         <div class="memory-item">
-                            <img src="https://ik.imagekit.io/digitalstorystudio/wedding3.jpg" alt="Wedding Photography 3" loading="lazy">
+                            <img src="https://ik.imagekit.io/digitalstorystudio/wedding3.jpg" alt="Wedding Photography 3" onerror="this.style.display=\'none\'" loading="lazy">
                             <div class="memory-overlay">Wedding 3</div>
                         </div>
                         <div class="memory-item">
-                            <img src="https://ik.imagekit.io/digitalstorystudio/event3.jpg" alt="Event Photography 3" loading="lazy">
+                            <img src="https://ik.imagekit.io/digitalstorystudio/event3.jpg" alt="Event Photography 3" onerror="this.style.display=\'none\'" loading="lazy">
                             <div class="memory-overlay">Event 3</div>
                         </div>
                         <div class="memory-item">
-                            <img src="https://ik.imagekit.io/digitalstorystudio/fashion3.jpg" alt="Fashion Photography 3" loading="lazy">
+                            <img src="https://ik.imagekit.io/digitalstorystudio/fashion3.jpg" alt="Fashion Photography 3" onerror="this.style.display=\'none\'" loading="lazy">
                             <div class="memory-overlay">Fashion 3</div>
                         </div>
                         <div class="memory-item">
-                            <img src="https://ik.imagekit.io/digitalstorystudio/wedding4.jpg" alt="Wedding Photography 4" loading="lazy">
+                            <img src="https://ik.imagekit.io/digitalstorystudio/wedding4.jpg" alt="Wedding Photography 4" onerror="this.style.display=\'none\'" loading="lazy">
                             <div class="memory-overlay">Wedding 4</div>
                         </div>
                     </div>
@@ -1432,4 +1421,38 @@
                             <i class="fas fa-heart"></i>
                             <span>WedMeGood</span>
                         </a>
-                        <a href="#" class="social-item" target
+                        <a href="#" class="social-item" target="_blank">
+                            <i class="fas fa-ring"></i>
+                            <span>WeddingWire</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Footer Bottom -->
+            <div class="footer-bottom">
+                <div class="footer-bottom-left">
+                    <div class="designed-by">
+                        designed by 
+                        <a href="https://www.instagram.com/lostinhack/" target="_blank">
+                            Lostinhack <i class="fab fa-instagram"></i>
+                        </a>
+                    </div>
+                    <div class="visitor-counter">
+                        Visitors: <span id="visitorCount">100000</span>
+                    </div>
+                </div>
+                
+                <div class="copyright">
+                    © <span id="currentYear">2025</span> Digital Story Studio. All Rights Reserved.
+                </div>
+                
+                <div class="footer-links-bottom">
+                    <a href="../privacy-policy.html">Privacy</a>
+                    <a href="../contactus.html">Terms</a>
+                </div>
+            </div>
+        </footer>
+
+</body>
+</html>
